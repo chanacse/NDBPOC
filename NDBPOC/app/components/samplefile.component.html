@@ -1,0 +1,75 @@
+﻿<div class='panel panel-primary'>
+    <div class='panel-heading'>
+        Sample File Management
+    </div>
+    <div class='panel-body'>
+        <div class='table-responsive'>
+            <div style="padding-bottom:10px"><button class="btn btn-primary" (click)="addFile()">Add Sample File</button></div>
+            <div class="alert alert-info" role="alert" *ngIf="indLoading"><img src="../../images/loading.gif" width="32" height="32" /> Loading...</div>
+            <div *ngIf='files && files.length==0' class="alert alert-info" role="alert">No record found!</div>
+            <table class='table table-striped' *ngIf='files && files.length'>
+                <thead>
+                    <tr>
+                        <th>File ID</th>
+                        <th>Company Name</th>
+                        <th>File Name</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let myfile of files">
+                        <td>{{myfile.FID}}</td>
+                        <td>{{myfile.Cname}}</td>
+                        <td>{{myfile.Fname}}</td>
+                        <td>
+                            <button title="Edit" class="btn btn-primary" (click)="editFile(myfile.Id)">Edit</button>
+                            <button title="Delete" class="btn btn-danger" (click)="deleteFile(myfile.Id)">Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div>
+            </div>
+        </div>
+        <div *ngIf="msg" role="alert" class="alert alert-info alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <span class="sr-only">Error:</span>
+            {{msg}}
+        </div>
+    </div>
+</div>
+
+<modal #modal>
+    <form novalidate (ngSubmit)="onSubmit(fileFrm)" [formGroup]="fileFrm">
+        <modal-header [show-close]="true">
+            <h4 class="modal-title">{{modalTitle}}</h4>
+        </modal-header>
+        <modal-body>
+
+            <div class="form-group">
+                <div>
+                    <span>Company name*</span>
+                    <input type="text" class="form-control" placeholder="Company Name" formControlName="Cname">
+                </div>
+                <div>
+                    <span>File name</span>
+                    <input type="text" class="form-control" placeholder="File Name" formControlName="Fname">
+                </div>
+                <!--<div>
+                    <span>Gender*</span>
+                    <select formControlName="Gender" class="form-control">
+                        <option>Male</option>
+                        <option>Female</option>
+                    </select>
+                </div>-->
+            </div>
+        </modal-body>
+        <modal-footer>
+            <div>
+                <a class="btn btn-default" (click)="modal.dismiss()">Cancel</a>
+                <button type="submit" [disabled]="fileFrm.invalid" class="btn btn-primary">{{modalBtnTitle}}</button>
+            </div>
+        </modal-footer>
+    </form>
+</modal>
