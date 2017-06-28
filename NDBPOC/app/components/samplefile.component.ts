@@ -34,7 +34,7 @@ export class samplefile implements OnInit {
             FID: [''],
             CID: [''],
             Cname: ['', Validators.required],
-            Fname: [''],
+            Fname: ['', Validators.required],
             ShareType: [''],
             OfferCode: [''],
             ApprovalStatus: [''],
@@ -54,7 +54,7 @@ export class samplefile implements OnInit {
 
     LoadSampleFiles(): void {
         this.indLoading = true;
-        this._sampleFileService.get(Global.BASE_USER_ENDPOINT)
+        this._sampleFileService.get(Global.BASE_SAMPLEFILE_ENDPOINT)
             .subscribe(sampleFiles => { this.files = sampleFiles; this.indLoading = false; },
             error => this.msg = <any>error);
 
@@ -63,7 +63,7 @@ export class samplefile implements OnInit {
     addFile() {
         this.dbops = DBOperation.create;
         this.SetControlsState(true);
-        this.modalTitle = "Add New User";
+        this.modalTitle = "Add New Sample File";
         this.modalBtnTitle = "Add";
         this.fileFrm.reset();
         this.modal.open();
@@ -98,7 +98,7 @@ export class samplefile implements OnInit {
 
         switch (this.dbops) {
             case DBOperation.create:
-                this._sampleFileService.post(Global.BASE_USER_ENDPOINT, formData._value).subscribe(
+                this._sampleFileService.post(Global.BASE_SAMPLEFILE_ENDPOINT, formData._value).subscribe(
                     data => {
                         if (data == 1) //Success
                         {
@@ -117,7 +117,7 @@ export class samplefile implements OnInit {
                 );
                 break;
             case DBOperation.update:
-                this._sampleFileService.put(Global.BASE_USER_ENDPOINT, formData._value.Id, formData._value).subscribe(
+                this._sampleFileService.put(Global.BASE_SAMPLEFILE_ENDPOINT, formData._value.FID, formData._value).subscribe(
                     data => {
                         if (data == 1) //Success
                         {
@@ -136,7 +136,7 @@ export class samplefile implements OnInit {
                 );
                 break;
             case DBOperation.delete:
-                this._sampleFileService.delete(Global.BASE_USER_ENDPOINT, formData._value.Id).subscribe(
+                this._sampleFileService.delete(Global.BASE_SAMPLEFILE_ENDPOINT, formData._value.FID).subscribe(
                     data => {
                         if (data == 1) //Success
                         {

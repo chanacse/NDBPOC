@@ -22,8 +22,8 @@
                         <td>{{myfile.Cname}}</td>
                         <td>{{myfile.Fname}}</td>
                         <td>
-                            <button title="Edit" class="btn btn-primary" (click)="editFile(myfile.Id)">Edit</button>
-                            <button title="Delete" class="btn btn-danger" (click)="deleteFile(myfile.Id)">Delete</button>
+                            <button title="Edit" class="btn btn-primary" (click)="editFile(myfile.FID)">Edit</button>
+                            <button title="Delete" class="btn btn-danger" (click)="deleteFile(myfile.FID)">Delete</button>
                         </td>
                     </tr>
                 </tbody>
@@ -53,7 +53,7 @@
                     <input type="text" class="form-control" placeholder="Company Name" formControlName="Cname">
                 </div>
                 <div>
-                    <span>File name</span>
+                    <span>File name*</span>
                     <input type="text" class="form-control" placeholder="File Name" formControlName="Fname">
                 </div>
                 <!--<div>

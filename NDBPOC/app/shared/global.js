@@ -5,6 +5,7 @@ var Global = (function () {
     }
     return Global;
 }());
-Global.BASE_USER_ENDPOINT = 'api/ShareType/';
+Global.BASE_SAMPLEFILE_ENDPOINT = 'api/SampleFile/';
+Global.BASE_SHARETYPE_ENDPOINT = 'api/ShareType/';
 exports.Global = Global;
 //# sourceMappingURL=global.js.map

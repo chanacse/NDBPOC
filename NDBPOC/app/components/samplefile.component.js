@@ -26,7 +26,7 @@ var samplefile = (function () {
             FID: [''],
             CID: [''],
             Cname: ['', forms_1.Validators.required],
-            Fname: [''],
+            Fname: ['', forms_1.Validators.required],
             ShareType: [''],
             OfferCode: [''],
             ApprovalStatus: [''],
@@ -44,13 +44,13 @@ var samplefile = (function () {
     samplefile.prototype.LoadSampleFiles = function () {
         var _this = this;
         this.indLoading = true;
-        this._sampleFileService.get(global_1.Global.BASE_USER_ENDPOINT)
+        this._sampleFileService.get(global_1.Global.BASE_SAMPLEFILE_ENDPOINT)
             .subscribe(function (sampleFiles) { _this.files = sampleFiles; _this.indLoading = false; }, function (error) { return _this.msg = error; });
     };
     samplefile.prototype.addFile = function () {
         this.dbops = enum_1.DBOperation.create;
         this.SetControlsState(true);
-        this.modalTitle = "Add New User";
+        this.modalTitle = "Add New Sample File";
         this.modalBtnTitle = "Add";
         this.fileFrm.reset();
         this.modal.open();
@@ -81,7 +81,7 @@ var samplefile = (function () {
         this.msg = "";
         switch (this.dbops) {
             case enum_1.DBOperation.create:
-                this._sampleFileService.post(global_1.Global.BASE_USER_ENDPOINT, formData._value).subscribe(function (data) {
+                this._sampleFileService.post(global_1.Global.BASE_SAMPLEFILE_ENDPOINT, formData._value).subscribe(function (data) {
                     if (data == 1) {
                         _this.msg = "Data successfully added.";
                         _this.LoadSampleFiles();
@@ -95,7 +95,7 @@ var samplefile = (function () {
                 });
                 break;
             case enum_1.DBOperation.update:
-                this._sampleFileService.put(global_1.Global.BASE_USER_ENDPOINT, formData._value.Id, formData._value).subscribe(function (data) {
+                this._sampleFileService.put(global_1.Global.BASE_SAMPLEFILE_ENDPOINT, formData._value.FID, formData._value).subscribe(function (data) {
                     if (data == 1) {
                         _this.msg = "Data successfully updated.";
                         _this.LoadSampleFiles();
@@ -109,7 +109,7 @@ var samplefile = (function () {
                 });
                 break;
             case enum_1.DBOperation.delete:
-                this._sampleFileService.delete(global_1.Global.BASE_USER_ENDPOINT, formData._value.Id).subscribe(function (data) {
+                this._sampleFileService.delete(global_1.Global.BASE_SAMPLEFILE_ENDPOINT, formData._value.FID).subscribe(function (data) {
                     if (data == 1) {
                         _this.msg = "Data successfully deleted.";
                         _this.LoadSampleFiles();
