@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="NDBPOCDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="NDBPOCDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="NDBChequeOption">
           <Key>
             <PropertyRef Name="COID" />
@@ -48,6 +48,7 @@
           <Property Name="isPrintFirstOK" Type="bit" />
           <Property Name="isPrintAll" Type="bit" />
           <Property Name="CreatedBy" Type="varchar" MaxLength="150" />
+          <Property Name="FILEADD" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="NDBShareOfferCode">
           <Key>
@@ -87,8 +88,7 @@
           <EntitySet Name="NDBShareType" EntityType="Self.NDBShareType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NDBTransaction" EntityType="Self.NDBTransaction" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="NDBPOCDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -135,6 +135,7 @@
           <Property Name="isPrintFirstOK" Type="Boolean" />
           <Property Name="isPrintAll" Type="Boolean" />
           <Property Name="CreatedBy" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="FILEADD" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <EntityType Name="NDBShareOfferCode">
           <Key>
@@ -208,6 +209,7 @@
           <EntitySetMapping Name="NDBCompanyFiles">
             <EntityTypeMapping TypeName="NDBPOCDBModel.NDBCompanyFile">
               <MappingFragment StoreEntitySet="NDBCompanyFile">
+                <ScalarProperty Name="FILEADD" ColumnName="FILEADD" />
                 <ScalarProperty Name="FID" ColumnName="FID" />
                 <ScalarProperty Name="CID" ColumnName="CID" />
                 <ScalarProperty Name="Cname" ColumnName="Cname" />

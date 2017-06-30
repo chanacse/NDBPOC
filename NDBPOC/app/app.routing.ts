@@ -4,7 +4,7 @@ import { HomeComponent } from './components/home.component';
 import { samplefile } from './components/samplefile.component';
 
 const appRoutes: Routes = [
-    { path: '', redirectTo: 'home', pathMatch: 'full' },
+    { path: '', redirectTo: 'samplefile', pathMatch: 'full' },
     { path: 'home', component: HomeComponent },
     { path: 'samplefile', component: samplefile }
 ];

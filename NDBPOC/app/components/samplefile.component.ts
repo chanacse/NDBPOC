@@ -2,11 +2,14 @@
 import { SampleFileService } from '../service/samplefile.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
-import { ISampleFile } from '../models/samplefile';
 import { DBOperation } from '../Shared/enum';
 import { Observable } from 'rxjs/Rx';
 import { Global } from '../Shared/global';
 
+import { ISampleFile } from '../models/samplefile';
+import { ICompany } from '../models/company';
+import { IShareOfferCode } from '../models/shareoffercode';
+import { IShareType } from '../models/sharetype';
 
 @Component({
 
@@ -24,6 +27,12 @@ export class samplefile implements OnInit {
     dbops: DBOperation;
     modalTitle: string;
     modalBtnTitle: string;
+    companies: ICompany[];
+    company: ICompany;
+    shareoffercodes: IShareOfferCode[];
+    shareoffercode: IShareOfferCode;
+    sharetypes: IShareType[];
+    sharetype: IShareType;
 
     constructor(private fb: FormBuilder, private _sampleFileService: SampleFileService) { }
 
@@ -48,8 +57,13 @@ export class samplefile implements OnInit {
             CreatedBy: ['']
         });
 
+        //Dropdown Items
+        this.LoadCompanies();
+        this.LoadShareOfferCodes();
+        this.LoadShareTypes();
+        //main ITEM
         this.LoadSampleFiles();
-
+      
     }
 
     LoadSampleFiles(): void {
@@ -57,7 +71,24 @@ export class samplefile implements OnInit {
         this._sampleFileService.get(Global.BASE_SAMPLEFILE_ENDPOINT)
             .subscribe(sampleFiles => { this.files = sampleFiles; this.indLoading = false; },
             error => this.msg = <any>error);
+    }
 
+    LoadCompanies(): void {
+        this._sampleFileService.get(Global.BASE_COMPANY_ENDPOINT)
+            .subscribe(localcom => { this.companies = localcom; this.indLoading = false; },
+            error => this.msg = <any>error);    
+    }
+
+    LoadShareOfferCodes(): void {
+        this._sampleFileService.get(Global.BASE_SHAREOFFERCODE_ENDPOINT)
+            .subscribe(localshareoffer => { this.shareoffercodes = localshareoffer; this.indLoading = false; },
+            error => this.msg = <any>error);
+    }
+
+    LoadShareTypes(): void {
+        this._sampleFileService.get(Global.BASE_SHARETYPE_ENDPOINT)
+            .subscribe(localsharetype => { this.sharetypes = localsharetype; this.indLoading = false; },
+            error => this.msg = <any>error);
     }
 
     addFile() {

@@ -7,5 +7,7 @@ var Global = (function () {
 }());
 Global.BASE_SAMPLEFILE_ENDPOINT = 'api/SampleFile/';
 Global.BASE_SHARETYPE_ENDPOINT = 'api/ShareType/';
+Global.BASE_COMPANY_ENDPOINT = 'api/Company/';
+Global.BASE_SHAREOFFERCODE_ENDPOINT = 'api/ShareOfferCode/';
 exports.Global = Global;
 //# sourceMappingURL=global.js.map

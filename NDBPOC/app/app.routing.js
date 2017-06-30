@@ -4,7 +4,7 @@ var router_1 = require("@angular/router");
 var home_component_1 = require("./components/home.component");
 var samplefile_component_1 = require("./components/samplefile.component");
 var appRoutes = [
-    { path: '', redirectTo: 'home', pathMatch: 'full' },
+    { path: '', redirectTo: 'samplefile', pathMatch: 'full' },
     { path: 'home', component: home_component_1.HomeComponent },
     { path: 'samplefile', component: samplefile_component_1.samplefile }
 ];

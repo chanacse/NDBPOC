@@ -46,6 +46,35 @@
             <h4 class="modal-title">{{modalTitle}}</h4>
         </modal-header>
         <modal-body>
+            <div class="row">
+                <div class="col-md-4">
+                    <span>Company *</span>
+                    <select class="form-control" >
+                        <option value="0">--Select--</option>
+                        <option *ngFor="let com of companies" [value]="com.CID">
+                            {{com.CName}}
+                        </option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <span>Share Type *</span>
+                    <select class="form-control">
+                        <option value="0">--Select--</option>
+                        <option *ngFor="let st of sharetypes" [value]="st.ShareValue">
+                            {{st.ShareName}}
+                        </option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <span>Share Offer Code *</span>
+                    <select class="form-control">
+                        <option value="0">--Select--</option>
+                        <option *ngFor="let soc of shareoffercodes" [value]="soc.ShareValue">
+                            {{soc.Offername}}
+                        </option>
+                    </select>
+                </div>
+            </div>
 
             <div class="form-group">
                 <div>
@@ -56,13 +85,7 @@
                     <span>File name*</span>
                     <input type="text" class="form-control" placeholder="File Name" formControlName="Fname">
                 </div>
-                <!--<div>
-                    <span>Gender*</span>
-                    <select formControlName="Gender" class="form-control">
-                        <option>Male</option>
-                        <option>Female</option>
-                    </select>
-                </div>-->
+              
             </div>
         </modal-body>
         <modal-footer>

@@ -39,6 +39,11 @@ var samplefile = (function () {
             isPrintAll: false,
             CreatedBy: ['']
         });
+        //Dropdown Items
+        this.LoadCompanies();
+        this.LoadShareOfferCodes();
+        this.LoadShareTypes();
+        //main ITEM
         this.LoadSampleFiles();
     };
     samplefile.prototype.LoadSampleFiles = function () {
@@ -46,6 +51,21 @@ var samplefile = (function () {
         this.indLoading = true;
         this._sampleFileService.get(global_1.Global.BASE_SAMPLEFILE_ENDPOINT)
             .subscribe(function (sampleFiles) { _this.files = sampleFiles; _this.indLoading = false; }, function (error) { return _this.msg = error; });
+    };
+    samplefile.prototype.LoadCompanies = function () {
+        var _this = this;
+        this._sampleFileService.get(global_1.Global.BASE_COMPANY_ENDPOINT)
+            .subscribe(function (localcom) { _this.companies = localcom; _this.indLoading = false; }, function (error) { return _this.msg = error; });
+    };
+    samplefile.prototype.LoadShareOfferCodes = function () {
+        var _this = this;
+        this._sampleFileService.get(global_1.Global.BASE_SHAREOFFERCODE_ENDPOINT)
+            .subscribe(function (localshareoffer) { _this.shareoffercodes = localshareoffer; _this.indLoading = false; }, function (error) { return _this.msg = error; });
+    };
+    samplefile.prototype.LoadShareTypes = function () {
+        var _this = this;
+        this._sampleFileService.get(global_1.Global.BASE_SHARETYPE_ENDPOINT)
+            .subscribe(function (localsharetype) { _this.sharetypes = localsharetype; _this.indLoading = false; }, function (error) { return _this.msg = error; });
     };
     samplefile.prototype.addFile = function () {
         this.dbops = enum_1.DBOperation.create;
