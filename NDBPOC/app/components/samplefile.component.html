@@ -13,6 +13,7 @@
                         <th>File ID</th>
                         <th>Company Name</th>
                         <th>File Name</th>
+                        <th>Status</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -21,10 +22,12 @@
                         <td>{{myfile.FID}}</td>
                         <td>{{myfile.Cname}}</td>
                         <td>{{myfile.Fname}}</td>
+                        <td><span class="label label-primary">{{myfile.ApprovalStatus}}</span></td>
                         <td><a target="_blank" href="http://www.freespace.com.au/filehosting1/SFc/IESL.pdf">Click Here</a> </td>
                         <td>
                             <button title="Edit" class="btn btn-primary" (click)="editFile(myfile.FID)">Edit</button>
                             <button title="Delete" class="btn btn-danger" (click)="deleteFile(myfile.FID)">Delete</button>
+                            <button title="Generate Proof" class="btn btn-danger" (click)="generateProof(myfile.FID)">Generate Proof</button>
                         </td>
                     </tr>
                 </tbody>
@@ -52,27 +55,27 @@
             <div class="row">
                 <div class="col-md-4">
                     <span>Company *</span>
-                    <select class="form-control">
+                    <select class="form-control" formControlName="Cname">
                         <option value="0">--Select--</option>
-                        <option *ngFor="let com of companies" [value]="com.CID">
+                        <option *ngFor="let com of companies" [value]="com.CName" >
                             {{com.CName}}
                         </option>
                     </select>
                 </div>
                 <div class="col-md-4">
                     <span>Share Type *</span>
-                    <select class="form-control">
+                    <select class="form-control" formControlName="ShareType">
                         <option value="0">--Select--</option>
-                        <option *ngFor="let st of sharetypes" [value]="st.ShareValue">
+                        <option *ngFor="let st of sharetypes" [value]="st.ShareName" >
                             {{st.ShareName}}
                         </option>
                     </select>
                 </div>
                 <div class="col-md-4">
                     <span>Share Offer Code *</span>
-                    <select class="form-control">
+                    <select class="form-control" formControlName="OfferCode">
                         <option value="0">--Select--</option>
-                        <option *ngFor="let soc of shareoffercodes" [value]="soc.ShareValue">
+                        <option *ngFor="let soc of shareoffercodes" [value]="soc.Offername" >
                             {{soc.Offername}}
                         </option>
                     </select>
@@ -81,17 +84,13 @@
 
             <div class="form-group">
                 <div>
-                    <span>Company name*</span>
-                    <input type="text" class="form-control" placeholder="Company Name" formControlName="Cname">
-                </div>
-                <div>
                     <span>File name*</span>
                     <input type="text" class="form-control" placeholder="File Name" formControlName="Fname">
                 </div>
 
                 <div class="col-md-4">
                     <span>Upload File</span>
-                    <input type="file" class="form-control" (change)="getFileDetails($event)" placeholder="Upload file" formControlName="FILEADD" accept=".pdf,.doc,.docx">
+                    <input type="file" class="form-control" (change)="getFileDetails($event)" placeholder="Upload file" formControlName="FILEADD" accept=".pdf,.doc,.docx,.csv">
                 </div>
             </div>
         </modal-body>

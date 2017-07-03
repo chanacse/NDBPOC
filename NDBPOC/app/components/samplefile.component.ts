@@ -34,6 +34,7 @@ export class samplefile implements OnInit {
     sharetypes: IShareType[];
     sharetype: IShareType;
     FileDetails: File;
+    htmlTemplateData: string;
 
     constructor(private fb: FormBuilder, private _sampleFileService: SampleFileService) { }
 
@@ -43,10 +44,10 @@ export class samplefile implements OnInit {
         this.fileFrm = this.fb.group({
             FID: [''],
             CID: [''],
-            Cname: ['', Validators.required],
             Fname: ['', Validators.required],
-            ShareType: [''],
-            OfferCode: [''],
+            Cname: ['', Validators.required],
+            ShareType: ['', Validators.required],
+            OfferCode: ['', Validators.required],
             ApprovalStatus: [''],
             ApprovalComment: [''],
             FileStorage: [''],
@@ -56,7 +57,7 @@ export class samplefile implements OnInit {
             isPrintFirstOK: false,
             isPrintAll: false,
             CreatedBy: [''],
-            FILEADD : []
+            FILEADD: [],
         });
 
         //Dropdown Items
@@ -65,7 +66,7 @@ export class samplefile implements OnInit {
         this.LoadShareTypes();
         //main ITEM
         this.LoadSampleFiles();
-      
+
     }
 
     LoadSampleFiles(): void {
@@ -78,7 +79,7 @@ export class samplefile implements OnInit {
     LoadCompanies(): void {
         this._sampleFileService.get(Global.BASE_COMPANY_ENDPOINT)
             .subscribe(localcom => { this.companies = localcom; this.indLoading = false; },
-            error => this.msg = <any>error);    
+            error => this.msg = <any>error);
     }
 
     LoadShareOfferCodes(): void {
@@ -134,6 +135,20 @@ export class samplefile implements OnInit {
         this.modal.open();
     }
 
+    generateProof(id: number) {
+        //GET DATA FROM DATABASE
+        this._sampleFileService.get(Global.BASE_HTMLTEMPLATE_ENDPOINT)
+            .subscribe(data => { this.htmlTemplateData = data[0].Description; },
+            error => this.msg = <any>error);
+        //GET DATA FROM .CSV
+        this.file = this.files.filter(x => x.FID == id)[0];
+        this.readCSVFile(this.file.ApprovalComment);
+    }
+
+    readCSVFile(filePath: string) {
+
+    }
+
     SetControlsState(isEnable: boolean) {
         isEnable ? this.fileFrm.enable() : this.fileFrm.disable();
     }
@@ -145,6 +160,7 @@ export class samplefile implements OnInit {
             case DBOperation.create:
                 this.fileUpload();
                 formData._value.ApprovalComment = Global.BASE_FOLDER_PATH + this.FileDetails.name; //for testing purpose
+                formData._value.ApprovalStatus = "Initiated";
                 this._sampleFileService.post(Global.BASE_SAMPLEFILE_ENDPOINT, formData._value).subscribe(
                     data => {
                         if (data == 1) //Success

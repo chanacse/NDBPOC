@@ -11,6 +11,7 @@
         <EntityTypeShape EntityType="NDBPOCDBModel.NDBShareOfferCode" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
         <EntityTypeShape EntityType="NDBPOCDBModel.NDBShareType" Width="1.5" PointX="2.75" PointY="5.75" IsExpanded="true" />
         <EntityTypeShape EntityType="NDBPOCDBModel.NDBTransaction" Width="1.5" PointX="4.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="NDBPOCDBModel.NDBTemplate" Width="1.5" PointX="7.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

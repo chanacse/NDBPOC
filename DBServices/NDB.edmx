@@ -66,6 +66,15 @@
           <Property Name="ShareName" Type="varchar" MaxLength="50" />
           <Property Name="ShareValue" Type="varchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="NDBTemplate">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="varchar(max)" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="300" />
+          <Property Name="CreatedOn" Type="datetime" />
+        </EntityType>
         <EntityType Name="NDBTransaction">
           <Key>
             <PropertyRef Name="FID" />
@@ -86,6 +95,7 @@
           <EntitySet Name="NDBCompanyFile" EntityType="Self.NDBCompanyFile" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NDBShareOfferCode" EntityType="Self.NDBShareOfferCode" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NDBShareType" EntityType="Self.NDBShareType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NDBTemplate" EntityType="Self.NDBTemplate" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NDBTransaction" EntityType="Self.NDBTransaction" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -174,7 +184,17 @@
           <EntitySet Name="NDBShareOfferCodes" EntityType="Self.NDBShareOfferCode" />
           <EntitySet Name="NDBShareTypes" EntityType="Self.NDBShareType" />
           <EntitySet Name="NDBTransactions" EntityType="Self.NDBTransaction" />
+          <EntitySet Name="NDBTemplates" EntityType="NDBPOCDBModel.NDBTemplate" />
         </EntityContainer>
+        <EntityType Name="NDBTemplate">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -257,6 +277,16 @@
                 <ScalarProperty Name="status" ColumnName="status" />
                 <ScalarProperty Name="DateAndTime" ColumnName="DateAndTime" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NDBTemplates">
+            <EntityTypeMapping TypeName="NDBPOCDBModel.NDBTemplate">
+              <MappingFragment StoreEntitySet="NDBTemplate">
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

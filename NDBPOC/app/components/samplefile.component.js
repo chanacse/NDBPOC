@@ -25,10 +25,10 @@ var samplefile = (function () {
         this.fileFrm = this.fb.group({
             FID: [''],
             CID: [''],
-            Cname: ['', forms_1.Validators.required],
             Fname: ['', forms_1.Validators.required],
-            ShareType: [''],
-            OfferCode: [''],
+            Cname: ['', forms_1.Validators.required],
+            ShareType: ['', forms_1.Validators.required],
+            OfferCode: ['', forms_1.Validators.required],
             ApprovalStatus: [''],
             ApprovalComment: [''],
             FileStorage: [''],
@@ -38,7 +38,7 @@ var samplefile = (function () {
             isPrintFirstOK: false,
             isPrintAll: false,
             CreatedBy: [''],
-            FILEADD: []
+            FILEADD: [],
         });
         //Dropdown Items
         this.LoadCompanies();
@@ -105,6 +105,12 @@ var samplefile = (function () {
         this.fileFrm.setValue(this.file);
         this.modal.open();
     };
+    samplefile.prototype.generateProof = function (id) {
+        var _this = this;
+        this._sampleFileService.get(global_1.Global.BASE_HTMLTEMPLATE_ENDPOINT)
+            .subscribe(function (data) { _this.htmlTemplateData = data[0].Description; }, function (error) { return _this.msg = error; });
+        console.log(this.htmlTemplateData);
+    };
     samplefile.prototype.SetControlsState = function (isEnable) {
         isEnable ? this.fileFrm.enable() : this.fileFrm.disable();
     };
@@ -115,6 +121,7 @@ var samplefile = (function () {
             case enum_1.DBOperation.create:
                 this.fileUpload();
                 formData._value.ApprovalComment = global_1.Global.BASE_FOLDER_PATH + this.FileDetails.name; //for testing purpose
+                formData._value.ApprovalStatus = "Initiated";
                 this._sampleFileService.post(global_1.Global.BASE_SAMPLEFILE_ENDPOINT, formData._value).subscribe(function (data) {
                     if (data == 1) {
                         _this.msg = "Data successfully added.";

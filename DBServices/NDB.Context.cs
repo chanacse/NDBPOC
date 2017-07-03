@@ -31,5 +31,6 @@ namespace DBServices
         public virtual DbSet<NDBShareOfferCode> NDBShareOfferCodes { get; set; }
         public virtual DbSet<NDBShareType> NDBShareTypes { get; set; }
         public virtual DbSet<NDBTransaction> NDBTransactions { get; set; }
+        public virtual DbSet<NDBTemplate> NDBTemplates { get; set; }
     }
 }

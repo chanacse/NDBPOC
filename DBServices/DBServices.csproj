@@ -81,6 +81,9 @@
     <Compile Include="NDBShareType.cs">
       <DependentUpon>NDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="NDBTemplate.cs">
+      <DependentUpon>NDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="NDBTransaction.cs">
       <DependentUpon>NDB.tt</DependentUpon>
     </Compile>
