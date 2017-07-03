@@ -33,6 +33,7 @@ export class samplefile implements OnInit {
     shareoffercode: IShareOfferCode;
     sharetypes: IShareType[];
     sharetype: IShareType;
+    FileDetails: File;
 
     constructor(private fb: FormBuilder, private _sampleFileService: SampleFileService) { }
 
@@ -54,7 +55,8 @@ export class samplefile implements OnInit {
             isPrintFirstRecord: false,
             isPrintFirstOK: false,
             isPrintAll: false,
-            CreatedBy: ['']
+            CreatedBy: [''],
+            FILEADD : []
         });
 
         //Dropdown Items
@@ -89,6 +91,18 @@ export class samplefile implements OnInit {
         this._sampleFileService.get(Global.BASE_SHARETYPE_ENDPOINT)
             .subscribe(localsharetype => { this.sharetypes = localsharetype; this.indLoading = false; },
             error => this.msg = <any>error);
+    }
+
+    getFileDetails(event: any): void {
+        this.FileDetails = event.target.files[0];
+    }
+
+    fileUpload() {
+        let myFile: File = this.FileDetails;
+        let formData = new FormData();
+        formData.append('uploadFile', myFile, myFile.name);
+        this._sampleFileService.fileupload(Global.BASE_FILESAVE_ENDPOINT, formData)
+            .subscribe(error => this.msg = <any>error);
     }
 
     addFile() {
@@ -129,6 +143,8 @@ export class samplefile implements OnInit {
 
         switch (this.dbops) {
             case DBOperation.create:
+                this.fileUpload();
+                formData._value.ApprovalComment = Global.BASE_FOLDER_PATH + this.FileDetails.name; //for testing purpose
                 this._sampleFileService.post(Global.BASE_SAMPLEFILE_ENDPOINT, formData._value).subscribe(
                     data => {
                         if (data == 1) //Success

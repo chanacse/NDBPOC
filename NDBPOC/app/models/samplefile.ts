@@ -13,5 +13,6 @@
     isPrintFirstRecord: boolean,
     isPrintFirstOK: boolean,
     isPrintAll: boolean,
-    CreatedBy: string
+    CreatedBy: string, 
+    FILEADD : File
 }

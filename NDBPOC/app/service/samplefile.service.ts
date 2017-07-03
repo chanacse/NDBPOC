@@ -47,4 +47,13 @@ export class SampleFileService {
         return Observable.throw(error.json().error || 'Server error');
     }
 
+    fileupload(url: string, formData: FormData): Observable<any> {
+        let headers = new Headers();
+        //headers.append('Content-Type', 'multipart/form-data');
+        //headers.append('Accept', 'application/json');
+        let options = new RequestOptions({ headers: headers });
+        return this._http.post(url, formData)
+            .catch(this.handleError)
+
+    }
 }

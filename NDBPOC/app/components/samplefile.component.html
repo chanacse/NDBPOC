@@ -21,6 +21,7 @@
                         <td>{{myfile.FID}}</td>
                         <td>{{myfile.Cname}}</td>
                         <td>{{myfile.Fname}}</td>
+                        <td><a target="_blank" href="http://www.freespace.com.au/filehosting1/SFc/IESL.pdf">Click Here</a> </td>
                         <td>
                             <button title="Edit" class="btn btn-primary" (click)="editFile(myfile.FID)">Edit</button>
                             <button title="Delete" class="btn btn-danger" (click)="deleteFile(myfile.FID)">Delete</button>
@@ -37,7 +38,9 @@
             <span class="sr-only">Error:</span>
             {{msg}}
         </div>
+        <router-outlet></router-outlet>
     </div>
+    <router-outlet name="sidemenu"></router-outlet>
 </div>
 
 <modal #modal>
@@ -49,7 +52,7 @@
             <div class="row">
                 <div class="col-md-4">
                     <span>Company *</span>
-                    <select class="form-control" >
+                    <select class="form-control">
                         <option value="0">--Select--</option>
                         <option *ngFor="let com of companies" [value]="com.CID">
                             {{com.CName}}
@@ -85,7 +88,11 @@
                     <span>File name*</span>
                     <input type="text" class="form-control" placeholder="File Name" formControlName="Fname">
                 </div>
-              
+
+                <div class="col-md-4">
+                    <span>Upload File</span>
+                    <input type="file" class="form-control" (change)="getFileDetails($event)" placeholder="Upload file" formControlName="FILEADD" accept=".pdf,.doc,.docx">
+                </div>
             </div>
         </modal-body>
         <modal-footer>

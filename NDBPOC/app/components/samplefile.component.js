@@ -37,7 +37,8 @@ var samplefile = (function () {
             isPrintFirstRecord: false,
             isPrintFirstOK: false,
             isPrintAll: false,
-            CreatedBy: ['']
+            CreatedBy: [''],
+            FILEADD: []
         });
         //Dropdown Items
         this.LoadCompanies();
@@ -66,6 +67,17 @@ var samplefile = (function () {
         var _this = this;
         this._sampleFileService.get(global_1.Global.BASE_SHARETYPE_ENDPOINT)
             .subscribe(function (localsharetype) { _this.sharetypes = localsharetype; _this.indLoading = false; }, function (error) { return _this.msg = error; });
+    };
+    samplefile.prototype.getFileDetails = function (event) {
+        this.FileDetails = event.target.files[0];
+    };
+    samplefile.prototype.fileUpload = function () {
+        var _this = this;
+        var myFile = this.FileDetails;
+        var formData = new FormData();
+        formData.append('uploadFile', myFile, myFile.name);
+        this._sampleFileService.fileupload(global_1.Global.BASE_FILESAVE_ENDPOINT, formData)
+            .subscribe(function (error) { return _this.msg = error; });
     };
     samplefile.prototype.addFile = function () {
         this.dbops = enum_1.DBOperation.create;
@@ -101,6 +113,8 @@ var samplefile = (function () {
         this.msg = "";
         switch (this.dbops) {
             case enum_1.DBOperation.create:
+                this.fileUpload();
+                formData._value.ApprovalComment = global_1.Global.BASE_FOLDER_PATH + this.FileDetails.name; //for testing purpose
                 this._sampleFileService.post(global_1.Global.BASE_SAMPLEFILE_ENDPOINT, formData._value).subscribe(function (data) {
                     if (data == 1) {
                         _this.msg = "Data successfully added.";

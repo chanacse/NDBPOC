@@ -51,6 +51,14 @@ var SampleFileService = (function () {
         console.error(error);
         return Observable_1.Observable.throw(error.json().error || 'Server error');
     };
+    SampleFileService.prototype.fileupload = function (url, formData) {
+        var headers = new http_1.Headers();
+        //headers.append('Content-Type', 'multipart/form-data');
+        //headers.append('Accept', 'application/json');
+        var options = new http_1.RequestOptions({ headers: headers });
+        return this._http.post(url, formData)
+            .catch(this.handleError);
+    };
     return SampleFileService;
 }());
 SampleFileService = __decorate([
