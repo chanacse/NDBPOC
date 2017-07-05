@@ -146,7 +146,13 @@ export class samplefile implements OnInit {
     }
 
     readCSVFile(filePath: string) {
-
+        var reader = new FileReader();
+        reader.onload = file => {
+            var contents: any = file.target;
+            this.htmlTemplateData = contents.result;
+        };
+        //reader.readAsText(filePath);
+        //console.log(reader.readAsText(fileName));
     }
 
     SetControlsState(isEnable: boolean) {

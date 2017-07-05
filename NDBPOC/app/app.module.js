@@ -17,6 +17,8 @@ var home_component_1 = require("./components/home.component");
 var samplefile_service_1 = require("./service/samplefile.service");
 var samplefile_component_1 = require("./components/samplefile.component");
 var ng2_bs3_modal_1 = require("ng2-bs3-modal/ng2-bs3-modal");
+var logininfo_service_1 = require("./service/logininfo.service");
+var login_component_1 = require("./components/login.component");
 var AppModule = (function () {
     function AppModule() {
     }
@@ -25,8 +27,8 @@ var AppModule = (function () {
 AppModule = __decorate([
     core_1.NgModule({
         imports: [platform_browser_1.BrowserModule, forms_1.ReactiveFormsModule, http_1.HttpModule, app_routing_1.routing, ng2_bs3_modal_1.Ng2Bs3ModalModule],
-        declarations: [app_component_1.AppComponent, home_component_1.HomeComponent, samplefile_component_1.samplefile],
-        providers: [{ provide: common_1.APP_BASE_HREF, useValue: '/' }, samplefile_service_1.SampleFileService],
+        declarations: [app_component_1.AppComponent, home_component_1.HomeComponent, samplefile_component_1.samplefile, login_component_1.logininfo],
+        providers: [{ provide: common_1.APP_BASE_HREF, useValue: '/' }, samplefile_service_1.SampleFileService, logininfo_service_1.LoginInfoServiceClass],
         bootstrap: [app_component_1.AppComponent]
     })
 ], AppModule);

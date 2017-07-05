@@ -9,11 +9,13 @@ import { HomeComponent } from './components/home.component';
 import { SampleFileService } from './service/samplefile.service';
 import { samplefile } from './components/samplefile.component';
 import { Ng2Bs3ModalModule} from 'ng2-bs3-modal/ng2-bs3-modal'
+import { LoginInfoServiceClass } from './service/logininfo.service';
+import { logininfo } from './components/login.component';
 
 @NgModule({
     imports: [BrowserModule, ReactiveFormsModule, HttpModule, routing, Ng2Bs3ModalModule],
-    declarations: [AppComponent, HomeComponent, samplefile],
-    providers: [{ provide: APP_BASE_HREF, useValue: '/' }, SampleFileService],
+    declarations: [AppComponent, HomeComponent, samplefile, logininfo],
+    providers: [{ provide: APP_BASE_HREF, useValue: '/' }, SampleFileService, LoginInfoServiceClass],
     bootstrap: [AppComponent]
 })
 

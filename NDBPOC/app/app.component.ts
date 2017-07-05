@@ -4,17 +4,26 @@
     template: `
                 
 <nav class="navbar navbar-inverse navbar-fixed-left">
-  <a class="navbar-brand" [routerLink]="['home']">NDB POC</a>
+  <a class="navbar-brand" style="color:red">CMS Operations</a>
   <ul class="nav navbar-nav">
     <li><a [routerLink]="['home']">Home</a></li>
     <li><a [routerLink]="['samplefile']">Sample File</a></li>
+  </ul>
+  <a style="color:red" class="navbar-brand">Reports</a>
+  <a style="color:red" class="navbar-brand">Manage CMS</a>
+  <ul class="nav navbar-nav">
+    <li><a [routerLink]="['#']">Companies</a></li>
+    <li><a [routerLink]="['#']">Issue Numbers</a></li>
+    <li><a [routerLink]="['#']">Users</a></li>
+    <li><a [routerLink]="['#']">Share Type</a></li>
   </ul>
 </nav>
 <div class="container">
  <router-outlet></router-outlet>
 </div>
-`,
 
+
+`,
     styles: [`
     .navbar-fixed-left {
   width: 140px;

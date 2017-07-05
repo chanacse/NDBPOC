@@ -172,6 +172,7 @@
     <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HTMLTemplateController.cs" />
+    <Compile Include="Controllers\LoginDetailsController.cs" />
     <Compile Include="Controllers\SampleFileController.cs" />
     <Compile Include="Controllers\ShareOfferCodeController.cs" />
     <Compile Include="Controllers\ShareTypeController.cs" />
@@ -182,6 +183,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\components\login.component.html" />
     <Content Include="app\components\samplefile.component.html" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
@@ -242,12 +244,15 @@
     <TypeScriptCompile Include="app\app.module.ts" />
     <TypeScriptCompile Include="app\app.routing.ts" />
     <TypeScriptCompile Include="app\components\home.component.ts" />
+    <TypeScriptCompile Include="app\components\login.component.ts" />
     <TypeScriptCompile Include="app\components\samplefile.component.ts" />
     <TypeScriptCompile Include="app\main.ts" />
     <TypeScriptCompile Include="app\models\company.ts" />
+    <TypeScriptCompile Include="app\models\logininfo.ts" />
     <TypeScriptCompile Include="app\models\samplefile.ts" />
     <TypeScriptCompile Include="app\models\shareoffercode.ts" />
     <TypeScriptCompile Include="app\models\sharetype.ts" />
+    <TypeScriptCompile Include="app\service\logininfo.service.ts" />
     <TypeScriptCompile Include="app\service\samplefile.service.ts" />
     <TypeScriptCompile Include="app\shared\enum.ts" />
     <TypeScriptCompile Include="app\shared\global.ts" />

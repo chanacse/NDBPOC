@@ -107,9 +107,22 @@ var samplefile = (function () {
     };
     samplefile.prototype.generateProof = function (id) {
         var _this = this;
+        //GET DATA FROM DATABASE
         this._sampleFileService.get(global_1.Global.BASE_HTMLTEMPLATE_ENDPOINT)
             .subscribe(function (data) { _this.htmlTemplateData = data[0].Description; }, function (error) { return _this.msg = error; });
-        console.log(this.htmlTemplateData);
+        //GET DATA FROM .CSV
+        this.file = this.files.filter(function (x) { return x.FID == id; })[0];
+        this.readCSVFile(this.file.ApprovalComment);
+    };
+    samplefile.prototype.readCSVFile = function (filePath) {
+        var _this = this;
+        var reader = new FileReader();
+        reader.onload = function (file) {
+            var contents = file.target;
+            _this.htmlTemplateData = contents.result;
+        };
+        //reader.readAsText(filePath);
+        //console.log(reader.readAsText(fileName));
     };
     samplefile.prototype.SetControlsState = function (isEnable) {
         isEnable ? this.fileFrm.enable() : this.fileFrm.disable();

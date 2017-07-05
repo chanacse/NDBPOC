@@ -50,6 +50,18 @@
           <Property Name="CreatedBy" Type="varchar" MaxLength="150" />
           <Property Name="FILEADD" Type="varbinary(max)" />
         </EntityType>
+        <EntityType Name="NDBLoginDetails">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LoginName" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="isActive" Type="bit" Nullable="false" />
+          <Property Name="RoleType" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="150" />
+          <Property Name="CurrentManager" Type="varchar" MaxLength="150" />
+        </EntityType>
         <EntityType Name="NDBShareOfferCode">
           <Key>
             <PropertyRef Name="ID" />
@@ -93,6 +105,7 @@
           <EntitySet Name="NDBChequeOption" EntityType="Self.NDBChequeOption" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NDBCompany" EntityType="Self.NDBCompany" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NDBCompanyFile" EntityType="Self.NDBCompanyFile" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NDBLoginDetails" EntityType="Self.NDBLoginDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NDBShareOfferCode" EntityType="Self.NDBShareOfferCode" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NDBShareType" EntityType="Self.NDBShareType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NDBTemplate" EntityType="Self.NDBTemplate" Schema="dbo" store:Type="Tables" />
@@ -185,6 +198,7 @@
           <EntitySet Name="NDBShareTypes" EntityType="Self.NDBShareType" />
           <EntitySet Name="NDBTransactions" EntityType="Self.NDBTransaction" />
           <EntitySet Name="NDBTemplates" EntityType="NDBPOCDBModel.NDBTemplate" />
+          <EntitySet Name="NDBLoginDetails" EntityType="NDBPOCDBModel.NDBLoginDetail" />
         </EntityContainer>
         <EntityType Name="NDBTemplate">
           <Key>
@@ -194,6 +208,18 @@
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="CreatedBy" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
           <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="NDBLoginDetail">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LoginName" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="isActive" Type="Boolean" Nullable="false" />
+          <Property Name="RoleType" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="CurrentManager" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -286,6 +312,19 @@
                 <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NDBLoginDetails">
+            <EntityTypeMapping TypeName="NDBPOCDBModel.NDBLoginDetail">
+              <MappingFragment StoreEntitySet="NDBLoginDetails">
+                <ScalarProperty Name="CurrentManager" ColumnName="CurrentManager" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="RoleType" ColumnName="RoleType" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="LoginName" ColumnName="LoginName" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
