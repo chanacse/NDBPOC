@@ -19,6 +19,11 @@ namespace NDBPOC
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+            //config.Routes.MapHttpRoute(
+            //    name: "LoginInfo",
+            //    routeTemplate: "api/{controller}/{username}/{password}"               
+            //);
         }
     }
 }

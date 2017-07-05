@@ -12,21 +12,28 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var logininfo_service_1 = require("../service/logininfo.service");
 var forms_1 = require("@angular/forms");
+var global_1 = require("../Shared/global");
 var logininfo = (function () {
     function logininfo(fb, _loginInfoService) {
         this.fb = fb;
         this._loginInfoService = _loginInfoService;
     }
     logininfo.prototype.ngOnInit = function () {
-        this.LoginFrm = this.fb.group({
+        this.loginFrm = this.fb.group({
             ID: [''],
-            LoginName: [''],
-            Password: [''],
+            LoginName: ['', forms_1.Validators.required],
+            Password: ['', forms_1.Validators.required],
             isActive: false,
             RoleType: [''],
             Email: [''],
             CurrentManager: ['']
         });
+    };
+    logininfo.prototype.onSubmit = function (formData) {
+        var _this = this;
+        this.msg = "";
+        this._loginInfoService.getLoginInfo(global_1.Global.BASE_LOGINDETAILS_ENDPOINT, formData._value.LoginName, formData._value.Password)
+            .subscribe(function (localUser) { _this.valuePassed = localUser; }, function (error) { return _this.msg = error; });
     };
     return logininfo;
 }());

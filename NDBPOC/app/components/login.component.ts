@@ -16,21 +16,33 @@ import { ILoginInfo } from '../models/logininfo';
 })
 
 export class logininfo implements OnInit {
-    LoginFrm: FormGroup;
+    loginFrm: FormGroup;
+    msg: string;
+    user: ILoginInfo;
+    valuePassed: any;
 
     constructor(private fb: FormBuilder, private _loginInfoService: LoginInfoServiceClass) { }
 
     ngOnInit(): void {
 
-        this.LoginFrm = this.fb.group({
+        this.loginFrm = this.fb.group({
             ID: [''],
-            LoginName: [''],
-            Password: [''],
+            LoginName: ['', Validators.required],
+            Password: ['', Validators.required],
             isActive: false,
             RoleType: [''],
             Email: [''],
             CurrentManager: ['']
         });
 
+    }
+
+
+    onSubmit(formData: any) {
+        this.msg = "";
+
+        this._loginInfoService.getLoginInfo(Global.BASE_LOGINDETAILS_ENDPOINT, formData._value.LoginName, formData._value.Password)
+            .subscribe(localUser => { this.valuePassed = localUser; },
+            error => this.msg = <any>error);
     }
 }

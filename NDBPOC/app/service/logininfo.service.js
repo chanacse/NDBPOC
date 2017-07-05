@@ -47,6 +47,11 @@ var LoginInfoServiceClass = (function () {
             .map(function (response) { return response.json(); })
             .catch(this.handleError);
     };
+    LoginInfoServiceClass.prototype.getLoginInfo = function (url, username, password) {
+        return this._http.get(url + username + "/" + password)
+            .map(function (response) { return response.json(); })
+            .catch(this.handleError);
+    };
     LoginInfoServiceClass.prototype.handleError = function (error) {
         console.error(error);
         return Observable_1.Observable.throw(error.json().error || 'Server error');

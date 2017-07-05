@@ -11,7 +11,7 @@ export class LoginInfoServiceClass {
 
     get(url: string): Observable<any> {
         return this._http.get(url)
-            .map((response: Response) => <any>response.json())          
+            .map((response: Response) => <any>response.json())
             .catch(this.handleError);
     }
 
@@ -37,6 +37,12 @@ export class LoginInfoServiceClass {
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
         return this._http.delete(url + id, options)
+            .map((response: Response) => <any>response.json())
+            .catch(this.handleError);
+    }
+
+    getLoginInfo(url: string, username: string, password: string): Observable<any> {
+        return this._http.get(url + username + "/" + password)
             .map((response: Response) => <any>response.json())
             .catch(this.handleError);
     }
