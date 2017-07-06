@@ -12,10 +12,8 @@ namespace NDBPOC.Controllers
         [Route("api/LoginDetails/{username}/{password}")]
         public HttpResponseMessage GET(string username, string password)
         {
-            return ToJson(NDBPOCDB.NDBLoginDetails.Find(NDBPOCDB.NDBLoginDetails.FirstOrDefault(x => x.LoginName == username && x.Password == password)));
-
-            //return ToJson(NDBPOCDB.NDBLoginDetails.AsEnumerable());
-
+            var item = NDBPOCDB.NDBLoginDetails.Where(x => x.LoginName == username && x.Password == password).FirstOrDefault();
+            return ToJson(item);
         }
     }
 }

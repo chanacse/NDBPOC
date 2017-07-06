@@ -5,7 +5,7 @@ import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { DBOperation } from '../Shared/enum';
 import { Observable } from 'rxjs/Rx';
 import { Global } from '../Shared/global';
-
+import { Router } from '@angular/router';
 import { ILoginInfo } from '../models/logininfo';
 
 
@@ -21,7 +21,7 @@ export class logininfo implements OnInit {
     user: ILoginInfo;
     valuePassed: any;
 
-    constructor(private fb: FormBuilder, private _loginInfoService: LoginInfoServiceClass) { }
+    constructor(private fb: FormBuilder, private _loginInfoService: LoginInfoServiceClass, private _router: Router) { }
 
     ngOnInit(): void {
 
@@ -42,7 +42,15 @@ export class logininfo implements OnInit {
         this.msg = "";
 
         this._loginInfoService.getLoginInfo(Global.BASE_LOGINDETAILS_ENDPOINT, formData._value.LoginName, formData._value.Password)
-            .subscribe(localUser => { this.valuePassed = localUser; },
+            .subscribe(localUser => {
+                this.valuePassed = localUser;
+
+                if (this.valuePassed) {
+                    this._router.navigate(['./home'])
+                }
+                else { alert('Failed to log') }
+            },
             error => this.msg = <any>error);
+
     }
 }

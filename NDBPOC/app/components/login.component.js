@@ -13,10 +13,12 @@ var core_1 = require("@angular/core");
 var logininfo_service_1 = require("../service/logininfo.service");
 var forms_1 = require("@angular/forms");
 var global_1 = require("../Shared/global");
+var router_1 = require("@angular/router");
 var logininfo = (function () {
-    function logininfo(fb, _loginInfoService) {
+    function logininfo(fb, _loginInfoService, _router) {
         this.fb = fb;
         this._loginInfoService = _loginInfoService;
+        this._router = _router;
     }
     logininfo.prototype.ngOnInit = function () {
         this.loginFrm = this.fb.group({
@@ -33,7 +35,15 @@ var logininfo = (function () {
         var _this = this;
         this.msg = "";
         this._loginInfoService.getLoginInfo(global_1.Global.BASE_LOGINDETAILS_ENDPOINT, formData._value.LoginName, formData._value.Password)
-            .subscribe(function (localUser) { _this.valuePassed = localUser; }, function (error) { return _this.msg = error; });
+            .subscribe(function (localUser) {
+            _this.valuePassed = localUser;
+            if (_this.valuePassed) {
+                _this._router.navigate(['./home']);
+            }
+            else {
+                alert('Failed to log');
+            }
+        }, function (error) { return _this.msg = error; });
     };
     return logininfo;
 }());
@@ -41,7 +51,7 @@ logininfo = __decorate([
     core_1.Component({
         templateUrl: 'app/components/login.component.html'
     }),
-    __metadata("design:paramtypes", [forms_1.FormBuilder, logininfo_service_1.LoginInfoServiceClass])
+    __metadata("design:paramtypes", [forms_1.FormBuilder, logininfo_service_1.LoginInfoServiceClass, router_1.Router])
 ], logininfo);
 exports.logininfo = logininfo;
 //# sourceMappingURL=login.component.js.map
