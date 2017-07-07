@@ -178,12 +178,36 @@ var samplefile = (function () {
                 break;
         }
     };
+    samplefile.prototype.filterSampleFiles = function (companyName) {
+        var _this = this;
+        this.indLoading = true;
+        //Filter Values and Re-Bind to GRID       
+        this._sampleFileService.getLoginInfo(global_1.Global.BASE_SAMPLEFILE_ENDPOINT, companyName.target.value)
+            .subscribe(function (localFiles) { _this.files = localFiles; _this.indLoading = false; }, function (error) { return _this.msg = error; });
+    };
+    samplefile.prototype.criteriaChange = function (value) {
+        if (value != '[object Event]')
+            this.listFilter = value;
+        else
+            this.listFilter = value.target.value;
+    };
+    samplefile.prototype.ViewFile = function (id) {
+        this.SetControlsState(false);
+        this.modalTitle = "Approver Page";
+        this.modalBtnTitle = "Approve";
+        this.file = this.files.filter(function (x) { return x.FID == id; })[0];
+        this.mymodalObj.open();
+    };
     return samplefile;
 }());
 __decorate([
     core_1.ViewChild('modal'),
     __metadata("design:type", ng2_bs3_modal_1.ModalComponent)
 ], samplefile.prototype, "modal", void 0);
+__decorate([
+    core_1.ViewChild('mymodalID'),
+    __metadata("design:type", ng2_bs3_modal_1.ModalComponent)
+], samplefile.prototype, "mymodalObj", void 0);
 samplefile = __decorate([
     core_1.Component({
         templateUrl: 'app/components/samplefile.component.html'

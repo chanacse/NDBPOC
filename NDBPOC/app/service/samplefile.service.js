@@ -59,6 +59,11 @@ var SampleFileService = (function () {
         return this._http.post(url, formData)
             .catch(this.handleError);
     };
+    SampleFileService.prototype.getLoginInfo = function (url, username) {
+        return this._http.get(url + username)
+            .map(function (response) { return response.json(); })
+            .catch(this.handleError);
+    };
     return SampleFileService;
 }());
 SampleFileService = __decorate([

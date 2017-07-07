@@ -32,5 +32,12 @@ namespace NDBPOC.Controllers
             return ToJson(NDBPOCDB.SaveChanges());
         }
 
+        [Route("api/SampleFile/{companyName}")]
+        public HttpResponseMessage GET(string companyName)
+        {
+            var item = NDBPOCDB.NDBCompanyFiles.Where(x => x.Cname == companyName).AsEnumerable();
+            return ToJson(item);
+        }
+
     }
 }

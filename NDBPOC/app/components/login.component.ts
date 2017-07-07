@@ -47,6 +47,7 @@ export class logininfo implements OnInit {
 
                 if (this.valuePassed) {
                     this._router.navigate(['./home'])
+                    Global.BASE_USERROLE = this.valuePassed.RoleType;
                 }
                 else { alert('Failed to log') }
             },

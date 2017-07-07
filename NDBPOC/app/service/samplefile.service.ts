@@ -56,4 +56,10 @@ export class SampleFileService {
             .catch(this.handleError)
 
     }
+
+    getLoginInfo(url: string, username: string): Observable<any> {
+        return this._http.get(url + username)
+            .map((response: Response) => <any>response.json())
+            .catch(this.handleError);
+    }
 }

@@ -1,10 +1,43 @@
 ﻿<div class='panel panel-primary'>
     <div class='panel-heading'>
-        Sample File Management
+        Sample File With....
     </div>
     <div class='panel-body'>
         <div class='table-responsive'>
-            <div style="padding-bottom:10px"><button class="btn btn-primary" (click)="addFile()">Add Sample File</button></div>
+            <div>
+                <div class="row">
+                    <div>
+                        <search-list [title]='searchTitle' (change)="criteriaChange($event)"></search-list>
+                    </div>
+                    <div class="col-md-4">
+                        <span>Company *</span>
+                        <select class="form-control" (change)="criteriaChange($event)">
+                            <option value="0">--Select--</option>
+                            <option *ngFor="let com of companies" [value]="com.CName">
+                                {{com.CName}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <span>Share Type *</span>
+                        <select class="form-control" (change)="criteriaChange($event)">
+                            <option value="0">--Select--</option>
+                            <option *ngFor="let st of sharetypes" [value]="st.ShareName">
+                                {{st.ShareName}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <span>Share Offer Code *</span>
+                        <select class="form-control" (change)="criteriaChange($event)">
+                            <option value="0">--Select--</option>
+                            <option *ngFor="let soc of shareoffercodes" [value]="soc.Offername">
+                                {{soc.Offername}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
             <div class="alert alert-info" role="alert" *ngIf="indLoading"><img src="../../images/loading.gif" width="32" height="32" /> Loading...</div>
             <div *ngIf='files && files.length==0' class="alert alert-info" role="alert">No record found!</div>
             <table class='table table-striped' *ngIf='files && files.length'>
@@ -12,27 +45,33 @@
                     <tr>
                         <th>File ID</th>
                         <th>Company Name</th>
+                        <th>Share Type</th>
+                        <th>Share Offer Code</th>
                         <th>File Name</th>
                         <th>Status</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let myfile of files">
+                    <tr *ngFor="let myfile of files | sampleFileFilter:listFilter">
                         <td>{{myfile.FID}}</td>
                         <td>{{myfile.Cname}}</td>
+                        <td>{{myfile.ShareType}}</td>
+                        <td>{{myfile.OfferCode}}</td>
                         <td>{{myfile.Fname}}</td>
                         <td><span class="label label-primary">{{myfile.ApprovalStatus}}</span></td>
                         <td><a target="_blank" href="http://www.freespace.com.au/filehosting1/SFc/IESL.pdf">Click Here</a> </td>
                         <td>
                             <button title="Edit" class="btn btn-primary" (click)="editFile(myfile.FID)">Edit</button>
                             <button title="Delete" class="btn btn-danger" (click)="deleteFile(myfile.FID)">Delete</button>
+                            <button title="View" class="btn btn-info" (click)="ViewFile(myfile.FID)">View</button>
                             <button title="Generate Proof" class="btn btn-danger" (click)="generateProof(myfile.FID)">Generate Proof</button>
                         </td>
                     </tr>
                 </tbody>
             </table>
             <div>
+                <div style="padding-bottom:10px"><button class="btn btn-primary" (click)="addFile()">Add Sample File</button></div>
             </div>
         </div>
         <div *ngIf="msg" role="alert" class="alert alert-info alert-dismissible">
@@ -57,7 +96,7 @@
                     <span>Company *</span>
                     <select class="form-control" formControlName="Cname">
                         <option value="0">--Select--</option>
-                        <option *ngFor="let com of companies" [value]="com.CName" >
+                        <option *ngFor="let com of companies" [value]="com.CName">
                             {{com.CName}}
                         </option>
                     </select>
@@ -66,7 +105,7 @@
                     <span>Share Type *</span>
                     <select class="form-control" formControlName="ShareType">
                         <option value="0">--Select--</option>
-                        <option *ngFor="let st of sharetypes" [value]="st.ShareName" >
+                        <option *ngFor="let st of sharetypes" [value]="st.ShareName">
                             {{st.ShareName}}
                         </option>
                     </select>
@@ -75,7 +114,7 @@
                     <span>Share Offer Code *</span>
                     <select class="form-control" formControlName="OfferCode">
                         <option value="0">--Select--</option>
-                        <option *ngFor="let soc of shareoffercodes" [value]="soc.Offername" >
+                        <option *ngFor="let soc of shareoffercodes" [value]="soc.Offername">
                             {{soc.Offername}}
                         </option>
                     </select>
@@ -98,6 +137,62 @@
             <div>
                 <a class="btn btn-default" (click)="modal.dismiss()">Cancel</a>
                 <button type="submit" [disabled]="fileFrm.invalid" class="btn btn-primary">{{modalBtnTitle}}</button>
+            </div>
+        </modal-footer>
+    </form>
+</modal>
+
+<modal #mymodalID>
+    <form novalidate>
+        <modal-header [show-close]="true">
+            <h4 class="modal-title">{{modalTitle}}</h4>
+        </modal-header>
+        <modal-body>
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-md-12 row">
+                        <div class="col-md-6">
+                            <label>Company: </label>
+                            <label>{{file?.Cname}}</label>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Share Type: </label>
+                            <label>Share Type</label>
+
+                        </div>
+                    </div>
+                    <div class="col-md-12 row">
+                        <div class="col-md-6">
+                            <label>Share Offer Code: </label>
+                            <label>Share Offer Code</label>
+
+                        </div>
+                        <div class="col-md-6">
+                            <label>File Name:</label>
+                            <label>File Name</label>
+
+                        </div>
+                    </div>
+                    <div class="col-md-12 row">
+                        <div class="col-md-6">
+                            <a href="#">Click Me</a>
+                        </div>
+                    </div>
+                    <div class="col-md-12 row">
+                        <div>
+                            <span>Approver Comment*</span>
+                            <input type="text" class="form-control" placeholder="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </modal-body>
+        <modal-footer>
+            <div>
+                <button type="submit" class="btn btn-success">Approve</button>
+                <button type="submit" class="btn btn-danger">Reject</button>
+                <a class="btn btn-default" (click)="mymodalID.dismiss()">Cancel</a>
             </div>
         </modal-footer>
     </form>

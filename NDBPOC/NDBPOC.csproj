@@ -246,6 +246,7 @@
     <TypeScriptCompile Include="app\components\home.component.ts" />
     <TypeScriptCompile Include="app\components\login.component.ts" />
     <TypeScriptCompile Include="app\components\samplefile.component.ts" />
+    <TypeScriptCompile Include="app\filter\samplefile.pipe.ts" />
     <TypeScriptCompile Include="app\main.ts" />
     <TypeScriptCompile Include="app\models\company.ts" />
     <TypeScriptCompile Include="app\models\logininfo.ts" />
@@ -256,6 +257,7 @@
     <TypeScriptCompile Include="app\service\samplefile.service.ts" />
     <TypeScriptCompile Include="app\shared\enum.ts" />
     <TypeScriptCompile Include="app\shared\global.ts" />
+    <TypeScriptCompile Include="app\shared\search.shared.ts" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

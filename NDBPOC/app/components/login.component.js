@@ -39,6 +39,7 @@ var logininfo = (function () {
             _this.valuePassed = localUser;
             if (_this.valuePassed) {
                 _this._router.navigate(['./home']);
+                global_1.Global.BASE_USERROLE = _this.valuePassed.RoleType;
             }
             else {
                 alert('Failed to log');

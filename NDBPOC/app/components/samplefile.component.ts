@@ -35,6 +35,8 @@ export class samplefile implements OnInit {
     sharetype: IShareType;
     FileDetails: File;
     htmlTemplateData: string;
+    listFilter: string;
+    @ViewChild('mymodalID') mymodalObj: ModalComponent;
 
     constructor(private fb: FormBuilder, private _sampleFileService: SampleFileService) { }
 
@@ -66,7 +68,6 @@ export class samplefile implements OnInit {
         this.LoadShareTypes();
         //main ITEM
         this.LoadSampleFiles();
-
     }
 
     LoadSampleFiles(): void {
@@ -225,6 +226,30 @@ export class samplefile implements OnInit {
                 break;
 
         }
+    }
+
+    filterSampleFiles(companyName: any)
+    {       
+        this.indLoading = true;
+        //Filter Values and Re-Bind to GRID       
+        this._sampleFileService.getLoginInfo(Global.BASE_SAMPLEFILE_ENDPOINT, companyName.target.value)
+            .subscribe(localFiles => { this.files = localFiles; this.indLoading = false; },
+            error => this.msg = <any>error);
+    }
+
+    criteriaChange(value: any): void {
+        if (value != '[object Event]')
+            this.listFilter = value;
+        else
+            this.listFilter = value.target.value;
+    }
+
+    ViewFile(id: number) {
+        this.SetControlsState(false);
+        this.modalTitle = "Approver Page";
+        this.modalBtnTitle = "Approve";
+        this.file = this.files.filter(x => x.FID == id)[0];
+        this.mymodalObj.open();
     }
 }
 

@@ -13,5 +13,6 @@ Global.BASE_FILESAVE_ENDPOINT = '/api/UploadFileApi/';
 Global.BASE_HTMLTEMPLATE_ENDPOINT = '/api/HtmlTemplate/';
 Global.BASE_LOGINDETAILS_ENDPOINT = '/api/LoginDetails/';
 Global.BASE_FOLDER_PATH = 'E:/myFiles/';
+Global.BASE_USERROLE = "NormalUser";
 exports.Global = Global;
 //# sourceMappingURL=global.js.map
