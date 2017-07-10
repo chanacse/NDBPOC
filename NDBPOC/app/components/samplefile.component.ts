@@ -19,11 +19,13 @@ import { IShareType } from '../models/sharetype';
 
 export class samplefile implements OnInit {
     @ViewChild('modal') modal: ModalComponent;
+    @ViewChild('mymodalID') mymodalID: ModalComponent;
     files: ISampleFile[];
     file: ISampleFile;
     msg: string;
     indLoading: boolean = false;
     fileFrm: FormGroup;
+    frmApproval: FormGroup;
     dbops: DBOperation;
     modalTitle: string;
     modalBtnTitle: string;
@@ -37,6 +39,8 @@ export class samplefile implements OnInit {
     htmlTemplateData: string;
     listFilter: string;
     @ViewChild('mymodalID') mymodalObj: ModalComponent;
+    isAdmin: boolean;
+
 
     constructor(private fb: FormBuilder, private _sampleFileService: SampleFileService) { }
 
@@ -60,14 +64,16 @@ export class samplefile implements OnInit {
             isPrintAll: false,
             CreatedBy: [''],
             FILEADD: [],
-        });
+            FilePath: [''],
+        });       
 
+        this.CheckAdmin();
         //Dropdown Items
         this.LoadCompanies();
         this.LoadShareOfferCodes();
         this.LoadShareTypes();
         //main ITEM
-        this.LoadSampleFiles();
+        this.LoadSampleFiles();    
     }
 
     LoadSampleFiles(): void {
@@ -143,7 +149,7 @@ export class samplefile implements OnInit {
             error => this.msg = <any>error);
         //GET DATA FROM .CSV
         this.file = this.files.filter(x => x.FID == id)[0];
-        this.readCSVFile(this.file.ApprovalComment);
+        this.readCSVFile(this.file.FilePath);
     }
 
     readCSVFile(filePath: string) {
@@ -166,7 +172,7 @@ export class samplefile implements OnInit {
         switch (this.dbops) {
             case DBOperation.create:
                 this.fileUpload();
-                formData._value.ApprovalComment = Global.BASE_FOLDER_PATH + this.FileDetails.name; //for testing purpose
+                formData._value.FilePath = Global.BASE_FOLDER_PATH + this.FileDetails.name; //for testing purpose
                 formData._value.ApprovalStatus = "Initiated";
                 this._sampleFileService.post(Global.BASE_SAMPLEFILE_ENDPOINT, formData._value).subscribe(
                     data => {
@@ -245,11 +251,65 @@ export class samplefile implements OnInit {
     }
 
     ViewFile(id: number) {
-        this.SetControlsState(false);
+        this.SetControlsState(true);
         this.modalTitle = "Approver Page";
-        this.modalBtnTitle = "Approve";
         this.file = this.files.filter(x => x.FID == id)[0];
+        this.fileFrm.setValue(this.file);
         this.mymodalObj.open();
+    }
+
+    CheckAdmin()
+    {
+        this.isAdmin = true; //ONLY FOR TESTING
+
+        if (Global.BASE_USERROLE == 'admin')
+        {
+            this.isAdmin = true;
+        }
+    }
+
+    ApproveSampleFile(paraFrm: any)
+    {
+        paraFrm._value.ApprovalStatus = "Sample File Approved";
+        this._sampleFileService.put(Global.BASE_SAMPLEFILE_ENDPOINT, paraFrm._value.FID, paraFrm._value).subscribe(
+            data => {
+                if (data == 1) //Success
+                {
+                    this.msg = "Data successfully updated.";
+                    this.LoadSampleFiles();
+                }
+                else {
+                    this.msg = "There is some issue in saving records, please contact to system administrator!"
+                }
+
+                this.mymodalID.dismiss();
+            },
+            error => {
+                this.msg = error;
+            }
+        );
+    }
+
+    RejectSampleFile(paraFrm: any)
+    {
+        paraFrm._value.ApprovalStatus = "Sample File Rejected";
+        this._sampleFileService.put(Global.BASE_SAMPLEFILE_ENDPOINT, paraFrm._value.FID, paraFrm._value).subscribe(
+            data => {
+                if (data == 1) //Success
+                {
+                    this.msg = "Data successfully updated.";
+                    this.LoadSampleFiles();
+                }
+                else {
+                    this.msg = "There is some issue in saving records, please contact to system administrator!"
+                }
+
+                this.mymodalID.dismiss();
+            },
+            error => {
+                this.msg = error;
+            }
+        );
     }
 }
 

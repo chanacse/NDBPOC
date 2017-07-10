@@ -39,7 +39,9 @@ var samplefile = (function () {
             isPrintAll: false,
             CreatedBy: [''],
             FILEADD: [],
+            FilePath: [''],
         });
+        this.CheckAdmin();
         //Dropdown Items
         this.LoadCompanies();
         this.LoadShareOfferCodes();
@@ -112,7 +114,7 @@ var samplefile = (function () {
             .subscribe(function (data) { _this.htmlTemplateData = data[0].Description; }, function (error) { return _this.msg = error; });
         //GET DATA FROM .CSV
         this.file = this.files.filter(function (x) { return x.FID == id; })[0];
-        this.readCSVFile(this.file.ApprovalComment);
+        this.readCSVFile(this.file.FilePath);
     };
     samplefile.prototype.readCSVFile = function (filePath) {
         var _this = this;
@@ -133,7 +135,7 @@ var samplefile = (function () {
         switch (this.dbops) {
             case enum_1.DBOperation.create:
                 this.fileUpload();
-                formData._value.ApprovalComment = global_1.Global.BASE_FOLDER_PATH + this.FileDetails.name; //for testing purpose
+                formData._value.FilePath = global_1.Global.BASE_FOLDER_PATH + this.FileDetails.name; //for testing purpose
                 formData._value.ApprovalStatus = "Initiated";
                 this._sampleFileService.post(global_1.Global.BASE_SAMPLEFILE_ENDPOINT, formData._value).subscribe(function (data) {
                     if (data == 1) {
@@ -192,11 +194,49 @@ var samplefile = (function () {
             this.listFilter = value.target.value;
     };
     samplefile.prototype.ViewFile = function (id) {
-        this.SetControlsState(false);
+        this.SetControlsState(true);
         this.modalTitle = "Approver Page";
-        this.modalBtnTitle = "Approve";
         this.file = this.files.filter(function (x) { return x.FID == id; })[0];
+        this.fileFrm.setValue(this.file);
         this.mymodalObj.open();
+    };
+    samplefile.prototype.CheckAdmin = function () {
+        this.isAdmin = true; //ONLY FOR TESTING
+        if (global_1.Global.BASE_USERROLE == 'admin') {
+            this.isAdmin = true;
+        }
+    };
+    samplefile.prototype.ApproveSampleFile = function (paraFrm) {
+        var _this = this;
+        paraFrm._value.ApprovalStatus = "Sample File Approved";
+        this._sampleFileService.put(global_1.Global.BASE_SAMPLEFILE_ENDPOINT, paraFrm._value.FID, paraFrm._value).subscribe(function (data) {
+            if (data == 1) {
+                _this.msg = "Data successfully updated.";
+                _this.LoadSampleFiles();
+            }
+            else {
+                _this.msg = "There is some issue in saving records, please contact to system administrator!";
+            }
+            _this.mymodalID.dismiss();
+        }, function (error) {
+            _this.msg = error;
+        });
+    };
+    samplefile.prototype.RejectSampleFile = function (paraFrm) {
+        var _this = this;
+        paraFrm._value.ApprovalStatus = "Sample File Rejected";
+        this._sampleFileService.put(global_1.Global.BASE_SAMPLEFILE_ENDPOINT, paraFrm._value.FID, paraFrm._value).subscribe(function (data) {
+            if (data == 1) {
+                _this.msg = "Data successfully updated.";
+                _this.LoadSampleFiles();
+            }
+            else {
+                _this.msg = "There is some issue in saving records, please contact to system administrator!";
+            }
+            _this.mymodalID.dismiss();
+        }, function (error) {
+            _this.msg = error;
+        });
     };
     return samplefile;
 }());
@@ -204,6 +244,10 @@ __decorate([
     core_1.ViewChild('modal'),
     __metadata("design:type", ng2_bs3_modal_1.ModalComponent)
 ], samplefile.prototype, "modal", void 0);
+__decorate([
+    core_1.ViewChild('mymodalID'),
+    __metadata("design:type", ng2_bs3_modal_1.ModalComponent)
+], samplefile.prototype, "mymodalID", void 0);
 __decorate([
     core_1.ViewChild('mymodalID'),
     __metadata("design:type", ng2_bs3_modal_1.ModalComponent)

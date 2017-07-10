@@ -49,6 +49,7 @@
           <Property Name="isPrintAll" Type="bit" />
           <Property Name="CreatedBy" Type="varchar" MaxLength="150" />
           <Property Name="FILEADD" Type="varbinary(max)" />
+          <Property Name="FilePath" Type="varchar" MaxLength="150" />
         </EntityType>
         <EntityType Name="NDBLoginDetails">
           <Key>
@@ -159,6 +160,7 @@
           <Property Name="isPrintAll" Type="Boolean" />
           <Property Name="CreatedBy" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
           <Property Name="FILEADD" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="FilePath" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="NDBShareOfferCode">
           <Key>
@@ -255,6 +257,7 @@
           <EntitySetMapping Name="NDBCompanyFiles">
             <EntityTypeMapping TypeName="NDBPOCDBModel.NDBCompanyFile">
               <MappingFragment StoreEntitySet="NDBCompanyFile">
+                <ScalarProperty Name="FilePath" ColumnName="FilePath" />
                 <ScalarProperty Name="FILEADD" ColumnName="FILEADD" />
                 <ScalarProperty Name="FID" ColumnName="FID" />
                 <ScalarProperty Name="CID" ColumnName="CID" />

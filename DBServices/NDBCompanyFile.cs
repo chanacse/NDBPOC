@@ -30,5 +30,6 @@ namespace DBServices
         public Nullable<bool> isPrintAll { get; set; }
         public string CreatedBy { get; set; }
         public byte[] FILEADD { get; set; }
+        public string FilePath { get; set; }
     }
 }

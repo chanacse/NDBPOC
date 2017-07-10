@@ -14,5 +14,6 @@
     isPrintFirstOK: boolean,
     isPrintAll: boolean,
     CreatedBy: string, 
-    FILEADD : File
+    FILEADD: File,
+    FilePath: string,
 }

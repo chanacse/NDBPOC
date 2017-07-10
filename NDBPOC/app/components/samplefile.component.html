@@ -1,6 +1,6 @@
 ﻿<div class='panel panel-primary'>
     <div class='panel-heading'>
-        Sample File With....
+        Sample File With...
     </div>
     <div class='panel-body'>
         <div class='table-responsive'>
@@ -62,9 +62,9 @@
                         <td><span class="label label-primary">{{myfile.ApprovalStatus}}</span></td>
                         <td><a target="_blank" href="http://www.freespace.com.au/filehosting1/SFc/IESL.pdf">Click Here</a> </td>
                         <td>
-                            <button title="Edit" class="btn btn-primary" (click)="editFile(myfile.FID)">Edit</button>
-                            <button title="Delete" class="btn btn-danger" (click)="deleteFile(myfile.FID)">Delete</button>
-                            <button title="View" class="btn btn-info" (click)="ViewFile(myfile.FID)">View</button>
+                            <button title="Edit" class="btn btn-primary" (click)="editFile(myfile.FID)" *ngIf="!isAdmin">Edit</button>
+                            <button title="Delete" class="btn btn-danger" (click)="deleteFile(myfile.FID)" *ngIf="!isAdmin">Delete</button>
+                            <button title="View" class="btn btn-info" (click)="ViewFile(myfile.FID)" *ngIf="isAdmin">View</button>
                             <button title="Generate Proof" class="btn btn-danger" (click)="generateProof(myfile.FID)">Generate Proof</button>
                         </td>
                     </tr>
@@ -142,8 +142,8 @@
     </form>
 </modal>
 
-<modal #mymodalID>
-    <form novalidate>
+<modal #mymodalID >
+    <form novalidate [formGroup]="fileFrm">
         <modal-header [show-close]="true">
             <h4 class="modal-title">{{modalTitle}}</h4>
         </modal-header>
@@ -157,20 +157,18 @@
                         </div>
                         <div class="col-md-6">
                             <label>Share Type: </label>
-                            <label>Share Type</label>
-
+                            <label>{{file?.ShareType}}</label>
                         </div>
                     </div>
                     <div class="col-md-12 row">
                         <div class="col-md-6">
                             <label>Share Offer Code: </label>
-                            <label>Share Offer Code</label>
+                            <label>{{file?.OfferCode}}</label>
 
                         </div>
                         <div class="col-md-6">
                             <label>File Name:</label>
-                            <label>File Name</label>
-
+                            <label>{{file?.Fname}}</label>
                         </div>
                     </div>
                     <div class="col-md-12 row">
@@ -181,7 +179,7 @@
                     <div class="col-md-12 row">
                         <div>
                             <span>Approver Comment*</span>
-                            <input type="text" class="form-control" placeholder="">
+                            <input type="text" class="form-control" formControlName="ApprovalComment">
                         </div>
                     </div>
                 </div>
@@ -190,8 +188,8 @@
         </modal-body>
         <modal-footer>
             <div>
-                <button type="submit" class="btn btn-success">Approve</button>
-                <button type="submit" class="btn btn-danger">Reject</button>
+                <button type="submit" class="btn btn-success" (click)="ApproveSampleFile(fileFrm)" [disabled]="fileFrm.invalid">Approve</button>
+                <button type="submit" class="btn btn-danger" (click)="RejectSampleFile(fileFrm)" [disabled]="fileFrm.invalid">Reject</button>
                 <a class="btn btn-default" (click)="mymodalID.dismiss()">Cancel</a>
             </div>
         </modal-footer>
