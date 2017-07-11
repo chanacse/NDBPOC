@@ -8,4 +8,12 @@
     public static BASE_LOGINDETAILS_ENDPOINT = '/api/LoginDetails/';
     public static BASE_FOLDER_PATH = 'E:/myFiles/';
     public static BASE_USERROLE = "NormalUser";
+    public static myJasonObject =
+    {
+        "FirstCustomer": [
+            { "Name": "Chanaka", "Requested": "1000", "Issued": "100", "Rejected": "900", "Share": "20", "Amount": "18000", "Company": "Tiqri", "Address": "201, Colombo 2" },
+            { "Name": "Dharshana", "Requested": "1000", "Issued": "100", "Rejected": "900", "Share": "20", "Amount": "18000", "Company": "Tiqri", "Address": "201, Colombo 2" },
+            { "Name": "Neranjan", "Requested": "1000", "Issued": "100", "Rejected": "900", "Share": "20", "Amount": "18000", "Company": "Tiqri", "Address": "201, Colombo 2" },
+        ]
+    }
 }

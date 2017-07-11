@@ -107,25 +107,6 @@ var samplefile = (function () {
         this.fileFrm.setValue(this.file);
         this.modal.open();
     };
-    samplefile.prototype.generateProof = function (id) {
-        var _this = this;
-        //GET DATA FROM DATABASE
-        this._sampleFileService.get(global_1.Global.BASE_HTMLTEMPLATE_ENDPOINT)
-            .subscribe(function (data) { _this.htmlTemplateData = data[0].Description; }, function (error) { return _this.msg = error; });
-        //GET DATA FROM .CSV
-        this.file = this.files.filter(function (x) { return x.FID == id; })[0];
-        this.readCSVFile(this.file.FilePath);
-    };
-    samplefile.prototype.readCSVFile = function (filePath) {
-        var _this = this;
-        var reader = new FileReader();
-        reader.onload = function (file) {
-            var contents = file.target;
-            _this.htmlTemplateData = contents.result;
-        };
-        //reader.readAsText(filePath);
-        //console.log(reader.readAsText(fileName));
-    };
     samplefile.prototype.SetControlsState = function (isEnable) {
         isEnable ? this.fileFrm.enable() : this.fileFrm.disable();
     };
@@ -193,7 +174,7 @@ var samplefile = (function () {
         else
             this.listFilter = value.target.value;
     };
-    samplefile.prototype.ViewFile = function (id) {
+    samplefile.prototype.ViewFilePOPUP = function (id) {
         this.SetControlsState(true);
         this.modalTitle = "Approver Page";
         this.file = this.files.filter(function (x) { return x.FID == id; })[0];
@@ -238,6 +219,55 @@ var samplefile = (function () {
             _this.msg = error;
         });
     };
+    samplefile.prototype.generateProofPOPUP = function (id) {
+        var _this = this;
+        this.SetControlsState(true);
+        this.modalTitle = "Generate Proof Page";
+        this.file = this.files.filter(function (x) { return x.FID == id; })[0];
+        this.fileFrm.setValue(this.file);
+        this.mygenerateProofID.open();
+        //GET DATA FROM DATABASE
+        this._sampleFileService.get(global_1.Global.BASE_HTMLTEMPLATE_ENDPOINT)
+            .subscribe(function (data) {
+            _this.htmlTemplateData = data[0].Description;
+            _this.htmlTemplateData = _this.htmlTemplateData.replace('param0', global_1.Global.myJasonObject.FirstCustomer[0].Name);
+            _this.htmlTemplateData = _this.htmlTemplateData.replace('param1', global_1.Global.myJasonObject.FirstCustomer[0].Requested);
+            _this.htmlTemplateData = _this.htmlTemplateData.replace('param2', global_1.Global.myJasonObject.FirstCustomer[0].Issued);
+            _this.htmlTemplateData = _this.htmlTemplateData.replace('param3', global_1.Global.myJasonObject.FirstCustomer[0].Rejected);
+            _this.htmlTemplateData = _this.htmlTemplateData.replace('param4', global_1.Global.myJasonObject.FirstCustomer[0].Amount);
+            _this.file.Description = _this.htmlTemplateData;
+            alert(_this.file.Description);
+        }, function (error) { return _this.msg = error; });
+        ////GET DATA FROM .CSV
+        //this.file = this.files.filter(x => x.FID == id)[0];
+        //this.readCSVFile(this.file.FilePath);
+    };
+    samplefile.prototype.readCSVFile = function (filePath) {
+        var _this = this;
+        var reader = new FileReader();
+        reader.onload = function (file) {
+            var contents = file.target;
+            _this.htmlTemplateData = contents.result;
+        };
+        //reader.readAsText(filePath);
+        //console.log(reader.readAsText(fileName));
+    };
+    samplefile.prototype.GenerateProof = function (paraFrm) {
+        var _this = this;
+        //paraFrm._value.ApprovalStatus = "Sample File Approved";
+        this._sampleFileService.put(global_1.Global.BASE_SAMPLEFILE_ENDPOINT, paraFrm._value.FID, paraFrm._value).subscribe(function (data) {
+            if (data == 1) {
+                _this.msg = "Data successfully updated.";
+                _this.LoadSampleFiles();
+            }
+            else {
+                _this.msg = "There is some issue in saving records, please contact to system administrator!";
+            }
+            _this.mygenerateProofID.dismiss();
+        }, function (error) {
+            _this.msg = error;
+        });
+    };
     return samplefile;
 }());
 __decorate([
@@ -248,6 +278,10 @@ __decorate([
     core_1.ViewChild('mymodalID'),
     __metadata("design:type", ng2_bs3_modal_1.ModalComponent)
 ], samplefile.prototype, "mymodalID", void 0);
+__decorate([
+    core_1.ViewChild('mygenerateProof'),
+    __metadata("design:type", ng2_bs3_modal_1.ModalComponent)
+], samplefile.prototype, "mygenerateProofID", void 0);
 __decorate([
     core_1.ViewChild('mymodalID'),
     __metadata("design:type", ng2_bs3_modal_1.ModalComponent)

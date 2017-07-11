@@ -1,7 +1,27 @@
 ﻿<div class='panel panel-primary'>
     <div class='panel-heading'>
-        Sample File With...
+        Sample File With Rich
     </div>
+    <!--<div>
+        <ckeditor
+                  [config]="{uiColor: '#99000'}"
+                  [readonly]="false"
+                  (change)="onChange($event)"
+                  (ready)="onReady($event)"
+                  (focus)="onFocus($event)"
+                  (blur)="onBlur($event)"
+                  debounce="500">
+        </ckeditor>
+    </div>-->
+    <!--<div>
+        <p-editor [(ngModel)]="text" [style]="{'height':'320px'}"></p-editor>
+    </div>-->
+    <!--<div>
+        <div simditor ng-model="xxx"></div>
+    </div>-->
+    <!--<div>
+        <quill-editor></quill-editor>
+    </div>-->
     <div class='panel-body'>
         <div class='table-responsive'>
             <div>
@@ -64,8 +84,8 @@
                         <td>
                             <button title="Edit" class="btn btn-primary" (click)="editFile(myfile.FID)" *ngIf="!isAdmin">Edit</button>
                             <button title="Delete" class="btn btn-danger" (click)="deleteFile(myfile.FID)" *ngIf="!isAdmin">Delete</button>
-                            <button title="View" class="btn btn-info" (click)="ViewFile(myfile.FID)" *ngIf="isAdmin">View</button>
-                            <button title="Generate Proof" class="btn btn-danger" (click)="generateProof(myfile.FID)">Generate Proof</button>
+                            <button title="View" class="btn btn-info" (click)="ViewFilePOPUP(myfile.FID)" *ngIf="isAdmin">View</button>
+                            <button title="Generate Proof" class="btn btn-danger" (click)="generateProofPOPUP(myfile.FID)">Generate Proof</button>
                         </td>
                     </tr>
                 </tbody>
@@ -142,7 +162,7 @@
     </form>
 </modal>
 
-<modal #mymodalID >
+<modal #mymodalID>
     <form novalidate [formGroup]="fileFrm">
         <modal-header [show-close]="true">
             <h4 class="modal-title">{{modalTitle}}</h4>
@@ -191,6 +211,32 @@
                 <button type="submit" class="btn btn-success" (click)="ApproveSampleFile(fileFrm)" [disabled]="fileFrm.invalid">Approve</button>
                 <button type="submit" class="btn btn-danger" (click)="RejectSampleFile(fileFrm)" [disabled]="fileFrm.invalid">Reject</button>
                 <a class="btn btn-default" (click)="mymodalID.dismiss()">Cancel</a>
+            </div>
+        </modal-footer>
+    </form>
+</modal>
+
+<modal #mygenerateProof>
+    <form novalidate [formGroup]="fileFrm">
+        <modal-header [show-close]="true">
+            <h4 class="modal-title">{{modalTitle}}</h4>
+        </modal-header>
+        <modal-body>
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-md-12 row">
+                        <div>                            
+                            <textarea class="form-control col-md-12" formControlName="Description" rows="4" cols="50">{{htmlTemplateData}}</textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </modal-body>
+        <modal-footer>
+            <div>
+                <button type="submit" class="btn btn-success" (click)="GenerateProof(fileFrm)" [disabled]="fileFrm.invalid">SAVE</button>               
+                <a class="btn btn-default" (click)="mygenerateProof.dismiss()">Cancel</a>
             </div>
         </modal-footer>
     </form>

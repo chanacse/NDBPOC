@@ -14,12 +14,12 @@ import { IShareType } from '../models/sharetype';
 @Component({
 
     templateUrl: 'app/components/samplefile.component.html'
-
 })
 
 export class samplefile implements OnInit {
     @ViewChild('modal') modal: ModalComponent;
     @ViewChild('mymodalID') mymodalID: ModalComponent;
+    @ViewChild('mygenerateProof') mygenerateProofID: ModalComponent;
     files: ISampleFile[];
     file: ISampleFile;
     msg: string;
@@ -65,7 +65,7 @@ export class samplefile implements OnInit {
             CreatedBy: [''],
             FILEADD: [],
             FilePath: [''],
-        });       
+        });
 
         this.CheckAdmin();
         //Dropdown Items
@@ -73,7 +73,7 @@ export class samplefile implements OnInit {
         this.LoadShareOfferCodes();
         this.LoadShareTypes();
         //main ITEM
-        this.LoadSampleFiles();    
+        this.LoadSampleFiles();
     }
 
     LoadSampleFiles(): void {
@@ -142,25 +142,7 @@ export class samplefile implements OnInit {
         this.modal.open();
     }
 
-    generateProof(id: number) {
-        //GET DATA FROM DATABASE
-        this._sampleFileService.get(Global.BASE_HTMLTEMPLATE_ENDPOINT)
-            .subscribe(data => { this.htmlTemplateData = data[0].Description; },
-            error => this.msg = <any>error);
-        //GET DATA FROM .CSV
-        this.file = this.files.filter(x => x.FID == id)[0];
-        this.readCSVFile(this.file.FilePath);
-    }
 
-    readCSVFile(filePath: string) {
-        var reader = new FileReader();
-        reader.onload = file => {
-            var contents: any = file.target;
-            this.htmlTemplateData = contents.result;
-        };
-        //reader.readAsText(filePath);
-        //console.log(reader.readAsText(fileName));
-    }
 
     SetControlsState(isEnable: boolean) {
         isEnable ? this.fileFrm.enable() : this.fileFrm.disable();
@@ -234,8 +216,7 @@ export class samplefile implements OnInit {
         }
     }
 
-    filterSampleFiles(companyName: any)
-    {       
+    filterSampleFiles(companyName: any) {
         this.indLoading = true;
         //Filter Values and Re-Bind to GRID       
         this._sampleFileService.getLoginInfo(Global.BASE_SAMPLEFILE_ENDPOINT, companyName.target.value)
@@ -250,7 +231,7 @@ export class samplefile implements OnInit {
             this.listFilter = value.target.value;
     }
 
-    ViewFile(id: number) {
+    ViewFilePOPUP(id: number) {
         this.SetControlsState(true);
         this.modalTitle = "Approver Page";
         this.file = this.files.filter(x => x.FID == id)[0];
@@ -258,18 +239,15 @@ export class samplefile implements OnInit {
         this.mymodalObj.open();
     }
 
-    CheckAdmin()
-    {
+    CheckAdmin() {
         this.isAdmin = true; //ONLY FOR TESTING
 
-        if (Global.BASE_USERROLE == 'admin')
-        {
+        if (Global.BASE_USERROLE == 'admin') {
             this.isAdmin = true;
         }
     }
 
-    ApproveSampleFile(paraFrm: any)
-    {
+    ApproveSampleFile(paraFrm: any) {
         paraFrm._value.ApprovalStatus = "Sample File Approved";
         this._sampleFileService.put(Global.BASE_SAMPLEFILE_ENDPOINT, paraFrm._value.FID, paraFrm._value).subscribe(
             data => {
@@ -290,8 +268,7 @@ export class samplefile implements OnInit {
         );
     }
 
-    RejectSampleFile(paraFrm: any)
-    {
+    RejectSampleFile(paraFrm: any) {
         paraFrm._value.ApprovalStatus = "Sample File Rejected";
         this._sampleFileService.put(Global.BASE_SAMPLEFILE_ENDPOINT, paraFrm._value.FID, paraFrm._value).subscribe(
             data => {
@@ -305,6 +282,65 @@ export class samplefile implements OnInit {
                 }
 
                 this.mymodalID.dismiss();
+            },
+            error => {
+                this.msg = error;
+            }
+        );
+    }
+
+    generateProofPOPUP(id: number) {
+
+        this.SetControlsState(true);
+        this.modalTitle = "Generate Proof Page";
+        this.file = this.files.filter(x => x.FID == id)[0];
+        this.fileFrm.setValue(this.file);
+        this.mygenerateProofID.open();
+
+        //GET DATA FROM DATABASE
+        this._sampleFileService.get(Global.BASE_HTMLTEMPLATE_ENDPOINT)
+            .subscribe(data => {
+                this.htmlTemplateData = data[0].Description;
+
+                this.htmlTemplateData = this.htmlTemplateData.replace('param0', Global.myJasonObject.FirstCustomer[0].Name);
+                this.htmlTemplateData = this.htmlTemplateData.replace('param1', Global.myJasonObject.FirstCustomer[0].Requested);
+                this.htmlTemplateData = this.htmlTemplateData.replace('param2', Global.myJasonObject.FirstCustomer[0].Issued);
+                this.htmlTemplateData = this.htmlTemplateData.replace('param3', Global.myJasonObject.FirstCustomer[0].Rejected);
+                this.htmlTemplateData = this.htmlTemplateData.replace('param4', Global.myJasonObject.FirstCustomer[0].Amount);
+
+                this.file.Description = this.htmlTemplateData;
+                //alert(this.file.Description);
+            },
+            error => this.msg = <any>error);
+
+        ////GET DATA FROM .CSV
+        //this.file = this.files.filter(x => x.FID == id)[0];
+        //this.readCSVFile(this.file.FilePath);
+    }
+
+    readCSVFile(filePath: string) {
+        var reader = new FileReader();
+        reader.onload = file => {
+            var contents: any = file.target;
+            this.htmlTemplateData = contents.result;
+        };
+        //reader.readAsText(filePath);
+        //console.log(reader.readAsText(fileName));
+    }
+
+    GenerateProof(paraFrm: any) {
+        //paraFrm._value.ApprovalStatus = "Sample File Approved";
+        this._sampleFileService.put(Global.BASE_SAMPLEFILE_ENDPOINT, paraFrm._value.FID, paraFrm._value).subscribe(
+            data => {
+                if (data == 1) //Success
+                {
+                    this.msg = "Data successfully updated.";
+                    this.LoadSampleFiles();
+                }
+                else {
+                    this.msg = "There is some issue in saving records, please contact to system administrator!"
+                }
+                this.mygenerateProofID.dismiss();
             },
             error => {
                 this.msg = error;

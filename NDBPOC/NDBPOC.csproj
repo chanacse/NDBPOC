@@ -249,6 +249,7 @@
     <TypeScriptCompile Include="app\filter\samplefile.pipe.ts" />
     <TypeScriptCompile Include="app\main.ts" />
     <TypeScriptCompile Include="app\models\company.ts" />
+    <TypeScriptCompile Include="app\models\csvdataset.ts" />
     <TypeScriptCompile Include="app\models\logininfo.ts" />
     <TypeScriptCompile Include="app\models\samplefile.ts" />
     <TypeScriptCompile Include="app\models\shareoffercode.ts" />
