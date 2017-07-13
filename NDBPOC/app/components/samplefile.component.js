@@ -221,26 +221,35 @@ var samplefile = (function () {
     };
     samplefile.prototype.generateProofPOPUP = function (id) {
         var _this = this;
-        this.SetControlsState(true);
-        this.modalTitle = "Generate Proof Page";
-        this.file = this.files.filter(function (x) { return x.FID == id; })[0];
-        this.fileFrm.setValue(this.file);
-        this.mygenerateProofID.open();
         //GET DATA FROM DATABASE
         this._sampleFileService.get(global_1.Global.BASE_HTMLTEMPLATE_ENDPOINT)
             .subscribe(function (data) {
             _this.htmlTemplateData = data[0].Description;
-            _this.htmlTemplateData = _this.htmlTemplateData.replace('param0', global_1.Global.myJasonObject.FirstCustomer[0].Name);
-            _this.htmlTemplateData = _this.htmlTemplateData.replace('param1', global_1.Global.myJasonObject.FirstCustomer[0].Requested);
-            _this.htmlTemplateData = _this.htmlTemplateData.replace('param2', global_1.Global.myJasonObject.FirstCustomer[0].Issued);
-            _this.htmlTemplateData = _this.htmlTemplateData.replace('param3', global_1.Global.myJasonObject.FirstCustomer[0].Rejected);
-            _this.htmlTemplateData = _this.htmlTemplateData.replace('param4', global_1.Global.myJasonObject.FirstCustomer[0].Amount);
+            _this.file = _this.files.filter(function (x) { return x.FID == id; })[0];
+            _this.GetFileContent();
+            _this.htmlTemplateData = _this.htmlTemplateData.replace('param0', _this.firstRowdata.split(",")[0]);
+            _this.htmlTemplateData = _this.htmlTemplateData.replace('param1', _this.firstRowdata.split(",")[1]);
+            _this.htmlTemplateData = _this.htmlTemplateData.replace('param2', _this.firstRowdata.split(",")[2]);
+            _this.htmlTemplateData = _this.htmlTemplateData.replace('param3', _this.firstRowdata.split(",")[3]);
+            _this.htmlTemplateData = _this.htmlTemplateData.replace('param4', _this.firstRowdata.split(",")[5]);
+            _this.SetControlsState(true);
+            _this.modalTitle = "Generate Proof Page";
+            _this.fileFrm.setValue(_this.file);
             _this.file.Description = _this.htmlTemplateData;
-            alert(_this.file.Description);
         }, function (error) { return _this.msg = error; });
-        ////GET DATA FROM .CSV
-        //this.file = this.files.filter(x => x.FID == id)[0];
-        //this.readCSVFile(this.file.FilePath);
+        this.mygenerateProofID.open();
+    };
+    samplefile.prototype.GetFileContent = function () {
+        var _this = this;
+        var val = this.file.FilePath.split('/')[this.file.FilePath.split('/').length - 1];
+        var fileNameOnly = val.split('.')[0];
+        var localFileData = "";
+        //READ THE CONTENT of LOCAL FILE
+        this._sampleFileService.getLoginInfo(global_1.Global.BASE_FILESAVE_ENDPOINT, fileNameOnly)
+            .subscribe(function (localFileDataX) {
+            localFileData = localFileDataX;
+            _this.firstRowdata = localFileData.split("\r\n")[1];
+        }, function (error) { return _this.msg = error; });
     };
     samplefile.prototype.readCSVFile = function (filePath) {
         var _this = this;

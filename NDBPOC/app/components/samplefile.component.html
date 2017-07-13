@@ -22,6 +22,15 @@
     <!--<div>
         <quill-editor></quill-editor>
     </div>-->
+    <!--<div>
+        <quill-editor class="form-control"
+                      [formControl]="editorContent"
+                      [options]="editorOptions"
+                      (blur)="onEditorBlured($event)"
+                      (focus)="onEditorFocused($event)"
+                      (ready)="onEditorCreated($event)"
+                      (change)="onContentChanged($event)"></quill-editor>
+    </div>-->
     <div class='panel-body'>
         <div class='table-responsive'>
             <div>

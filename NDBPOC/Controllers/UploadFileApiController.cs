@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -8,7 +9,7 @@ using System.Web.Http;
 
 namespace NDBPOC.Controllers
 {
-    public class UploadFileApiController : ApiController
+    public class UploadFileApiController : BaseAPIController
     {
         [HttpPost]
         public HttpResponseMessage UploadJsonFile()
@@ -26,5 +27,19 @@ namespace NDBPOC.Controllers
             }
             return response;
         }
+
+        [Route("api/UploadFileApi/{filepath}")]
+        public HttpResponseMessage Get(string filePath)
+        {
+            HttpResponseMessage httpResp = new HttpResponseMessage();
+            try
+            {
+                filePath = filePath + ".csv";
+                var fulldata = File.ReadAllText(Path.Combine(@"E:/myfiles/", filePath));
+                return ToJson(fulldata);
+            }
+            catch { return httpResp; }
+        }
+
     }
 }

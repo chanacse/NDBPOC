@@ -13,7 +13,7 @@ import { LoginInfoServiceClass } from './service/logininfo.service';
 import { logininfo } from './components/login.component';
 import { SampleFileFilterPipe } from './filter/samplefile.pipe';
 import { SearchComponent } from './shared/search.shared';
-//import { QuillModule } from 'ng2-quill/src/quill/quill.module';
+//import { QuillEditorModule } from 'ng2-quill-editor';
 
 //import { EditorModule, SharedModule } from 'quill/node_modules/eventemitter3/';
 //import { CKEditorModule } from 'ng2-ckeditor';

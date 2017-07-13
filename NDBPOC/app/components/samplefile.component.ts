@@ -40,7 +40,7 @@ export class samplefile implements OnInit {
     listFilter: string;
     @ViewChild('mymodalID') mymodalObj: ModalComponent;
     isAdmin: boolean;
-
+    firstRowdata: any;
 
     constructor(private fb: FormBuilder, private _sampleFileService: SampleFileService) { }
 
@@ -291,31 +291,44 @@ export class samplefile implements OnInit {
 
     generateProofPOPUP(id: number) {
 
-        this.SetControlsState(true);
-        this.modalTitle = "Generate Proof Page";
-        this.file = this.files.filter(x => x.FID == id)[0];
-        this.fileFrm.setValue(this.file);
-        this.mygenerateProofID.open();
-
         //GET DATA FROM DATABASE
         this._sampleFileService.get(Global.BASE_HTMLTEMPLATE_ENDPOINT)
             .subscribe(data => {
                 this.htmlTemplateData = data[0].Description;
 
-                this.htmlTemplateData = this.htmlTemplateData.replace('param0', Global.myJasonObject.FirstCustomer[0].Name);
-                this.htmlTemplateData = this.htmlTemplateData.replace('param1', Global.myJasonObject.FirstCustomer[0].Requested);
-                this.htmlTemplateData = this.htmlTemplateData.replace('param2', Global.myJasonObject.FirstCustomer[0].Issued);
-                this.htmlTemplateData = this.htmlTemplateData.replace('param3', Global.myJasonObject.FirstCustomer[0].Rejected);
-                this.htmlTemplateData = this.htmlTemplateData.replace('param4', Global.myJasonObject.FirstCustomer[0].Amount);
+                this.file = this.files.filter(x => x.FID == id)[0];
+                this.GetFileContent();
+
+                this.htmlTemplateData = this.htmlTemplateData.replace('param0', this.firstRowdata.split(",")[0]);
+                this.htmlTemplateData = this.htmlTemplateData.replace('param1', this.firstRowdata.split(",")[1]);
+                this.htmlTemplateData = this.htmlTemplateData.replace('param2', this.firstRowdata.split(",")[2]);
+                this.htmlTemplateData = this.htmlTemplateData.replace('param3', this.firstRowdata.split(",")[3]);
+                this.htmlTemplateData = this.htmlTemplateData.replace('param4', this.firstRowdata.split(",")[5]);
+
+                this.SetControlsState(true);
+                this.modalTitle = "Generate Proof Page";
+                this.fileFrm.setValue(this.file);
 
                 this.file.Description = this.htmlTemplateData;
-                //alert(this.file.Description);
+
             },
             error => this.msg = <any>error);
 
-        ////GET DATA FROM .CSV
-        //this.file = this.files.filter(x => x.FID == id)[0];
-        //this.readCSVFile(this.file.FilePath);
+        this.mygenerateProofID.open();
+
+    }
+
+    GetFileContent() {
+        let val = this.file.FilePath.split('/')[this.file.FilePath.split('/').length - 1];
+        let fileNameOnly = val.split('.')[0];
+        let localFileData = "";
+        //READ THE CONTENT of LOCAL FILE
+        this._sampleFileService.getLoginInfo(Global.BASE_FILESAVE_ENDPOINT, fileNameOnly)
+            .subscribe(localFileDataX => {
+                localFileData = localFileDataX;
+                this.firstRowdata = localFileData.split("\r\n")[1];
+            },
+            error => this.msg = <any>error);
     }
 
     readCSVFile(filePath: string) {

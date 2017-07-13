@@ -21,7 +21,7 @@ var logininfo_service_1 = require("./service/logininfo.service");
 var login_component_1 = require("./components/login.component");
 var samplefile_pipe_1 = require("./filter/samplefile.pipe");
 var search_shared_1 = require("./shared/search.shared");
-//import { QuillModule } from 'ng2-quill/src/quill/quill.module';
+//import { QuillEditorModule } from 'ng2-quill-editor';
 //import { EditorModule, SharedModule } from 'quill/node_modules/eventemitter3/';
 //import { CKEditorModule } from 'ng2-ckeditor';
 var AppModule = (function () {
