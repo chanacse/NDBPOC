@@ -10,6 +10,7 @@ import { ISampleFile } from '../models/samplefile';
 import { ICompany } from '../models/company';
 import { IShareOfferCode } from '../models/shareoffercode';
 import { IShareType } from '../models/sharetype';
+import * as jsPDF from 'jspdf'
 
 @Component({
 
@@ -20,6 +21,7 @@ export class samplefile implements OnInit {
     @ViewChild('modal') modal: ModalComponent;
     @ViewChild('mymodalID') mymodalID: ModalComponent;
     @ViewChild('mygenerateProof') mygenerateProofID: ModalComponent;
+    @ViewChild('viewPDFData') myPDFID: ModalComponent;
     files: ISampleFile[];
     file: ISampleFile;
     msg: string;
@@ -240,7 +242,7 @@ export class samplefile implements OnInit {
     }
 
     CheckAdmin() {
-        this.isAdmin = true; //ONLY FOR TESTING
+        this.isAdmin = false; //ONLY FOR TESTING
 
         if (Global.BASE_USERROLE == 'admin') {
             this.isAdmin = true;
@@ -290,7 +292,7 @@ export class samplefile implements OnInit {
     }
 
     generateProofPOPUP(id: number) {
-
+        this.LoadSampleFiles();
         //GET DATA FROM DATABASE
         this._sampleFileService.get(Global.BASE_HTMLTEMPLATE_ENDPOINT)
             .subscribe(data => {
@@ -342,7 +344,7 @@ export class samplefile implements OnInit {
     }
 
     GenerateProof(paraFrm: any) {
-        //paraFrm._value.ApprovalStatus = "Sample File Approved";
+        paraFrm._value.ApprovalStatus = "Proof Created";
         this._sampleFileService.put(Global.BASE_SAMPLEFILE_ENDPOINT, paraFrm._value.FID, paraFrm._value).subscribe(
             data => {
                 if (data == 1) //Success
@@ -359,6 +361,38 @@ export class samplefile implements OnInit {
                 this.msg = error;
             }
         );
+    }
+
+
+    //ViewPDFPOPUP(id: number) {
+    //    this.LoadSampleFiles();
+    //    //GET DATA FROM DATABASE
+    //    this._sampleFileService.get(Global.BASE_HTMLTEMPLATE_ENDPOINT)
+    //        .subscribe(data => {
+    //            //this.htmlTemplateData = data[0].Description;
+
+    //            //this.file = this.files.filter(x => x.FID == id)[0];
+    //            //this.ViewPDFData(this.file.FID);          
+
+    //            this.SetControlsState(true);
+    //            this.modalTitle = "Generate PDF Page";
+    //            //this.fileFrm.setValue(this.file);
+    //            //this.file.Description = this.htmlTemplateData;
+    //        },
+    //        error => this.msg = <any>error);
+
+    //    this.myPDFID.open();
+    //}
+
+    viewPDF(): void {
+        var doc = new jsPDF();
+        doc.text(20, 20, 'Hello world!');
+        doc.text(20, 30, 'This is client-side Javascript, pumping out a PDF.');
+        doc.addPage();
+        doc.text(20, 20, 'Do you like that?');
+
+        // Save the PDF
+        doc.save('Test.pdf');
     }
 }
 

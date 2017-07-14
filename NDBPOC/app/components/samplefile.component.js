@@ -15,6 +15,7 @@ var forms_1 = require("@angular/forms");
 var ng2_bs3_modal_1 = require("ng2-bs3-modal/ng2-bs3-modal");
 var enum_1 = require("../Shared/enum");
 var global_1 = require("../Shared/global");
+var jsPDF = require("jspdf");
 var samplefile = (function () {
     function samplefile(fb, _sampleFileService) {
         this.fb = fb;
@@ -182,7 +183,7 @@ var samplefile = (function () {
         this.mymodalObj.open();
     };
     samplefile.prototype.CheckAdmin = function () {
-        this.isAdmin = true; //ONLY FOR TESTING
+        this.isAdmin = false; //ONLY FOR TESTING
         if (global_1.Global.BASE_USERROLE == 'admin') {
             this.isAdmin = true;
         }
@@ -221,6 +222,7 @@ var samplefile = (function () {
     };
     samplefile.prototype.generateProofPOPUP = function (id) {
         var _this = this;
+        this.LoadSampleFiles();
         //GET DATA FROM DATABASE
         this._sampleFileService.get(global_1.Global.BASE_HTMLTEMPLATE_ENDPOINT)
             .subscribe(function (data) {
@@ -263,7 +265,7 @@ var samplefile = (function () {
     };
     samplefile.prototype.GenerateProof = function (paraFrm) {
         var _this = this;
-        //paraFrm._value.ApprovalStatus = "Sample File Approved";
+        paraFrm._value.ApprovalStatus = "Proof Created";
         this._sampleFileService.put(global_1.Global.BASE_SAMPLEFILE_ENDPOINT, paraFrm._value.FID, paraFrm._value).subscribe(function (data) {
             if (data == 1) {
                 _this.msg = "Data successfully updated.";
@@ -276,6 +278,31 @@ var samplefile = (function () {
         }, function (error) {
             _this.msg = error;
         });
+    };
+    //ViewPDFPOPUP(id: number) {
+    //    this.LoadSampleFiles();
+    //    //GET DATA FROM DATABASE
+    //    this._sampleFileService.get(Global.BASE_HTMLTEMPLATE_ENDPOINT)
+    //        .subscribe(data => {
+    //            //this.htmlTemplateData = data[0].Description;
+    //            //this.file = this.files.filter(x => x.FID == id)[0];
+    //            //this.ViewPDFData(this.file.FID);          
+    //            this.SetControlsState(true);
+    //            this.modalTitle = "Generate PDF Page";
+    //            //this.fileFrm.setValue(this.file);
+    //            //this.file.Description = this.htmlTemplateData;
+    //        },
+    //        error => this.msg = <any>error);
+    //    this.myPDFID.open();
+    //}
+    samplefile.prototype.viewPDF = function () {
+        var doc = new jsPDF();
+        doc.text(20, 20, 'Hello world!');
+        doc.text(20, 30, 'This is client-side Javascript, pumping out a PDF.');
+        doc.addPage();
+        doc.text(20, 20, 'Do you like that?');
+        // Save the PDF
+        doc.save('Test.pdf');
     };
     return samplefile;
 }());
@@ -291,6 +318,10 @@ __decorate([
     core_1.ViewChild('mygenerateProof'),
     __metadata("design:type", ng2_bs3_modal_1.ModalComponent)
 ], samplefile.prototype, "mygenerateProofID", void 0);
+__decorate([
+    core_1.ViewChild('viewPDFData'),
+    __metadata("design:type", ng2_bs3_modal_1.ModalComponent)
+], samplefile.prototype, "myPDFID", void 0);
 __decorate([
     core_1.ViewChild('mymodalID'),
     __metadata("design:type", ng2_bs3_modal_1.ModalComponent)
