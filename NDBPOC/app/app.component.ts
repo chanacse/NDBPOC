@@ -21,8 +21,6 @@
 <div class="container">
  <router-outlet></router-outlet>
 </div>
-
-
 `,
     styles: [`
     .navbar-fixed-left {

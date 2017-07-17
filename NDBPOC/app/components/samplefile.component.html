@@ -1,36 +1,14 @@
 ﻿<div class='panel panel-primary'>
     <div class='panel-heading'>
-        Sample File With Rich
+        Sample File With Data
     </div>
-    <!--<div>
-        <ckeditor
-                  [config]="{uiColor: '#99000'}"
-                  [readonly]="false"
-                  (change)="onChange($event)"
-                  (ready)="onReady($event)"
-                  (focus)="onFocus($event)"
-                  (blur)="onBlur($event)"
-                  debounce="500">
-        </ckeditor>
-    </div>-->
-    <!--<div>
-        <p-editor [(ngModel)]="text" [style]="{'height':'320px'}"></p-editor>
-    </div>-->
-    <!--<div>
-        <div simditor ng-model="xxx"></div>
-    </div>-->
-    <!--<div>
-        <quill-editor></quill-editor>
-    </div>-->
-    <!--<div>
-        <quill-editor class="form-control"
-                      [formControl]="editorContent"
-                      [options]="editorOptions"
-                      (blur)="onEditorBlured($event)"
-                      (focus)="onEditorFocused($event)"
-                      (ready)="onEditorCreated($event)"
-                      (change)="onContentChanged($event)"></quill-editor>
-    </div>-->
+
+
+    <!--<form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <textarea [froalaEditor] formControlName="formModel"></textarea>
+        <button type="submit">Submit</button>
+    </form>-->
+
     <div class='panel-body'>
         <div class='table-responsive'>
             <div>
@@ -233,19 +211,24 @@
         <modal-body>
             <div class="row">
                 <div class="form-group">
-                    <div class="col-md-12 row">
-                        <div>                            
-                            <textarea class="form-control col-md-12" formControlName="Description" rows="4" cols="50">{{htmlTemplateData}}</textarea>
-                        </div>
+                    <div>
+                        <input type="radio" name="ChequeOption" value="CUSTOMERCHEQUE" formControlName="ChequeOption">CUSTOMER CHEQUE
+                        <input type="radio" name="ChequeOption" value="BANKCHEQUE" formControlName="ChequeOption">BANK CHEQUE
+                    </div>
+
+                </div>
+                <div class="col-md-12 row">
+                    <div>
+                        <textarea class="form-control col-md-12" formControlName="Description" rows="4" cols="50">{{htmlTemplateData}}</textarea>
                     </div>
                 </div>
             </div>
-
         </modal-body>
+
         <modal-footer>
             <div>
-                <button type="submit" class="btn btn-success" (click)="GenerateProof(fileFrm)">SAVE</button>               
-                <button type="submit" class="btn btn-success" (click)="viewPDF()">View PDF</button>               
+                <button type="submit" class="btn btn-success" (click)="GenerateProof(fileFrm)">SAVE</button>
+                <button type="submit" class="btn btn-success" (click)="viewPDF(fileFrm)"  *ngIf="isProofGenerated">View PDF</button>
                 <a class="btn btn-default" (click)="mygenerateProof.dismiss()">Cancel</a>
             </div>
         </modal-footer>

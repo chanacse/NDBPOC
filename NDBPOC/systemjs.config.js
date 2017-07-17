@@ -26,7 +26,8 @@
             'rxjs': 'npm:rxjs',
             'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js',
             'ng2-bs3-modal': 'npm:/ng2-bs3-modal',
-            "jspdf": "node_modules/jspdf/dist/jspdf.min.js"
+            "jspdf": "node_modules/jspdf/dist/jspdf.min.js",
+            'angular-froala-wysiwyg': 'npm:angular-froala-wysiwyg/bundles/angular-froala-wysiwyg.umd.js',
         },
         // packages tells the System loader how to load when no filename and/or no extension
         packages: {

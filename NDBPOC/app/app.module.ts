@@ -13,6 +13,8 @@ import { LoginInfoServiceClass } from './service/logininfo.service';
 import { logininfo } from './components/login.component';
 import { SampleFileFilterPipe } from './filter/samplefile.pipe';
 import { SearchComponent } from './shared/search.shared';
+import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
+//import { FroalaEditorModule } from 'ng2-froala-editor/ng2-froala-editor';
 
 @NgModule({
     imports: [BrowserModule, ReactiveFormsModule, HttpModule, routing, Ng2Bs3ModalModule, FormsModule],
