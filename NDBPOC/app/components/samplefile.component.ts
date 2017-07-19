@@ -22,6 +22,8 @@ export class samplefile implements OnInit {
     @ViewChild('modal') modal: ModalComponent;
     @ViewChild('mymodalID') mymodalID: ModalComponent;
     @ViewChild('mygenerateProof') mygenerateProofID: ModalComponent;
+    @ViewChild('myViewProof') myViewProofID: ModalComponent;
+
     files: ISampleFile[];
     file: ISampleFile;
     msg: string;
@@ -43,8 +45,10 @@ export class samplefile implements OnInit {
     @ViewChild('mymodalID') mymodalObj: ModalComponent;
     isAdmin: boolean;
     isProofGenerated: boolean;
+    isSentForApproval: boolean;
     firstRowdata: any;
     //localFileData: string;
+    templateVal: any;
 
     constructor(private fb: FormBuilder, private _sampleFileService: SampleFileService) { }
 
@@ -69,6 +73,9 @@ export class samplefile implements OnInit {
             CreatedBy: [''],
             FILEADD: [],
             FilePath: [''],
+            ProofComment: [''],
+            ProofAuthor: [''],
+            ProofTime: [''],
         });
 
         this.CheckAdmin();
@@ -146,7 +153,6 @@ export class samplefile implements OnInit {
         this.modal.open();
     }
 
-
     SetControlsState(isEnable: boolean) {
         isEnable ? this.fileFrm.enable() : this.fileFrm.disable();
     }
@@ -158,6 +164,7 @@ export class samplefile implements OnInit {
             case DBOperation.create:
                 this.fileUpload();
                 formData._value.FilePath = Global.BASE_FOLDER_PATH + this.FileDetails.name; //for testing purpose
+                formData._value.FILEADD = null;
                 formData._value.ApprovalStatus = "Initiated";
                 this._sampleFileService.post(Global.BASE_SAMPLEFILE_ENDPOINT, formData._value).subscribe(
                     data => {
@@ -293,52 +300,131 @@ export class samplefile implements OnInit {
     }
 
     generateProofPOPUP(id: number) {
+
         this.LoadSampleFiles();
-        //GET DATA FROM DATABASE
-        this._sampleFileService.get(Global.BASE_HTMLTEMPLATE_ENDPOINT)
-            .subscribe(data => {
-                this.htmlTemplateData = data[0].Description;
+        this.file = this.files.filter(x => x.FID == id)[0];
+        this.GetFileContent();
 
-                this.file = this.files.filter(x => x.FID == id)[0];
-                if (this.file.ApprovalStatus = "Proof Created")
-                {
-                    this.isProofGenerated = true;
-                }
-
-                this.GetFileContent();
-
-                this.htmlTemplateData = this.htmlTemplateData.replace('param0', this.firstRowdata.split(",")[0]);
-                this.htmlTemplateData = this.htmlTemplateData.replace('param1', this.firstRowdata.split(",")[1]);
-                this.htmlTemplateData = this.htmlTemplateData.replace('param2', this.firstRowdata.split(",")[2]);
-                this.htmlTemplateData = this.htmlTemplateData.replace('param3', this.firstRowdata.split(",")[3]);
-                this.htmlTemplateData = this.htmlTemplateData.replace('param4', this.firstRowdata.split(",")[5]);
-
-                this.SetControlsState(true);
-                this.modalTitle = "Generate Proof Page";
-                this.fileFrm.setValue(this.file);
-
-                this.file.Description = this.htmlTemplateData;
-
-            },
-            error => this.msg = <any>error);
+        if (this.file.Description != null) {
+            this.fileFrm.setValue(this.file);
+            this.htmlTemplateData = this.file.Description;            
+        }
+        else {
+            this.GetDataFromDB();
+        }
 
         this.mygenerateProofID.open();
-
     }
+
+    ViewProofPOPUP(id: number) {
+        this.file = this.files.filter(x => x.FID == id)[0];
+        this.fileFrm.setValue(this.file);
+        this.SetControlsState(true);
+        this.modalTitle = "Approve Proof";
+        this.myViewProofID.open();
+    }
+
+    ApproveProof(paraFrm: any) {
+        paraFrm._value.ApprovalStatus = "Proof Approved";
+        paraFrm._value.ProofAuthor = "ChanakaG";
+        paraFrm._value.PrrofTime = Date.now();
+
+        this._sampleFileService.put(Global.BASE_SAMPLEFILE_ENDPOINT, paraFrm._value.FID, paraFrm._value).subscribe(
+            data => {
+                if (data == 1) //Success
+                {
+                    this.msg = "Data successfully updated.";
+                    this.LoadSampleFiles();
+                }
+                else {
+                    this.msg = "There is some issue in saving records, please contact to system administrator!"
+                }
+
+                this.myViewProofID.dismiss();
+            },
+            error => {
+                this.msg = error;
+            }
+        );
+    }
+
+    RejectProof(paraFrm: any) {
+        paraFrm._value.ApprovalStatus = "Proof Rejected";
+        paraFrm._value.ProofAuthor = "ChanakaG";
+        paraFrm._value.PrrofTime = Date.now();
+
+        this._sampleFileService.put(Global.BASE_SAMPLEFILE_ENDPOINT, paraFrm._value.FID, paraFrm._value).subscribe(
+            data => {
+                if (data == 1) //Success
+                {
+                    this.msg = "Data successfully updated.";
+                    this.LoadSampleFiles();
+                }
+                else {
+                    this.msg = "There is some issue in saving records, please contact to system administrator!"
+                }
+
+                this.myViewProofID.dismiss();
+            },
+            error => {
+                this.msg = error;
+            }
+        );
+    }
+
 
     GetFileContent() {
         let val = this.file.FilePath.split('/')[this.file.FilePath.split('/').length - 1];
         let fileNameOnly = val.split('.')[0];
         let localFileData = '';
+
         //READ THE CONTENT of LOCAL FILE
         this._sampleFileService.getLoginInfo(Global.BASE_FILESAVE_ENDPOINT, fileNameOnly)
             .subscribe(localFileDataX => {
                 localFileData = localFileDataX;
-                this.firstRowdata = localFileData.split("\r\n")[1];
+                this.firstRowdata = localFileData.split("\r\n")[1];               
             },
             error => this.msg = <any>error);
     }
-  
+
+    GetDataFromDB() {
+        //GET DATA FROM DATABASE
+        this._sampleFileService.get(Global.BASE_HTMLTEMPLATE_ENDPOINT)
+            .subscribe(data => {
+                this.htmlTemplateData = data[0].Description;
+                this.CreatePopUpPageWithHTMLData();          
+            },
+            error => this.msg = <any>error);
+
+    }
+
+    CreatePopUpPageWithHTMLData()
+    {
+        if (this.file.ApprovalStatus == "Proof Created" || this.file.ApprovalStatus == "Sent For Approval") {
+            this.isProofGenerated = true;
+        }
+        else { this.isProofGenerated = false; }
+        if (this.file.ApprovalStatus == "Sent For Approval") {
+            this.isSentForApproval = true;
+        }
+        else { this.isSentForApproval = false; }
+
+        this.htmlTemplateData = this.htmlTemplateData.replace('param0', this.firstRowdata.split(",")[0]);
+        this.htmlTemplateData = this.htmlTemplateData.replace('param1', this.firstRowdata.split(",")[1]);
+        this.htmlTemplateData = this.htmlTemplateData.replace('param2', this.firstRowdata.split(",")[2]);
+        this.htmlTemplateData = this.htmlTemplateData.replace('param3', this.firstRowdata.split(",")[3]);
+        this.htmlTemplateData = this.htmlTemplateData.replace('param4', this.firstRowdata.split(",")[5]);
+
+        this.SetControlsState(true);
+
+        this.modalTitle = "Generate Proof Page";
+        this.fileFrm.setValue(this.file);
+
+        this.file.Description = this.htmlTemplateData;
+        this.templateVal = this.htmlTemplateData;
+
+                //alert(this.file.Description);
+    }
 
     GenerateProof(paraFrm: any) {
         paraFrm._value.ApprovalStatus = "Proof Created";
@@ -360,6 +446,25 @@ export class samplefile implements OnInit {
         );
     }
 
+    SendForApproval(paraFrm: any) {
+        paraFrm._value.ApprovalStatus = "Sent For Approval";
+        this._sampleFileService.put(Global.BASE_SAMPLEFILE_ENDPOINT, paraFrm._value.FID, paraFrm._value).subscribe(
+            data => {
+                if (data == 1) //Success
+                {
+                    this.msg = "Data successfully updated.";
+                    this.LoadSampleFiles();
+                }
+                else {
+                    this.msg = "There is some issue in saving records, please contact to system administrator!"
+                }
+                this.mygenerateProofID.dismiss();
+            },
+            error => {
+                this.msg = error;
+            }
+        );
+    }
 
     //ViewPDFPOPUP(id: number) {
     //    this.LoadSampleFiles();

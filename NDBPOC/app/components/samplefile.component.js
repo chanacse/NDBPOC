@@ -18,7 +18,6 @@ var global_1 = require("../Shared/global");
 var jsPDF = require("jspdf");
 //import { FroalaEditorComponent } from 'ng2-froala-editor/ng2-froala-editor'; 
 var samplefile = (function () {
-    //localFileData: string;
     function samplefile(fb, _sampleFileService) {
         this.fb = fb;
         this._sampleFileService = _sampleFileService;
@@ -43,6 +42,9 @@ var samplefile = (function () {
             CreatedBy: [''],
             FILEADD: [],
             FilePath: [''],
+            ProofComment: [''],
+            ProofAuthor: [''],
+            ProofTime: [''],
         });
         this.CheckAdmin();
         //Dropdown Items
@@ -120,6 +122,7 @@ var samplefile = (function () {
             case enum_1.DBOperation.create:
                 this.fileUpload();
                 formData._value.FilePath = global_1.Global.BASE_FOLDER_PATH + this.FileDetails.name; //for testing purpose
+                formData._value.FILEADD = null;
                 formData._value.ApprovalStatus = "Initiated";
                 this._sampleFileService.post(global_1.Global.BASE_SAMPLEFILE_ENDPOINT, formData._value).subscribe(function (data) {
                     if (data == 1) {
@@ -223,28 +226,58 @@ var samplefile = (function () {
         });
     };
     samplefile.prototype.generateProofPOPUP = function (id) {
-        var _this = this;
         this.LoadSampleFiles();
-        //GET DATA FROM DATABASE
-        this._sampleFileService.get(global_1.Global.BASE_HTMLTEMPLATE_ENDPOINT)
-            .subscribe(function (data) {
-            _this.htmlTemplateData = data[0].Description;
-            _this.file = _this.files.filter(function (x) { return x.FID == id; })[0];
-            if (_this.file.ApprovalStatus = "Proof Created") {
-                _this.isProofGenerated = true;
-            }
-            _this.GetFileContent();
-            _this.htmlTemplateData = _this.htmlTemplateData.replace('param0', _this.firstRowdata.split(",")[0]);
-            _this.htmlTemplateData = _this.htmlTemplateData.replace('param1', _this.firstRowdata.split(",")[1]);
-            _this.htmlTemplateData = _this.htmlTemplateData.replace('param2', _this.firstRowdata.split(",")[2]);
-            _this.htmlTemplateData = _this.htmlTemplateData.replace('param3', _this.firstRowdata.split(",")[3]);
-            _this.htmlTemplateData = _this.htmlTemplateData.replace('param4', _this.firstRowdata.split(",")[5]);
-            _this.SetControlsState(true);
-            _this.modalTitle = "Generate Proof Page";
-            _this.fileFrm.setValue(_this.file);
-            _this.file.Description = _this.htmlTemplateData;
-        }, function (error) { return _this.msg = error; });
+        this.file = this.files.filter(function (x) { return x.FID == id; })[0];
+        this.GetFileContent();
+        if (this.file.Description != null) {
+            this.fileFrm.setValue(this.file);
+            this.htmlTemplateData = this.file.Description;
+        }
+        else {
+            this.GetDataFromDB();
+        }
         this.mygenerateProofID.open();
+    };
+    samplefile.prototype.ViewProofPOPUP = function (id) {
+        this.file = this.files.filter(function (x) { return x.FID == id; })[0];
+        this.fileFrm.setValue(this.file);
+        this.SetControlsState(true);
+        this.modalTitle = "Approve Proof";
+        this.myViewProofID.open();
+    };
+    samplefile.prototype.ApproveProof = function (paraFrm) {
+        var _this = this;
+        paraFrm._value.ProofAuthor = "ChanakaG";
+        paraFrm._value.PrrofTime = Date.now();
+        this._sampleFileService.put(global_1.Global.BASE_SAMPLEFILE_ENDPOINT, paraFrm._value.FID, paraFrm._value).subscribe(function (data) {
+            if (data == 1) {
+                _this.msg = "Data successfully updated.";
+                _this.LoadSampleFiles();
+            }
+            else {
+                _this.msg = "There is some issue in saving records, please contact to system administrator!";
+            }
+            _this.myViewProofID.dismiss();
+        }, function (error) {
+            _this.msg = error;
+        });
+    };
+    samplefile.prototype.RejectProof = function (paraFrm) {
+        var _this = this;
+        paraFrm._value.ProofAuthor = "ChanakaG";
+        paraFrm._value.PrrofTime = Date.now();
+        this._sampleFileService.put(global_1.Global.BASE_SAMPLEFILE_ENDPOINT, paraFrm._value.FID, paraFrm._value).subscribe(function (data) {
+            if (data == 1) {
+                _this.msg = "Data successfully updated.";
+                _this.LoadSampleFiles();
+            }
+            else {
+                _this.msg = "There is some issue in saving records, please contact to system administrator!";
+            }
+            _this.myViewProofID.dismiss();
+        }, function (error) {
+            _this.msg = error;
+        });
     };
     samplefile.prototype.GetFileContent = function () {
         var _this = this;
@@ -258,9 +291,59 @@ var samplefile = (function () {
             _this.firstRowdata = localFileData.split("\r\n")[1];
         }, function (error) { return _this.msg = error; });
     };
+    samplefile.prototype.GetDataFromDB = function () {
+        var _this = this;
+        //GET DATA FROM DATABASE
+        this._sampleFileService.get(global_1.Global.BASE_HTMLTEMPLATE_ENDPOINT)
+            .subscribe(function (data) {
+            _this.htmlTemplateData = data[0].Description;
+            _this.CreatePopUpPageWithHTMLData();
+        }, function (error) { return _this.msg = error; });
+    };
+    samplefile.prototype.CreatePopUpPageWithHTMLData = function () {
+        if (this.file.ApprovalStatus == "Proof Created" || this.file.ApprovalStatus == "Sent For Approval") {
+            this.isProofGenerated = true;
+        }
+        else {
+            this.isProofGenerated = false;
+        }
+        if (this.file.ApprovalStatus == "Sent For Approval") {
+            this.isSentForApproval = true;
+        }
+        else {
+            this.isSentForApproval = false;
+        }
+        this.htmlTemplateData = this.htmlTemplateData.replace('param0', this.firstRowdata.split(",")[0]);
+        this.htmlTemplateData = this.htmlTemplateData.replace('param1', this.firstRowdata.split(",")[1]);
+        this.htmlTemplateData = this.htmlTemplateData.replace('param2', this.firstRowdata.split(",")[2]);
+        this.htmlTemplateData = this.htmlTemplateData.replace('param3', this.firstRowdata.split(",")[3]);
+        this.htmlTemplateData = this.htmlTemplateData.replace('param4', this.firstRowdata.split(",")[5]);
+        this.SetControlsState(true);
+        this.modalTitle = "Generate Proof Page";
+        this.fileFrm.setValue(this.file);
+        this.file.Description = this.htmlTemplateData;
+        this.templateVal = this.htmlTemplateData;
+        //alert(this.file.Description);
+    };
     samplefile.prototype.GenerateProof = function (paraFrm) {
         var _this = this;
         paraFrm._value.ApprovalStatus = "Proof Created";
+        this._sampleFileService.put(global_1.Global.BASE_SAMPLEFILE_ENDPOINT, paraFrm._value.FID, paraFrm._value).subscribe(function (data) {
+            if (data == 1) {
+                _this.msg = "Data successfully updated.";
+                _this.LoadSampleFiles();
+            }
+            else {
+                _this.msg = "There is some issue in saving records, please contact to system administrator!";
+            }
+            _this.mygenerateProofID.dismiss();
+        }, function (error) {
+            _this.msg = error;
+        });
+    };
+    samplefile.prototype.SendForApproval = function (paraFrm) {
+        var _this = this;
+        paraFrm._value.ApprovalStatus = "Sent For Approval";
         this._sampleFileService.put(global_1.Global.BASE_SAMPLEFILE_ENDPOINT, paraFrm._value.FID, paraFrm._value).subscribe(function (data) {
             if (data == 1) {
                 _this.msg = "Data successfully updated.";
@@ -394,6 +477,10 @@ __decorate([
     core_1.ViewChild('mygenerateProof'),
     __metadata("design:type", ng2_bs3_modal_1.ModalComponent)
 ], samplefile.prototype, "mygenerateProofID", void 0);
+__decorate([
+    core_1.ViewChild('myViewProof'),
+    __metadata("design:type", ng2_bs3_modal_1.ModalComponent)
+], samplefile.prototype, "myViewProofID", void 0);
 __decorate([
     core_1.ViewChild('mymodalID'),
     __metadata("design:type", ng2_bs3_modal_1.ModalComponent)

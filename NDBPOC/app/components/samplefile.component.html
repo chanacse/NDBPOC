@@ -1,6 +1,6 @@
 ﻿<div class='panel panel-primary'>
     <div class='panel-heading'>
-        Sample File With Data
+        Sample File With Full FULL
     </div>
 
 
@@ -73,6 +73,7 @@
                             <button title="Delete" class="btn btn-danger" (click)="deleteFile(myfile.FID)" *ngIf="!isAdmin">Delete</button>
                             <button title="View" class="btn btn-info" (click)="ViewFilePOPUP(myfile.FID)" *ngIf="isAdmin">View</button>
                             <button title="Generate Proof" class="btn btn-danger" (click)="generateProofPOPUP(myfile.FID)">Generate Proof</button>
+                            <button title="View Proof" class="btn btn-danger" (click)="ViewProofPOPUP(myfile.FID)">View Proof</button>
                         </td>
                     </tr>
                 </tbody>
@@ -191,7 +192,6 @@
                     </div>
                 </div>
             </div>
-
         </modal-body>
         <modal-footer>
             <div>
@@ -219,7 +219,7 @@
                 </div>
                 <div class="col-md-12 row">
                     <div>
-                        <textarea class="form-control col-md-12" formControlName="Description" rows="4" cols="50">{{htmlTemplateData}}</textarea>
+                        <textarea class="form-control col-md-12" [(ngModel)]="templateVal" formControlName="Description" rows="4" cols="50">{{htmlTemplateData}}</textarea>
                     </div>
                 </div>
             </div>
@@ -227,15 +227,16 @@
 
         <modal-footer>
             <div>
-                <button type="submit" class="btn btn-success" (click)="GenerateProof(fileFrm)">SAVE</button>
-                <button type="submit" class="btn btn-success" (click)="viewPDF(fileFrm)"  *ngIf="isProofGenerated">View PDF</button>
+                <button type="submit" class="btn btn-success" (click)="GenerateProof(fileFrm)" *ngIf="!isSentForApproval">Generate Proof</button>
+                <button type="submit" class="btn btn-success" (click)="viewPDF(fileFrm)" *ngIf="isProofGenerated">View Proof</button>
+                <button type="submit" class="btn btn-success" (click)="SendForApproval(fileFrm)" *ngIf="isProofGenerated&&!isSentForApproval">Send For Approval</button>
                 <a class="btn btn-default" (click)="mygenerateProof.dismiss()">Cancel</a>
             </div>
         </modal-footer>
     </form>
 </modal>
 
-<!--<modal #viewPDFData>
+<modal #myViewProof>
     <form novalidate [formGroup]="fileFrm">
         <modal-header [show-close]="true">
             <h4 class="modal-title">{{modalTitle}}</h4>
@@ -245,17 +246,20 @@
                 <div class="form-group">
                     <div class="col-md-12 row">
                         <div>
-                            <textarea class="form-control col-md-12" formControlName="Description" rows="4" cols="50">{{htmlTemplateData}}</textarea>
+                            <span>Approver Comment*</span>
+                            <input type="text" class="form-control" formControlName="ProofComment">
                         </div>
                     </div>
                 </div>
             </div>
-
         </modal-body>
         <modal-footer>
             <div>
-                <a class="btn btn-default" (click)="viewPDFData.dismiss()">Cancel</a>
+                <button type="submit" class="btn btn-success" (click)="ApproveProof(fileFrm)">Approve Proof</button>
+                <button type="submit" class="btn btn-danger" (click)="RejectProof(fileFrm)">Reject Proof</button>
+                <button type="submit" class="btn btn-info" (click)="viewPDF(fileFrm)" *ngIf="isProofGenerated">View Proof</button>
+                <a class="btn btn-default" (click)="myViewProof.dismiss()">Cancel</a>
             </div>
         </modal-footer>
     </form>
-</modal>-->
+</modal>

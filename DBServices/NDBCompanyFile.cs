@@ -31,5 +31,8 @@ namespace DBServices
         public string CreatedBy { get; set; }
         public byte[] FILEADD { get; set; }
         public string FilePath { get; set; }
+        public string ProofComment { get; set; }
+        public string ProofAuthor { get; set; }
+        public Nullable<System.DateTime> ProofTime { get; set; }
     }
 }
