@@ -247,6 +247,7 @@ var samplefile = (function () {
     };
     samplefile.prototype.ApproveProof = function (paraFrm) {
         var _this = this;
+        paraFrm._value.ApprovalStatus = "Proof Approved";
         paraFrm._value.ProofAuthor = "ChanakaG";
         paraFrm._value.PrrofTime = Date.now();
         this._sampleFileService.put(global_1.Global.BASE_SAMPLEFILE_ENDPOINT, paraFrm._value.FID, paraFrm._value).subscribe(function (data) {
@@ -264,6 +265,7 @@ var samplefile = (function () {
     };
     samplefile.prototype.RejectProof = function (paraFrm) {
         var _this = this;
+        paraFrm._value.ApprovalStatus = "Proof Rejected";
         paraFrm._value.ProofAuthor = "ChanakaG";
         paraFrm._value.PrrofTime = Date.now();
         this._sampleFileService.put(global_1.Global.BASE_SAMPLEFILE_ENDPOINT, paraFrm._value.FID, paraFrm._value).subscribe(function (data) {
@@ -357,22 +359,6 @@ var samplefile = (function () {
             _this.msg = error;
         });
     };
-    //ViewPDFPOPUP(id: number) {
-    //    this.LoadSampleFiles();
-    //    //GET DATA FROM DATABASE
-    //    this._sampleFileService.get(Global.BASE_HTMLTEMPLATE_ENDPOINT)
-    //        .subscribe(data => {
-    //            //this.htmlTemplateData = data[0].Description;
-    //            //this.file = this.files.filter(x => x.FID == id)[0];
-    //            //this.ViewPDFData(this.file.FID);          
-    //            this.SetControlsState(true);
-    //            this.modalTitle = "Generate PDF Page";
-    //            //this.fileFrm.setValue(this.file);
-    //            //this.file.Description = this.htmlTemplateData;
-    //        },
-    //        error => this.msg = <any>error);
-    //    this.myPDFID.open();
-    //}
     samplefile.prototype.viewPDFTest = function () {
         var doc = new jsPDF();
         doc.text(20, 20, 'Hello world!');
@@ -389,7 +375,6 @@ var samplefile = (function () {
         doc.fromHTML(data._value.Description, 20, 25, {
             'width': 220 // max width of content on PDF
         });
-        //End
         doc.setFont('times');
         doc.setFontType('normal');
         doc.setFontSize(12);
@@ -463,6 +448,45 @@ var samplefile = (function () {
         doc.save("ChequeDemo.pdf");
         doc.output('dataurlnewwindow');
     };
+    samplefile.prototype.FinalPrintPOPUP = function (id) {
+        this.file = this.files.filter(function (x) { return x.FID == id; })[0];
+        this.fileFrm.setValue(this.file);
+        this.SetControlsState(true);
+        this.modalTitle = "Final Print Page";
+        this.myFinalPrint.open();
+    };
+    samplefile.prototype.PrintFirstRecord = function (paraFrm) {
+        var _this = this;
+        paraFrm._value.ApprovalStatus = "Proof Approved";
+        this._sampleFileService.put(global_1.Global.BASE_SAMPLEFILE_ENDPOINT, paraFrm._value.FID, paraFrm._value).subscribe(function (data) {
+            if (data == 1) {
+                _this.msg = "Data successfully updated.";
+                _this.LoadSampleFiles();
+            }
+            else {
+                _this.msg = "There is some issue in saving records, please contact to system administrator!";
+            }
+            _this.myFinalPrint.dismiss();
+        }, function (error) {
+            _this.msg = error;
+        });
+    };
+    samplefile.prototype.PrintAll = function (paraFrm) {
+        var _this = this;
+        paraFrm._value.ApprovalStatus = "Proof Approved";
+        this._sampleFileService.put(global_1.Global.BASE_SAMPLEFILE_ENDPOINT, paraFrm._value.FID, paraFrm._value).subscribe(function (data) {
+            if (data == 1) {
+                _this.msg = "Data successfully updated.";
+                _this.LoadSampleFiles();
+            }
+            else {
+                _this.msg = "There is some issue in saving records, please contact to system administrator!";
+            }
+            _this.myFinalPrint.dismiss();
+        }, function (error) {
+            _this.msg = error;
+        });
+    };
     return samplefile;
 }());
 __decorate([
@@ -481,6 +505,10 @@ __decorate([
     core_1.ViewChild('myViewProof'),
     __metadata("design:type", ng2_bs3_modal_1.ModalComponent)
 ], samplefile.prototype, "myViewProofID", void 0);
+__decorate([
+    core_1.ViewChild('myFinalPrint'),
+    __metadata("design:type", ng2_bs3_modal_1.ModalComponent)
+], samplefile.prototype, "myFinalPrint", void 0);
 __decorate([
     core_1.ViewChild('mymodalID'),
     __metadata("design:type", ng2_bs3_modal_1.ModalComponent)

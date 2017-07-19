@@ -74,6 +74,7 @@
                             <button title="View" class="btn btn-info" (click)="ViewFilePOPUP(myfile.FID)" *ngIf="isAdmin">View</button>
                             <button title="Generate Proof" class="btn btn-danger" (click)="generateProofPOPUP(myfile.FID)">Generate Proof</button>
                             <button title="View Proof" class="btn btn-danger" (click)="ViewProofPOPUP(myfile.FID)">View Proof</button>
+                            <button title="Final Print" class="btn btn-danger" (click)="FinalPrintPOPUP(myfile.FID)">Final Print</button>
                         </td>
                     </tr>
                 </tbody>
@@ -257,8 +258,31 @@
             <div>
                 <button type="submit" class="btn btn-success" (click)="ApproveProof(fileFrm)">Approve Proof</button>
                 <button type="submit" class="btn btn-danger" (click)="RejectProof(fileFrm)">Reject Proof</button>
-                <button type="submit" class="btn btn-info" (click)="viewPDF(fileFrm)" *ngIf="isProofGenerated">View Proof</button>
+                <button type="submit" class="btn btn-info" (click)="viewPDF(fileFrm)">View Proof</button>
                 <a class="btn btn-default" (click)="myViewProof.dismiss()">Cancel</a>
+            </div>
+        </modal-footer>
+    </form>
+</modal>
+
+<modal #myFinalPrint>
+    <form novalidate [formGroup]="fileFrm">
+        <modal-header [show-close]="true">
+            <h4 class="modal-title">{{modalTitle}}</h4>
+        </modal-header>
+        <modal-body>
+            <div class="row">
+                <div class="checkbox">
+                    <label><input type="checkbox" value="" [(ngModel)]="enableButton" formControlName="isPrintFirstRecord">FIRST PRINT OK</label>
+                </div>
+            </div>
+        </modal-body>
+        <modal-footer>
+            <div>
+                <button type="submit" class="btn btn-success" (click)="viewPDF(fileFrm)">View Finalized</button>
+                <button type="submit" class="btn btn-danger" (click)="PrintFirstRecord(fileFrm)" [disabled]="!enableButton">Print First Record</button>
+                <button type="submit" class="btn btn-info" (click)="PrintAll(fileFrm)">Print All</button>
+                <a class="btn btn-default" (click)="myFinalPrint.dismiss()">Cancel</a>
             </div>
         </modal-footer>
     </form>
