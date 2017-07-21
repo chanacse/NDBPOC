@@ -50,6 +50,7 @@ export class samplefile implements OnInit {
     firstRowdata: any;
     //localFileData: string;
     templateVal: any;
+    enablePrintAllButton = false;
 
     constructor(private fb: FormBuilder, private _sampleFileService: SampleFileService) { }
 
@@ -575,17 +576,23 @@ export class samplefile implements OnInit {
     }
 
 
-
     FinalPrintPOPUP(id: number) {
         this.file = this.files.filter(x => x.FID == id)[0];
         this.fileFrm.setValue(this.file);
         this.SetControlsState(true);
         this.modalTitle = "Final Print Page";
         this.myFinalPrint.open();
+        if (this.file.isPrintFirstRecord && !this.file.isPrintAll) {
+            this.enablePrintAllButton = true;
+        }
+        else {
+            this.enablePrintAllButton = false;
+        }
     }
 
     PrintFirstRecord(paraFrm: any) {
         paraFrm._value.ApprovalStatus = "First Print OK";
+        paraFrm._value.isPrintFirstRecord = true;
 
         this._sampleFileService.put(Global.BASE_SAMPLEFILE_ENDPOINT, paraFrm._value.FID, paraFrm._value).subscribe(
             data => {
@@ -607,6 +614,7 @@ export class samplefile implements OnInit {
 
     PrintAll(paraFrm: any) {
         paraFrm._value.ApprovalStatus = "Print All Done";
+        paraFrm._value.isPrintAll = true;
 
         this._sampleFileService.put(Global.BASE_SAMPLEFILE_ENDPOINT, paraFrm._value.FID, paraFrm._value).subscribe(
             data => {
@@ -624,6 +632,28 @@ export class samplefile implements OnInit {
                 this.msg = error;
             }
         );
+    }
+
+    HideApproveSampleButtonByStatus(status: string) {
+
+        if (status == "Initiated") {
+            return false;
+        }
+        else {
+            return true;
+        }
+
+    }
+
+    HideApproveProofButtonByStatus(status: string) {
+
+        if (status == "Sent To Approval") {
+            return false;
+        }
+        else {
+            return true;
+        }
+
     }
 }
 

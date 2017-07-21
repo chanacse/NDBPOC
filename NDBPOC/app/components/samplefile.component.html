@@ -71,9 +71,9 @@
                         <td>
                             <button title="Edit" class="btn btn-primary" (click)="editFile(myfile.FID)" *ngIf="!isAdmin">Edit</button>
                             <button title="Delete" class="btn btn-danger" (click)="deleteFile(myfile.FID)" *ngIf="!isAdmin">Delete</button>
-                            <button title="View" class="btn btn-info" (click)="ViewFilePOPUP(myfile.FID)" *ngIf="isAdmin">View</button>
+                            <button title="View" class="btn btn-info" (click)="ViewFilePOPUP(myfile.FID)" *ngIf="isAdmin" [disabled]="HideApproveSampleButtonByStatus(myfile.ApprovalStatus)">Approve Sample</button>
                             <button title="Generate Proof" class="btn btn-danger" (click)="generateProofPOPUP(myfile.FID)">Generate Proof</button>
-                            <button title="View Proof" class="btn btn-danger" (click)="ViewProofPOPUP(myfile.FID)">View Proof</button>
+                            <button title="View Proof" class="btn btn-danger" (click)="ViewProofPOPUP(myfile.FID)" [disabled]="HideApproveProofButtonByStatus(myfile.ApprovalStatus)">Approve Proof</button>
                             <button title="Final Print" class="btn btn-danger" (click)="FinalPrintPOPUP(myfile.FID)">Final Print</button>
                         </td>
                     </tr>
@@ -273,15 +273,15 @@
         <modal-body>
             <div class="row">
                 <div class="checkbox">
-                    <label><input type="checkbox" value="" [(ngModel)]="enableButton" formControlName="isPrintFirstRecord">FIRST PRINT OK</label>
+                    <label><input type="checkbox" value="" [(ngModel)]="enableButton" formControlName="isPrintFirstOK">FIRST PRINT OK</label>
                 </div>
             </div>
         </modal-body>
         <modal-footer>
             <div>
-                <button type="submit" class="btn btn-success" (click)="viewPDF(fileFrm)">View Finalized</button>
+                <button type="submit" class="btn btn-success" (click)="viewPDF(fileFrm)">View PDF</button>
                 <button type="submit" class="btn btn-danger" (click)="PrintFirstRecord(fileFrm)" [disabled]="!enableButton">Print First Record</button>
-                <button type="submit" class="btn btn-info" (click)="PrintAll(fileFrm)">Print All</button>
+                <button type="submit" class="btn btn-info" (click)="PrintAll(fileFrm)" [disabled]="!enablePrintAllButton">Print All</button>
                 <a class="btn btn-default" (click)="myFinalPrint.dismiss()">Cancel</a>
             </div>
         </modal-footer>

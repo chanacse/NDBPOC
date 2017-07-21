@@ -22,6 +22,7 @@ var samplefile = (function () {
         this.fb = fb;
         this._sampleFileService = _sampleFileService;
         this.indLoading = false;
+        this.enablePrintAllButton = false;
     }
     samplefile.prototype.ngOnInit = function () {
         this.fileFrm = this.fb.group({
@@ -454,10 +455,17 @@ var samplefile = (function () {
         this.SetControlsState(true);
         this.modalTitle = "Final Print Page";
         this.myFinalPrint.open();
+        if (this.file.isPrintFirstRecord && !this.file.isPrintAll) {
+            this.enablePrintAllButton = true;
+        }
+        else {
+            this.enablePrintAllButton = false;
+        }
     };
     samplefile.prototype.PrintFirstRecord = function (paraFrm) {
         var _this = this;
-        paraFrm._value.ApprovalStatus = "Proof Approved";
+        paraFrm._value.ApprovalStatus = "First Print OK";
+        paraFrm._value.isPrintFirstRecord = true;
         this._sampleFileService.put(global_1.Global.BASE_SAMPLEFILE_ENDPOINT, paraFrm._value.FID, paraFrm._value).subscribe(function (data) {
             if (data == 1) {
                 _this.msg = "Data successfully updated.";
@@ -473,7 +481,8 @@ var samplefile = (function () {
     };
     samplefile.prototype.PrintAll = function (paraFrm) {
         var _this = this;
-        paraFrm._value.ApprovalStatus = "Proof Approved";
+        paraFrm._value.ApprovalStatus = "Print All Done";
+        paraFrm._value.isPrintAll = true;
         this._sampleFileService.put(global_1.Global.BASE_SAMPLEFILE_ENDPOINT, paraFrm._value.FID, paraFrm._value).subscribe(function (data) {
             if (data == 1) {
                 _this.msg = "Data successfully updated.";
@@ -486,6 +495,22 @@ var samplefile = (function () {
         }, function (error) {
             _this.msg = error;
         });
+    };
+    samplefile.prototype.HideApproveSampleButtonByStatus = function (status) {
+        if (status == "Initiated") {
+            return false;
+        }
+        else {
+            return true;
+        }
+    };
+    samplefile.prototype.HideApproveProofButtonByStatus = function (status) {
+        if (status == "Sent To Approval") {
+            return false;
+        }
+        else {
+            return true;
+        }
     };
     return samplefile;
 }());
