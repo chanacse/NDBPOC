@@ -22,10 +22,18 @@ namespace NDBPOC.Controllers
                 {
                     var postedFile = httpRequest.Files[file];
                     var filePath = @"E:/myFiles/" + postedFile.FileName;
-                    postedFile.SaveAs(filePath);
+                    if (File.Exists(filePath))
+                    {
+                        response = new HttpResponseMessage(HttpStatusCode.Conflict);
+                    }
+                    else
+                    {
+                        postedFile.SaveAs(filePath);
+                        response = new HttpResponseMessage(HttpStatusCode.Accepted);
+                    }
                 }
             }
-            return response;
+            return ToJson(response.StatusCode);
         }
 
         [Route("api/UploadFileApi/{filepath}")]

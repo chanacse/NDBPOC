@@ -8,6 +8,7 @@
   <ul class="nav navbar-nav">
     <li><a [routerLink]="['home']">Home</a></li>
     <li><a [routerLink]="['samplefile']">Sample File</a></li>
+    <li><a [routerLink]="['login']">LogOut</a></li>
   </ul>
   <a style="color:red" class="navbar-brand">Reports</a>
   <a style="color:red" class="navbar-brand">Manage CMS</a>

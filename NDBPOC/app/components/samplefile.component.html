@@ -67,7 +67,7 @@
                         <td>{{myfile.OfferCode}}</td>
                         <td>{{myfile.Fname}}</td>
                         <td><span class="label label-primary">{{myfile.ApprovalStatus}}</span></td>
-                        <td><a target="_blank" href="http://www.freespace.com.au/filehosting1/SFc/IESL.pdf">Click Here</a> </td>
+                        <td><a target="_blank" (click)="GetFileFullDataToDisplayViaGrid(myfile.FID)">Click Here</a> </td>
                         <td>
                             <button title="Edit" class="btn btn-primary" (click)="editFile(myfile.FID)" *ngIf="!isAdmin" [disabled]="HideEditDeleteButtonByStatus(myfile.ApprovalStatus)">Edit</button>
                             <button title="Delete" class="btn btn-danger" (click)="deleteFile(myfile.FID)" *ngIf="!isAdmin" [disabled]="HideEditDeleteButtonByStatus(myfile.ApprovalStatus)">Delete</button>
@@ -137,8 +137,12 @@
                 </div>
 
                 <div class="col-md-4">
-                    <span>Upload File</span>
-                    <input type="file" class="form-control" (change)="getFileDetails($event)" placeholder="Upload file" formControlName="FILEADD" accept=".csv">
+                    <div>
+                        <a target="_blank" (click)="GetFileFullDataToDisplayViaPopUp(fileFrm)" *ngIf="!isFileUploadVisible">Click Here</a>
+
+                        <!--<span>Upload File</span>-->
+                        <input type="file" class="form-control" (change)="getFileDetails($event)" *ngIf="isFileUploadVisible" placeholder="Upload file" formControlName="FILEADD" accept=".csv">
+                    </div>
                 </div>
             </div>
         </modal-body>
@@ -273,7 +277,7 @@
         <modal-body>
             <div class="row">
                 <div class="checkbox">
-                    <label><input type="checkbox" value="" [(ngModel)]="enableButton" formControlName="isPrintFirstOK" [disabled]="!enablePrintFirstRecordButton">FIRST PRINT OK</label>
+                    <label><input type="checkbox" value="" [(ngModel)]="enableButton" formControlName="isPrintFirstOK" *ngIf="!hideCheckBox">FIRST PRINT OK</label>
                 </div>
             </div>
         </modal-body>
@@ -287,3 +291,20 @@
         </modal-footer>
     </form>
 </modal>
+
+<modal #ViewCsvFile>
+    <form novalidate [formGroup]="fileFrm">
+        <modal-header [show-close]="true">
+            <h4 class="modal-title">{{modalTitle}}</h4>
+        </modal-header>
+        <modal-body>
+
+            <div class="row col-md-12" innerHTML="{{CSVfileContent}}"></div>
+
+        </modal-body>
+        <modal-footer>
+            <a class="btn btn-default" (click)="ViewCsvFile.dismiss()">Cancel</a>
+        </modal-footer>
+    </form>
+</modal>
+
