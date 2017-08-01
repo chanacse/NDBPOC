@@ -21,6 +21,7 @@ var logininfo_service_1 = require("./service/logininfo.service");
 var login_component_1 = require("./components/login.component");
 var samplefile_pipe_1 = require("./filter/samplefile.pipe");
 var search_shared_1 = require("./shared/search.shared");
+var utility_service_1 = require("./service/utility.service");
 //import { FroalaEditorModule } from 'ng2-froala-editor/ng2-froala-editor';
 var AppModule = (function () {
     function AppModule() {
@@ -31,7 +32,7 @@ AppModule = __decorate([
     core_1.NgModule({
         imports: [platform_browser_1.BrowserModule, forms_1.ReactiveFormsModule, http_1.HttpModule, app_routing_1.routing, ng2_bs3_modal_1.Ng2Bs3ModalModule, forms_1.FormsModule],
         declarations: [app_component_1.AppComponent, home_component_1.HomeComponent, samplefile_component_1.samplefile, login_component_1.logininfo, samplefile_pipe_1.SampleFileFilterPipe, search_shared_1.SearchComponent],
-        providers: [{ provide: common_1.APP_BASE_HREF, useValue: '/' }, samplefile_service_1.SampleFileService, logininfo_service_1.LoginInfoServiceClass],
+        providers: [{ provide: common_1.APP_BASE_HREF, useValue: '/' }, samplefile_service_1.SampleFileService, logininfo_service_1.LoginInfoServiceClass, utility_service_1.UtilityService],
         bootstrap: [app_component_1.AppComponent]
     })
 ], AppModule);

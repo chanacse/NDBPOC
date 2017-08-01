@@ -34,6 +34,7 @@ export class samplefile implements OnInit {
     frmApproval: FormGroup;
     dbops: DBOperation;
     modalTitle: string;
+    userNameGlobal: string;
     modalBtnTitle: string;
     companies: ICompany[];
     company: ICompany;
@@ -322,8 +323,13 @@ export class samplefile implements OnInit {
     CheckAdmin() {
         this.isAdmin = false; //ONLY FOR TESTING
 
+        this.userNameGlobal = Global.BASE_USERNAME;
         if (Global.BASE_USERROLE == 'admin') {
             this.isAdmin = true;
+        }
+        else
+        {
+            this.isAdmin = false;
         }
     }
 

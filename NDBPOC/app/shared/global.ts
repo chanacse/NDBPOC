@@ -7,7 +7,9 @@
     public static BASE_HTMLTEMPLATE_ENDPOINT = '/api/HtmlTemplate/';
     public static BASE_LOGINDETAILS_ENDPOINT = '/api/LoginDetails/';
     public static BASE_FOLDER_PATH = 'E:/myFiles/';
-    public static BASE_USERROLE = "NormalUser";
+    public static BASE_USERROLE = "";
+    public static BASE_USERNAME = "NormalUser";
+
     public static myJasonObject =
     {
         "FirstCustomer": [

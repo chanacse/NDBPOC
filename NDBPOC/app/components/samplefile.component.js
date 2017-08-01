@@ -141,7 +141,6 @@ var samplefile = (function () {
     samplefile.prototype.ViewSampleFile = function (id) {
         this.SetControlsState(true);
         this.modalTitle = "File Content";
-        this.fileFrm.reset();
         this.viewCsv.open();
     };
     samplefile.prototype.SetControlsState = function (isEnable) {
@@ -247,8 +246,12 @@ var samplefile = (function () {
     };
     samplefile.prototype.CheckAdmin = function () {
         this.isAdmin = false; //ONLY FOR TESTING
+        this.userNameGlobal = global_1.Global.BASE_USERNAME;
         if (global_1.Global.BASE_USERROLE == 'admin') {
             this.isAdmin = true;
+        }
+        else {
+            this.isAdmin = false;
         }
     };
     samplefile.prototype.ApproveSampleFile = function (paraFrm) {

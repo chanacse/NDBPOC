@@ -1,14 +1,16 @@
 ﻿import { Component } from "@angular/core"
+import { UtilityService } from './service/utility.service';
+
 @Component({
     selector: "user-app",
     template: `
                 
-<nav class="navbar navbar-inverse navbar-fixed-left">
+<nav class="navbar navbar-inverse navbar-fixed-left" *ngIf="this._util.status">
   <a class="navbar-brand" style="color:red">CMS Operations</a>
   <ul class="nav navbar-nav">
     <li><a [routerLink]="['home']">Home</a></li>
     <li><a [routerLink]="['samplefile']">Sample File</a></li>
-    <li><a [routerLink]="['login']">LogOut</a></li>
+    <li><a [routerLink]="['login']" (click)="logout()">Log Out</a></li>
   </ul>
   <a style="color:red" class="navbar-brand">Reports</a>
   <a style="color:red" class="navbar-brand">Manage CMS</a>
@@ -50,5 +52,10 @@
 })
 
 export class AppComponent {
+    constructor(private _util: UtilityService) {
+    }
 
+    logout(): void {
+        this._util.status = false;
+    }
 }

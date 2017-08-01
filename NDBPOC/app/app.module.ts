@@ -14,12 +14,13 @@ import { logininfo } from './components/login.component';
 import { SampleFileFilterPipe } from './filter/samplefile.pipe';
 import { SearchComponent } from './shared/search.shared';
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
+import { UtilityService } from './service/utility.service';
 //import { FroalaEditorModule } from 'ng2-froala-editor/ng2-froala-editor';
 
 @NgModule({
     imports: [BrowserModule, ReactiveFormsModule, HttpModule, routing, Ng2Bs3ModalModule, FormsModule],
     declarations: [AppComponent, HomeComponent, samplefile, logininfo, SampleFileFilterPipe, SearchComponent],
-    providers: [{ provide: APP_BASE_HREF, useValue: '/' }, SampleFileService, LoginInfoServiceClass],
+    providers: [{ provide: APP_BASE_HREF, useValue: '/' }, SampleFileService, LoginInfoServiceClass, UtilityService],
     bootstrap: [AppComponent]
 })
 

@@ -1,13 +1,12 @@
 ﻿<div class='panel panel-primary'>
     <div class='panel-heading'>
-        Sample File With Data
+        CHEQUE MANAGEMENT MODULE
+        <span class="pull-right">
+            <b>Hello, {{userNameGlobal}}</b>
+        </span>
     </div>
 
 
-    <!--<form [formGroup]="form" (ngSubmit)="onSubmit()">
-        <textarea [froalaEditor] formControlName="formModel"></textarea>
-        <button type="submit">Submit</button>
-    </form>-->
 
     <div class='panel-body'>
         <div class='table-responsive'>
@@ -16,6 +15,7 @@
                     <div>
                         <search-list [title]='searchTitle' (change)="criteriaChange($event)"></search-list>
                     </div>
+
                     <div class="col-md-4">
                         <span>Company *</span>
                         <select class="form-control" (change)="criteriaChange($event)">

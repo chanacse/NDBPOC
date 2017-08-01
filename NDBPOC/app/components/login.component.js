@@ -14,11 +14,13 @@ var logininfo_service_1 = require("../service/logininfo.service");
 var forms_1 = require("@angular/forms");
 var global_1 = require("../Shared/global");
 var router_1 = require("@angular/router");
+var utility_service_1 = require("../service/utility.service");
 var logininfo = (function () {
-    function logininfo(fb, _loginInfoService, _router) {
+    function logininfo(fb, _loginInfoService, _router, _util) {
         this.fb = fb;
         this._loginInfoService = _loginInfoService;
         this._router = _router;
+        this._util = _util;
     }
     logininfo.prototype.ngOnInit = function () {
         this.loginFrm = this.fb.group({
@@ -40,6 +42,8 @@ var logininfo = (function () {
             if (_this.valuePassed) {
                 _this._router.navigate(['./home']);
                 global_1.Global.BASE_USERROLE = _this.valuePassed.RoleType;
+                global_1.Global.BASE_USERNAME = _this.valuePassed.LoginName;
+                _this._util.status = true;
             }
             else {
                 alert('Failed to log');
@@ -52,7 +56,7 @@ logininfo = __decorate([
     core_1.Component({
         templateUrl: 'app/components/login.component.html'
     }),
-    __metadata("design:paramtypes", [forms_1.FormBuilder, logininfo_service_1.LoginInfoServiceClass, router_1.Router])
+    __metadata("design:paramtypes", [forms_1.FormBuilder, logininfo_service_1.LoginInfoServiceClass, router_1.Router, utility_service_1.UtilityService])
 ], logininfo);
 exports.logininfo = logininfo;
 //# sourceMappingURL=login.component.js.map

@@ -7,7 +7,7 @@ import { Observable } from 'rxjs/Rx';
 import { Global } from '../Shared/global';
 import { Router } from '@angular/router';
 import { ILoginInfo } from '../models/logininfo';
-
+import { UtilityService } from '../service/utility.service';
 
 @Component({
 
@@ -21,7 +21,7 @@ export class logininfo implements OnInit {
     user: ILoginInfo;
     valuePassed: any;
 
-    constructor(private fb: FormBuilder, private _loginInfoService: LoginInfoServiceClass, private _router: Router) { }
+    constructor(private fb: FormBuilder, private _loginInfoService: LoginInfoServiceClass, private _router: Router, private _util: UtilityService) { }
 
     ngOnInit(): void {
 
@@ -48,6 +48,8 @@ export class logininfo implements OnInit {
                 if (this.valuePassed) {
                     this._router.navigate(['./home'])
                     Global.BASE_USERROLE = this.valuePassed.RoleType;
+                    Global.BASE_USERNAME = this.valuePassed.LoginName;
+                    this._util.status = true;
                 }
                 else { alert('Failed to log') }
             },

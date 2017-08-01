@@ -13,7 +13,8 @@ Global.BASE_FILESAVE_ENDPOINT = '/api/UploadFileApi/';
 Global.BASE_HTMLTEMPLATE_ENDPOINT = '/api/HtmlTemplate/';
 Global.BASE_LOGINDETAILS_ENDPOINT = '/api/LoginDetails/';
 Global.BASE_FOLDER_PATH = 'E:/myFiles/';
-Global.BASE_USERROLE = "NormalUser";
+Global.BASE_USERROLE = "";
+Global.BASE_USERNAME = "NormalUser";
 Global.myJasonObject = {
     "FirstCustomer": [
         { "Name": "Chanaka", "Requested": "1000", "Issued": "100", "Rejected": "900", "Share": "20", "Amount": "18000", "Company": "Tiqri", "Address": "201, Colombo 2" },
