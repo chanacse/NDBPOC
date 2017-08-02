@@ -27,6 +27,7 @@ var companyInfo = (function () {
     }
     companyInfo.prototype.ngOnInit = function () {
         this.fileFrm = this.fb.group({
+            CID: [''],
             CName: [''],
             AccountNumber: [''],
             ContactName: [''],
@@ -44,7 +45,7 @@ var companyInfo = (function () {
     companyInfo.prototype.LoadCompanies = function () {
         var _this = this;
         this._sampleFileService.get(global_1.Global.BASE_COMPANY_ENDPOINT)
-            .subscribe(function (localcom) { _this.companies = localcom; _this.indLoading = false; }, function (error) { return _this.msg = error; });
+            .subscribe(function (localcom) { _this.companies = localcom; _this.indLoading = false; alert(_this.companies[0].CName); }, function (error) { return _this.msg = error; });
     };
     //SAVE to DB
     companyInfo.prototype.addCompany = function () {
@@ -52,7 +53,7 @@ var companyInfo = (function () {
         this.isFileUploadVisible = true;
         this.SetControlsState(true);
         this.modalTitle = "Create Company";
-        this.modalBtnTitle = "Add";
+        this.modalBtnTitle = "Create New Company";
         this.fileFrm.reset();
         this.modal.open();
     };
@@ -84,10 +85,9 @@ var companyInfo = (function () {
         this.msg = "";
         switch (this.dbops) {
             case enum_1.DBOperation.create:
-                var insertStatus = false;
                 // this is to create data in DATABASE
-                formData._value.ApprovalStatus = "Initiated";
-                this._sampleFileService.post(global_1.Global.BASE_SAMPLEFILE_ENDPOINT, formData._value).subscribe(function (data) {
+                formData._value.ApprovalStatus = "Created";
+                this._sampleFileService.post(global_1.Global.BASE_COMPANY_ENDPOINT, formData._value).subscribe(function (data) {
                     if (data == 1) {
                         _this.msg = "Data successfully added.";
                         _this.LoadCompanies();
@@ -101,7 +101,7 @@ var companyInfo = (function () {
                 });
                 break;
             case enum_1.DBOperation.update:
-                this._sampleFileService.put(global_1.Global.BASE_SAMPLEFILE_ENDPOINT, formData._value.FID, formData._value).subscribe(function (data) {
+                this._sampleFileService.put(global_1.Global.BASE_COMPANY_ENDPOINT, formData._value.CID, formData._value).subscribe(function (data) {
                     if (data == 1) {
                         _this.msg = "Data successfully updated.";
                         _this.LoadCompanies();
@@ -115,7 +115,7 @@ var companyInfo = (function () {
                 });
                 break;
             case enum_1.DBOperation.delete:
-                this._sampleFileService.delete(global_1.Global.BASE_SAMPLEFILE_ENDPOINT, formData._value.FID).subscribe(function (data) {
+                this._sampleFileService.delete(global_1.Global.BASE_COMPANY_ENDPOINT, formData._value.CID).subscribe(function (data) {
                     if (data == 1) {
                         _this.msg = "Data successfully deleted.";
                         _this.LoadCompanies();
@@ -284,7 +284,7 @@ var companyInfo = (function () {
         });
     };
     companyInfo.prototype.HideApproveSampleButtonByStatus = function (status) {
-        if (status == "Initiated") {
+        if (status == "Created") {
             return false;
         }
         else {
@@ -316,7 +316,7 @@ var companyInfo = (function () {
         }
     };
     companyInfo.prototype.HideEditDeleteButtonByStatus = function (status) {
-        if (status == "Initiated") {
+        if (status == "Created") {
             return false;
         }
         else {

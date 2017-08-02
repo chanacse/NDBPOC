@@ -52,6 +52,7 @@ export class companyInfo implements OnInit {
     ngOnInit(): void {
 
         this.fileFrm = this.fb.group({
+            CID: [''],
             CName: [''],
             AccountNumber: [''],
             ContactName: [''],
@@ -78,14 +79,13 @@ export class companyInfo implements OnInit {
     }
 
 
-
     //SAVE to DB
     addCompany() {
         this.dbops = DBOperation.create;
         this.isFileUploadVisible = true;
         this.SetControlsState(true);
         this.modalTitle = "Create Company";
-        this.modalBtnTitle = "Add";
+        this.modalBtnTitle = "Create New Company";
         this.fileFrm.reset();
         this.modal.open();
     }
@@ -121,12 +121,9 @@ export class companyInfo implements OnInit {
 
         switch (this.dbops) {
             case DBOperation.create:
-
-                let insertStatus = false;
-
                 // this is to create data in DATABASE
-                formData._value.ApprovalStatus = "Initiated";
-                this._sampleFileService.post(Global.BASE_SAMPLEFILE_ENDPOINT, formData._value).subscribe(
+                formData._value.ApprovalStatus = "Created";
+                this._sampleFileService.post(Global.BASE_COMPANY_ENDPOINT, formData._value).subscribe(
                     data => {
                         if (data == 1) //Success
                         {
@@ -144,10 +141,9 @@ export class companyInfo implements OnInit {
                     }
                 );
 
-
                 break;
             case DBOperation.update:
-                this._sampleFileService.put(Global.BASE_SAMPLEFILE_ENDPOINT, formData._value.FID, formData._value).subscribe(
+                this._sampleFileService.put(Global.BASE_COMPANY_ENDPOINT, formData._value.CID, formData._value).subscribe(
                     data => {
                         if (data == 1) //Success
                         {
@@ -166,7 +162,7 @@ export class companyInfo implements OnInit {
                 );
                 break;
             case DBOperation.delete:
-                this._sampleFileService.delete(Global.BASE_SAMPLEFILE_ENDPOINT, formData._value.FID).subscribe(
+                this._sampleFileService.delete(Global.BASE_COMPANY_ENDPOINT, formData._value.CID).subscribe(
                     data => {
                         if (data == 1) //Success
                         {
@@ -390,7 +386,7 @@ export class companyInfo implements OnInit {
 
     HideApproveSampleButtonByStatus(status: string) {
 
-        if (status == "Initiated") {
+        if (status == "Created") {
             return false;
         }
         else {
@@ -432,7 +428,7 @@ export class companyInfo implements OnInit {
     }
 
     HideEditDeleteButtonByStatus(status: string) {
-        if (status == "Initiated") {
+        if (status == "Created") {
             return false;
         }
         else {

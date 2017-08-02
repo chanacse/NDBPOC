@@ -12,29 +12,26 @@
         <div class='table-responsive'>
 
             <div class="alert alert-info" role="alert" *ngIf="indLoading"><img src="../../images/loading.gif" width="32" height="32" /> Loading...</div>
-            <div *ngIf='files && files.length==0' class="alert alert-info" role="alert">No record found!</div>
-            <table class='table table-striped' *ngIf='files && files.length'>
+            <div *ngIf='companies && companies.length==0' class="alert alert-info" role="alert">No record found!</div>
+            <table class='table table-striped' *ngIf='companies && companies.length'>
                 <thead>
                     <tr>
-
                         <th>Company Name</th>
-                        <th>Share Type</th>
-                        <th>Share Offer Code</th>
-                        <th>File Name</th>
+                        <th>Account Number</th>
                         <th>Status</th>
-                        <th></th>
+                        <th>Actions </th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let myCompany of companies">
-                        <td>{{myCompany.CID}}</td>
                         <td>{{myCompany.CName}}</td>
-                        <td><span class="label label-primary">{{myCompany.CompanyStatus}}</span></td>
+                        <td>{{myCompany.AccountNumber}}</td>
+                        <td><span class="label label-primary">{{myCompany.ApprovalStatus}}</span></td>
 
                         <td>
-                            <button title="Edit" class="btn btn-primary" (click)="editCompany(myfile.FID)" *ngIf="!isAdmin" [disabled]="HideEditDeleteButtonByStatus(myfile.CompanyStatus)">Edit</button>
-                            <button title="Delete" class="btn btn-danger" (click)="deleteCompany(myfile.FID)" *ngIf="!isAdmin" [disabled]="HideEditDeleteButtonByStatus(myfile.CompanyStatus)">Delete</button>
-                            <button title="View" class="btn btn-info" (click)="ViewFilePOPUP(myfile.FID)" *ngIf="isAdmin" [disabled]="HideApproveSampleButtonByStatus(myfile.CompanyStatus)">Approve Company</button>
+                            <button title="Edit" class="btn btn-primary" (click)="editCompany(myCompany.CID)" *ngIf="!isAdmin" [disabled]="HideEditDeleteButtonByStatus(myCompany.ApprovalStatus)">Edit</button>
+                            <button title="Delete" class="btn btn-danger" (click)="deleteCompany(myCompany.CID)" *ngIf="!isAdmin" [disabled]="HideEditDeleteButtonByStatus(myCompany.ApprovalStatus)">Delete</button>
+                            <button title="View" class="btn btn-info" (click)="ViewFilePOPUP(myCompany.CID)" *ngIf="isAdmin" [disabled]="HideApproveSampleButtonByStatus(myCompany.ApprovalStatus)">Approve Company</button>
                         </td>
                     </tr>
                 </tbody>
@@ -59,7 +56,20 @@
         <modal-header [show-close]="true">
             <h4 class="modal-title">{{modalTitle}}</h4>
         </modal-header>
+        <modal-body>
 
+            <div class="form-group">
+                <div>
+                    <span>Company Name*</span>
+                    <input type="text" class="form-control" formControlName="CName">
+                </div>
+
+                <div class="col-md-4">
+                    <span>Account Number*</span>
+                    <input type="text" class="form-control" formControlName="AccountNumber">
+                </div>
+            </div>
+        </modal-body>
         <modal-footer>
             <div>
                 <a class="btn btn-default" (click)="modal.dismiss()">Cancel</a>
@@ -69,7 +79,7 @@
     </form>
 </modal>
 
-<modal #mymodalID>
+<!--<modal #mymodalID>
     <form novalidate [formGroup]="fileFrm">
         <modal-header [show-close]="true">
             <h4 class="modal-title">{{modalTitle}}</h4>
@@ -118,8 +128,6 @@
     </form>
 </modal>
 
-
-
 <modal #myFinalPrint>
     <form novalidate [formGroup]="fileFrm">
         <modal-header [show-close]="true">
@@ -128,7 +136,7 @@
         <modal-body>
             <div class="row">
                 <div class="checkbox">
-                    <!--<label><input type="checkbox" value="" [(ngModel)]="enableButton" formControlName="" *ngIf="!hideCheckBox">FIRST PRINT OK</label>-->
+                    <label><input type="checkbox" value="" [(ngModel)]="enableButton" formControlName="" *ngIf="!hideCheckBox">FIRST PRINT OK</label>
                 </div>
             </div>
         </modal-body>
@@ -157,5 +165,4 @@
             <a class="btn btn-default" (click)="ViewCsvFile.dismiss()">Cancel</a>
         </modal-footer>
     </form>
-</modal>
-
+</modal>-->
