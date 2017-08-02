@@ -5,7 +5,7 @@
     ContactName: string;
     FaxNumber: string;
     Email: string;
-    Status: string;
+    Status: boolean;
     ApprovalStatus: string;
     ApprovalComment: string;
     CreatedBy: string;

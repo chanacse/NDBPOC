@@ -23,10 +23,10 @@
           <Property Name="ContactName" Type="varchar" MaxLength="100" />
           <Property Name="FaxNumber" Type="varchar" MaxLength="100" />
           <Property Name="Email" Type="varchar" MaxLength="50" />
-          <Property Name="Status" Type="varchar" MaxLength="50" />
           <Property Name="ApprovalStatus" Type="varchar" MaxLength="50" />
           <Property Name="ApprovalComment" Type="varchar" MaxLength="550" />
           <Property Name="CreatedBy" Type="varchar" MaxLength="150" />
+          <Property Name="CompanyStatus" Type="bit" />
         </EntityType>
         <EntityType Name="NDBCompanyFile">
           <Key>
@@ -137,10 +137,10 @@
           <Property Name="ContactName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="FaxNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ApprovalStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ApprovalComment" Type="String" MaxLength="550" FixedLength="false" Unicode="false" />
           <Property Name="CreatedBy" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="CompanyStatus" Type="Boolean" />
         </EntityType>
         <EntityType Name="NDBCompanyFile">
           <Key>
@@ -247,13 +247,13 @@
           <EntitySetMapping Name="NDBCompanies">
             <EntityTypeMapping TypeName="NDBPOCDBModel.NDBCompany">
               <MappingFragment StoreEntitySet="NDBCompany">
+                <ScalarProperty Name="CompanyStatus" ColumnName="CompanyStatus" />
                 <ScalarProperty Name="CID" ColumnName="CID" />
                 <ScalarProperty Name="CName" ColumnName="CName" />
                 <ScalarProperty Name="AccountNumber" ColumnName="AccountNumber" />
                 <ScalarProperty Name="ContactName" ColumnName="ContactName" />
                 <ScalarProperty Name="FaxNumber" ColumnName="FaxNumber" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ApprovalStatus" ColumnName="ApprovalStatus" />
                 <ScalarProperty Name="ApprovalComment" ColumnName="ApprovalComment" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />

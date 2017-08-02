@@ -20,9 +20,9 @@ namespace DBServices
         public string ContactName { get; set; }
         public string FaxNumber { get; set; }
         public string Email { get; set; }
-        public string Status { get; set; }
         public string ApprovalStatus { get; set; }
         public string ApprovalComment { get; set; }
         public string CreatedBy { get; set; }
+        public Nullable<bool> CompanyStatus { get; set; }
     }
 }

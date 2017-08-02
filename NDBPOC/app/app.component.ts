@@ -15,9 +15,9 @@ import { UtilityService } from './service/utility.service';
   <a style="color:red" class="navbar-brand">Reports</a>
   <a style="color:red" class="navbar-brand">Manage CMS</a>
   <ul class="nav navbar-nav">
-    <li><a [routerLink]="['#']">Companies</a></li>
+    <li><a [routerLink]="['company']">Companies</a></li>
     <li><a [routerLink]="['#']">Issue Numbers</a></li>
-    <li><a [routerLink]="['#']">Users</a></li>
+    <li><a [routerLink]="['userm']">Users</a></li>
     <li><a [routerLink]="['#']">Share Type</a></li>
   </ul>
 </nav>

@@ -1,0 +1,161 @@
+﻿<div class='panel panel-primary'>
+    <div class='panel-heading'>
+        Company Management Module
+        <span class="pull-right">
+            <b>Hello, {{userNameGlobal}}</b>
+        </span>
+    </div>
+
+
+
+    <div class='panel-body'>
+        <div class='table-responsive'>
+
+            <div class="alert alert-info" role="alert" *ngIf="indLoading"><img src="../../images/loading.gif" width="32" height="32" /> Loading...</div>
+            <div *ngIf='files && files.length==0' class="alert alert-info" role="alert">No record found!</div>
+            <table class='table table-striped' *ngIf='files && files.length'>
+                <thead>
+                    <tr>
+
+                        <th>Company Name</th>
+                        <th>Share Type</th>
+                        <th>Share Offer Code</th>
+                        <th>File Name</th>
+                        <th>Status</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let myCompany of companies">
+                        <td>{{myCompany.CID}}</td>
+                        <td>{{myCompany.CName}}</td>
+                        <td><span class="label label-primary">{{myCompany.CompanyStatus}}</span></td>
+
+                        <td>
+                            <button title="Edit" class="btn btn-primary" (click)="editCompany(myfile.FID)" *ngIf="!isAdmin" [disabled]="HideEditDeleteButtonByStatus(myfile.CompanyStatus)">Edit</button>
+                            <button title="Delete" class="btn btn-danger" (click)="deleteCompany(myfile.FID)" *ngIf="!isAdmin" [disabled]="HideEditDeleteButtonByStatus(myfile.CompanyStatus)">Delete</button>
+                            <button title="View" class="btn btn-info" (click)="ViewFilePOPUP(myfile.FID)" *ngIf="isAdmin" [disabled]="HideApproveSampleButtonByStatus(myfile.CompanyStatus)">Approve Company</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div>
+                <div style="padding-bottom:10px"><button class="btn btn-primary" (click)="addCompany()" *ngIf="!isAdmin">Create New Company</button></div>
+            </div>
+        </div>
+        <div *ngIf="msg" role="alert" class="alert alert-info alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <span class="sr-only">Error:</span>
+            {{msg}}
+        </div>
+        <router-outlet></router-outlet>
+    </div>
+    <router-outlet name="sidemenu"></router-outlet>
+</div>
+
+<modal #modal>
+    <form novalidate (ngSubmit)="onSubmit(fileFrm)" [formGroup]="fileFrm">
+        <modal-header [show-close]="true">
+            <h4 class="modal-title">{{modalTitle}}</h4>
+        </modal-header>
+
+        <modal-footer>
+            <div>
+                <a class="btn btn-default" (click)="modal.dismiss()">Cancel</a>
+                <button type="submit" [disabled]="fileFrm.invalid" class="btn btn-primary">{{modalBtnTitle}}</button>
+            </div>
+        </modal-footer>
+    </form>
+</modal>
+
+<modal #mymodalID>
+    <form novalidate [formGroup]="fileFrm">
+        <modal-header [show-close]="true">
+            <h4 class="modal-title">{{modalTitle}}</h4>
+        </modal-header>
+        <modal-body>
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-md-12 row">
+                        <div class="col-md-6">
+                            <label>Company: </label>
+                            <label>{{file?.CName}}</label>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Share Type: </label>
+                            <label>{{file?.AccountNumber}}</label>
+                        </div>
+                    </div>
+                    <div class="col-md-12 row">
+                        <div class="col-md-6">
+                            <label>Share Offer Code: </label>
+                            <label>{{file?.ContactName}}</label>
+
+                        </div>
+                        <div class="col-md-6">
+                            <label>File Name:</label>
+                            <label>{{file?.FaxNumber}}</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 row">
+                        <div>
+                            <span>Approver Comment*</span>
+                            <input type="text" class="form-control" formControlName="ApprovalComment">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </modal-body>
+        <modal-footer>
+            <div>
+                <button type="submit" class="btn btn-success" (click)="ApproveSampleFile(fileFrm)" [disabled]="fileFrm.invalid">Approve</button>
+                <button type="submit" class="btn btn-danger" (click)="RejectSampleFile(fileFrm)" [disabled]="fileFrm.invalid">Reject</button>
+                <a class="btn btn-default" (click)="mymodalID.dismiss()">Cancel</a>
+            </div>
+        </modal-footer>
+    </form>
+</modal>
+
+
+
+<modal #myFinalPrint>
+    <form novalidate [formGroup]="fileFrm">
+        <modal-header [show-close]="true">
+            <h4 class="modal-title">{{modalTitle}}</h4>
+        </modal-header>
+        <modal-body>
+            <div class="row">
+                <div class="checkbox">
+                    <!--<label><input type="checkbox" value="" [(ngModel)]="enableButton" formControlName="" *ngIf="!hideCheckBox">FIRST PRINT OK</label>-->
+                </div>
+            </div>
+        </modal-body>
+        <modal-footer>
+            <div>
+                <button type="submit" class="btn btn-success" (click)="viewPDF(fileFrm)">View PDF</button>
+                <button type="submit" class="btn btn-danger" (click)="PrintFirstRecord(fileFrm)" [disabled]="!enableButton" *ngIf="enablePrintFirstRecordButton">Print First Record</button>
+                <button type="submit" class="btn btn-info" (click)="PrintAll(fileFrm)" [disabled]="!enablePrintAllButton">Print All</button>
+                <a class="btn btn-default" (click)="myFinalPrint.dismiss()">Cancel</a>
+            </div>
+        </modal-footer>
+    </form>
+</modal>
+
+<modal #ViewCsvFile>
+    <form novalidate [formGroup]="fileFrm">
+        <modal-header [show-close]="true">
+            <h4 class="modal-title">{{modalTitle}}</h4>
+        </modal-header>
+        <modal-body>
+
+            <div class="row col-md-12" innerHTML="{{CSVfileContent}}"></div>
+
+        </modal-body>
+        <modal-footer>
+            <a class="btn btn-default" (click)="ViewCsvFile.dismiss()">Cancel</a>
+        </modal-footer>
+    </form>
+</modal>
+

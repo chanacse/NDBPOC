@@ -8,7 +8,7 @@
                 </div>
           <div class="form-group">
             <div class="col-lg-12">
-              <input class="input-lg" placeholder="Search Using Company Name / File Name / Status" (paste)="getPasteData($event)" (keyup)="getEachChar($event.target.value)" type="text" [(ngModel)]="listFilter" /><img src="../../images/cross.png" class="cross-btn" (click)="clearFilter()" *ngIf="listFilter"/>
+              <input class="input-lg" placeholder="Company Name / File Name / Status" (paste)="getPasteData($event)" (keyup)="getEachChar($event.target.value)" type="text" [(ngModel)]="listFilter" /><img src="../../images/cross.png" class="cross-btn" (click)="clearFilter()" *ngIf="listFilter"/>
            </div>
          </div>
          <div class="form-group">

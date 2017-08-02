@@ -39,7 +39,7 @@ __decorate([
 SearchComponent = __decorate([
     core_1.Component({
         selector: 'search-list',
-        template: "<div class=\"form-inline\">\n                <div class=\"form-group\">\n                  <label><h3>{{title}}</h3></label>\n                </div>\n          <div class=\"form-group\">\n            <div class=\"col-lg-12\">\n              <input class=\"input-lg\" placeholder=\"Search Using Company Name / File Name / Status\" (paste)=\"getPasteData($event)\" (keyup)=\"getEachChar($event.target.value)\" type=\"text\" [(ngModel)]=\"listFilter\" /><img src=\"../../images/cross.png\" class=\"cross-btn\" (click)=\"clearFilter()\" *ngIf=\"listFilter\"/>\n           </div>\n         </div>\n         <div class=\"form-group\">\n             <div *ngIf='listFilter'>\n           <div class=\"h3 text-muted\">Filter by: {{listFilter}}</div>\n        </div>\n      </div>\n     </div> "
+        template: "<div class=\"form-inline\">\n                <div class=\"form-group\">\n                  <label><h3>{{title}}</h3></label>\n                </div>\n          <div class=\"form-group\">\n            <div class=\"col-lg-12\">\n              <input class=\"input-lg\" placeholder=\"Company Name / File Name / Status\" (paste)=\"getPasteData($event)\" (keyup)=\"getEachChar($event.target.value)\" type=\"text\" [(ngModel)]=\"listFilter\" /><img src=\"../../images/cross.png\" class=\"cross-btn\" (click)=\"clearFilter()\" *ngIf=\"listFilter\"/>\n           </div>\n         </div>\n         <div class=\"form-group\">\n             <div *ngIf='listFilter'>\n           <div class=\"h3 text-muted\">Filter by: {{listFilter}}</div>\n        </div>\n      </div>\n     </div> "
     })
 ], SearchComponent);
 exports.SearchComponent = SearchComponent;
