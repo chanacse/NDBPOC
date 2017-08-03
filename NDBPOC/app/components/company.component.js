@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var samplefile_service_1 = require("../service/samplefile.service");
+var company_service_1 = require("../service/company.service");
 var forms_1 = require("@angular/forms");
 var ng2_bs3_modal_1 = require("ng2-bs3-modal/ng2-bs3-modal");
 var enum_1 = require("../Shared/enum");
@@ -45,7 +45,7 @@ var companyInfo = (function () {
     companyInfo.prototype.LoadCompanies = function () {
         var _this = this;
         this._sampleFileService.get(global_1.Global.BASE_COMPANY_ENDPOINT)
-            .subscribe(function (localcom) { _this.companies = localcom; _this.indLoading = false; alert(_this.companies[0].CName); }, function (error) { return _this.msg = error; });
+            .subscribe(function (localcom) { _this.companies = localcom; _this.indLoading = false; }, function (error) { return _this.msg = error; });
     };
     //SAVE to DB
     companyInfo.prototype.addCompany = function () {
@@ -129,13 +129,6 @@ var companyInfo = (function () {
                 });
                 break;
         }
-    };
-    companyInfo.prototype.filterSampleFiles = function (companyName) {
-        var _this = this;
-        this.indLoading = true;
-        //Filter Values and Re-Bind to GRID       
-        this._sampleFileService.getLoginInfo(global_1.Global.BASE_SAMPLEFILE_ENDPOINT, companyName.target.value)
-            .subscribe(function (localFiles) { _this.companies = localFiles; _this.indLoading = false; }, function (error) { return _this.msg = error; });
     };
     companyInfo.prototype.criteriaChange = function (value) {
         if (value != '[object Event]')
@@ -359,7 +352,7 @@ companyInfo = __decorate([
     core_1.Component({
         templateUrl: 'app/components/company.component.html'
     }),
-    __metadata("design:paramtypes", [forms_1.FormBuilder, samplefile_service_1.SampleFileService])
+    __metadata("design:paramtypes", [forms_1.FormBuilder, company_service_1.CompanyServiceClass])
 ], companyInfo);
 exports.companyInfo = companyInfo;
 //# sourceMappingURL=company.component.js.map

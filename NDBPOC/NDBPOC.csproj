@@ -177,6 +177,7 @@
     <Compile Include="Controllers\ShareOfferCodeController.cs" />
     <Compile Include="Controllers\ShareTypeController.cs" />
     <Compile Include="Controllers\UploadFileApiController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -186,6 +187,7 @@
     <Content Include="app\components\company.component.html" />
     <Content Include="app\components\login.component.html" />
     <Content Include="app\components\samplefile.component.html" />
+    <Content Include="app\components\user.component.html" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
@@ -248,7 +250,10 @@
     <TypeScriptCompile Include="app\components\home.component.ts" />
     <TypeScriptCompile Include="app\components\login.component.ts" />
     <TypeScriptCompile Include="app\components\samplefile.component.ts" />
+    <TypeScriptCompile Include="app\components\user.component.ts" />
+    <TypeScriptCompile Include="app\filter\company.pipe.ts" />
     <TypeScriptCompile Include="app\filter\samplefile.pipe.ts" />
+    <TypeScriptCompile Include="app\filter\user.pipe.ts" />
     <TypeScriptCompile Include="app\main.ts" />
     <TypeScriptCompile Include="app\models\company.ts" />
     <TypeScriptCompile Include="app\models\csvdataset.ts" />
@@ -256,9 +261,11 @@
     <TypeScriptCompile Include="app\models\samplefile.ts" />
     <TypeScriptCompile Include="app\models\shareoffercode.ts" />
     <TypeScriptCompile Include="app\models\sharetype.ts" />
+    <TypeScriptCompile Include="app\models\user.ts" />
     <TypeScriptCompile Include="app\service\company.service.ts" />
     <TypeScriptCompile Include="app\service\logininfo.service.ts" />
     <TypeScriptCompile Include="app\service\samplefile.service.ts" />
+    <TypeScriptCompile Include="app\service\user.service.ts" />
     <TypeScriptCompile Include="app\service\utility.service.ts" />
     <TypeScriptCompile Include="app\shared\enum.ts" />
     <TypeScriptCompile Include="app\shared\global.ts" />

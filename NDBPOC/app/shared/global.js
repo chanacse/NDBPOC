@@ -12,6 +12,7 @@ Global.BASE_SHAREOFFERCODE_ENDPOINT = 'api/ShareOfferCode/';
 Global.BASE_FILESAVE_ENDPOINT = '/api/UploadFileApi/';
 Global.BASE_HTMLTEMPLATE_ENDPOINT = '/api/HtmlTemplate/';
 Global.BASE_LOGINDETAILS_ENDPOINT = '/api/LoginDetails/';
+Global.BASE_USER_ENDPOINT = '/api/User/';
 Global.BASE_FOLDER_PATH = 'E:/myFiles/';
 Global.BASE_USERROLE = "";
 Global.BASE_USERNAME = "NormalUser";

@@ -1,0 +1,105 @@
+﻿<div class='panel panel-primary'>
+    <div class='panel-heading'>
+        User Management
+        <span class="pull-right">
+            <b>Hello, {{MyUserName}}</b>
+        </span>
+
+    </div>
+    <div class='panel-body'>
+
+
+        <div class='table-responsive'>
+            <div class="alert alert-info" role="alert" *ngIf="indLoading"><img src="../../images/loading.gif" width="32" height="32" /> Loading...</div>
+            <div *ngIf='users && users.length==0' class="alert alert-info" role="alert">No record found!</div>
+            <div class="row">
+                <search-list [title]='searchTitle' (change)="criteriaChange($event)"></search-list>
+            </div>
+            <div class="row">
+                <table class='table table-striped' *ngIf='users && users.length'>
+                    <thead>
+                        <tr>
+                            <th>User ID</th>
+                            <th>Name</th>
+                            <th>Role Type</th>
+                            <th>Email</th>
+                            <th>Current manager</th>
+                            <th>Active</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let user of users | UsersFilterPipe:listFilter">
+                            <td>{{user.ID}}</td>
+                            <td>{{user.LoginName}}</td>
+                            <td>{{user.RoleType}}</td>
+                            <td>{{user.Email}}</td>
+                            <td>{{user.CurrentManager}}</td>
+                            <td>{{user.isActive}}</td>
+                            <td>
+                                <button title="Edit" class="btn btn-primary" (click)="editFile(user.ID)">Edit</button>
+                                <button title="Delete" class="btn btn-danger" (click)="deleteFile(user.ID)">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="padding-bottom:10px"><button class="btn btn-primary" (click)="addCompany()">Add User</button></div>
+
+        </div>
+        <div *ngIf="msg" role="alert" class="alert alert-info alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <span class="sr-only">Error:</span>
+            {{msg}}
+        </div>
+    </div>
+</div>
+
+<modal #modal>
+    <form novalidate (ngSubmit)="onSubmit(userFrm)" [formGroup]="userFrm">
+        <modal-header [show-close]="true">
+            <h4 class="modal-title">{{modalTitle}}</h4>
+        </modal-header>
+        <modal-body>
+            <div class="row">
+                <div class="col-md-4">
+                    <span>Login name<b style="color:red">*</b></span>
+                    <input type="text" class="form-control" placeholder="Company name" formControlName="LoginName">
+                </div>
+                <div class="col-md-4">
+                    <span>Password<b style="color:red">*</b></span>
+                    <input type="password" class="form-control" placeholder="Account Number" formControlName="Password">
+                </div>
+                <div class="col-md-4">
+                    <span>Role Type<b style="color:red">*</b></span>
+                    <input type="text" class="form-control" placeholder="Contact Name" formControlName="RoleType">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-md-4">
+                        <span>Email</span>
+                        <input type="text" class="form-control" placeholder="Fax Number" formControlName="Email">
+                    </div>
+                    <div class="col-md-4">
+                        <span>Current Manager</span>
+                        <input type="text" class="form-control" placeholder="Email" formControlName="CurrentManager">
+                    </div>
+                    <div class="col-md-4">
+                        <span>Active</span>
+                        <input type="checkbox" class="form-control" placeholder="Email" formControlName="isActive">
+                    </div>
+                </div>
+            </div>
+
+        </modal-body>
+        <modal-footer>
+            <div>
+                <a class="btn btn-default" (click)="modal.dismiss()">Cancel</a>
+                <button type="submit" [disabled]="userFrm.invalid" class="btn btn-primary">{{modalBtnTitle}}</button>
+            </div>
+        </modal-footer>
+    </form>
+</modal>

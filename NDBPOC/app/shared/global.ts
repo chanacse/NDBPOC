@@ -6,6 +6,7 @@
     public static BASE_FILESAVE_ENDPOINT = '/api/UploadFileApi/';
     public static BASE_HTMLTEMPLATE_ENDPOINT = '/api/HtmlTemplate/';
     public static BASE_LOGINDETAILS_ENDPOINT = '/api/LoginDetails/';
+    public static BASE_USER_ENDPOINT = '/api/User/';
     public static BASE_FOLDER_PATH = 'E:/myFiles/';
     public static BASE_USERROLE = "";
     public static BASE_USERNAME = "NormalUser";

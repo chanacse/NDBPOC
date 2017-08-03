@@ -1,5 +1,5 @@
 ﻿import { Component, OnInit, ViewChild } from '@angular/core';
-import { SampleFileService } from '../service/samplefile.service';
+import { CompanyServiceClass } from '../service/company.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { DBOperation } from '../Shared/enum';
@@ -46,7 +46,7 @@ export class companyInfo implements OnInit {
     hideCheckBox = false;
     isFileUploadVisible = false;
 
-    constructor(private fb: FormBuilder, private _sampleFileService: SampleFileService) { }
+    constructor(private fb: FormBuilder, private _sampleFileService: CompanyServiceClass) { }
 
 
     ngOnInit(): void {
@@ -183,14 +183,7 @@ export class companyInfo implements OnInit {
 
         }
     }
-
-    filterSampleFiles(companyName: any) {
-        this.indLoading = true;
-        //Filter Values and Re-Bind to GRID       
-        this._sampleFileService.getLoginInfo(Global.BASE_SAMPLEFILE_ENDPOINT, companyName.target.value)
-            .subscribe(localFiles => { this.companies = localFiles; this.indLoading = false; },
-            error => this.msg = <any>error);
-    }
+   
 
     criteriaChange(value: any): void {
         if (value != '[object Event]')

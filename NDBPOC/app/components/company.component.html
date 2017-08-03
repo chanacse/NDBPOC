@@ -13,6 +13,9 @@
 
             <div class="alert alert-info" role="alert" *ngIf="indLoading"><img src="../../images/loading.gif" width="32" height="32" /> Loading...</div>
             <div *ngIf='companies && companies.length==0' class="alert alert-info" role="alert">No record found!</div>
+            <div class="row">
+                <search-list [title]='searchTitle' (change)="criteriaChange($event)"></search-list>
+            </div>
             <table class='table table-striped' *ngIf='companies && companies.length'>
                 <thead>
                     <tr>
@@ -23,7 +26,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let myCompany of companies">
+                    <tr *ngFor="let myCompany of companies | CompanyFilterPipe:listFilter">
                         <td>{{myCompany.CName}}</td>
                         <td>{{myCompany.AccountNumber}}</td>
                         <td><span class="label label-primary">{{myCompany.ApprovalStatus}}</span></td>
