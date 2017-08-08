@@ -28,6 +28,9 @@
             'ng2-bs3-modal': 'npm:/ng2-bs3-modal',
             "jspdf": "node_modules/jspdf/dist/jspdf.min.js",
             'angular-froala-wysiwyg': 'npm:angular-froala-wysiwyg/bundles/angular-froala-wysiwyg.umd.js',
+            'ng2-pdf-viewer': 'node_modules/ng2-pdf-viewer',
+            'ng2-ckeditor': 'https://npmcdn.com/ng2-ckeditor@latest',
+            'pdfjs-dist': 'node_modules/pdfjs-dist'            
         },
         // packages tells the System loader how to load when no filename and/or no extension
         packages: {
@@ -39,7 +42,12 @@
             },
             'ng2-bs3-modal':
             { main: '/bundles/ng2-bs3-modal.js', defaultExtension: 'js' },
-
+            "ng2-ckeditor": {
+                "main": "lib/index.js",
+                "defaultExtension": "js",
+            },
+            'ng2-pdf-viewer': { main: 'dist/index.js', defaultExtension: 'js' },
+            'pdfjs-dist': { defaultExtension: 'js' }           
         }
 
     });

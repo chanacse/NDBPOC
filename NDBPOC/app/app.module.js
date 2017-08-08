@@ -28,6 +28,8 @@ var search_shared_1 = require("./shared/search.shared");
 var utility_service_1 = require("./service/utility.service");
 var company_component_1 = require("./components/company.component");
 var user_component_1 = require("./components/user.component");
+var ng2_pdf_viewer_1 = require("ng2-pdf-viewer");
+var ng2_ckeditor_1 = require("ng2-ckeditor");
 //import { FroalaEditorModule } from 'ng2-froala-editor/ng2-froala-editor';
 var AppModule = (function () {
     function AppModule() {
@@ -36,8 +38,8 @@ var AppModule = (function () {
 }());
 AppModule = __decorate([
     core_1.NgModule({
-        imports: [platform_browser_1.BrowserModule, forms_1.ReactiveFormsModule, http_1.HttpModule, app_routing_1.routing, ng2_bs3_modal_1.Ng2Bs3ModalModule, forms_1.FormsModule],
-        declarations: [app_component_1.AppComponent, home_component_1.HomeComponent, samplefile_component_1.samplefile, login_component_1.logininfo, samplefile_pipe_1.SampleFileFilterPipe, company_pipe_1.CompanyFilterPipe, user_pipe_1.UsersFilterPipe, search_shared_1.SearchComponent, company_component_1.companyInfo, user_component_1.UserInfo],
+        imports: [platform_browser_1.BrowserModule, forms_1.ReactiveFormsModule, http_1.HttpModule, app_routing_1.routing, ng2_bs3_modal_1.Ng2Bs3ModalModule, forms_1.FormsModule, ng2_ckeditor_1.CKEditorModule],
+        declarations: [app_component_1.AppComponent, home_component_1.HomeComponent, samplefile_component_1.samplefile, login_component_1.logininfo, samplefile_pipe_1.SampleFileFilterPipe, company_pipe_1.CompanyFilterPipe, user_pipe_1.UsersFilterPipe, search_shared_1.SearchComponent, company_component_1.companyInfo, user_component_1.UserInfo, ng2_pdf_viewer_1.PdfViewerComponent],
         providers: [{ provide: common_1.APP_BASE_HREF, useValue: '/' }, samplefile_service_1.SampleFileService, company_service_1.CompanyServiceClass, user_service_1.UsersServiceClass, logininfo_service_1.LoginInfoServiceClass, utility_service_1.UtilityService],
         bootstrap: [app_component_1.AppComponent]
     })

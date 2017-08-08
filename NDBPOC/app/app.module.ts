@@ -22,11 +22,14 @@ import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { UtilityService } from './service/utility.service';
 import { companyInfo } from './components/company.component';
 import { UserInfo } from './components/user.component';
+import { PdfViewerComponent } from 'ng2-pdf-viewer';
+import { CKEditorModule } from 'ng2-ckeditor';
+
 //import { FroalaEditorModule } from 'ng2-froala-editor/ng2-froala-editor';
 
 @NgModule({
-    imports: [BrowserModule, ReactiveFormsModule, HttpModule, routing, Ng2Bs3ModalModule, FormsModule],
-    declarations: [AppComponent, HomeComponent, samplefile, logininfo, SampleFileFilterPipe, CompanyFilterPipe, UsersFilterPipe, SearchComponent, companyInfo, UserInfo],
+    imports: [BrowserModule, ReactiveFormsModule, HttpModule, routing, Ng2Bs3ModalModule, FormsModule,CKEditorModule],
+    declarations: [AppComponent, HomeComponent, samplefile, logininfo, SampleFileFilterPipe, CompanyFilterPipe, UsersFilterPipe, SearchComponent, companyInfo, UserInfo, PdfViewerComponent ],
     providers: [{ provide: APP_BASE_HREF, useValue: '/' }, SampleFileService, CompanyServiceClass, UsersServiceClass, LoginInfoServiceClass, UtilityService],
     bootstrap: [AppComponent]
 })

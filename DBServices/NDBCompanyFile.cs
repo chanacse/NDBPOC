@@ -34,5 +34,10 @@ namespace DBServices
         public string ProofComment { get; set; }
         public string ProofAuthor { get; set; }
         public Nullable<System.DateTime> ProofTime { get; set; }
+        public string EvidenceFilePath { get; set; }
+        public string ActualFilePath { get; set; }
+        public string ActualFileComment { get; set; }
+        public string ActualFileAuthor { get; set; }
+        public Nullable<System.DateTime> ActualFileTime { get; set; }
     }
 }

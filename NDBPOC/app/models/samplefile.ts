@@ -16,4 +16,12 @@
     CreatedBy: string, 
     FILEADD: File,
     FilePath: string,
+    ProofComment: string,
+    ProofAuthor: string,
+    //ProofTime: string,
+    EvidenceFilePath: string
+    ActualFilePath: string,
+    ActualFileComment: string,
+    //ActualFileAuthor: string,
+    //ActualFileTime:string
 }

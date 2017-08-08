@@ -53,6 +53,11 @@
           <Property Name="ProofComment" Type="varchar" MaxLength="150" />
           <Property Name="ProofAuthor" Type="varchar" MaxLength="100" />
           <Property Name="ProofTime" Type="datetime" />
+          <Property Name="EvidenceFilePath" Type="varchar" MaxLength="150" />
+          <Property Name="ActualFilePath" Type="varchar" MaxLength="150" />
+          <Property Name="ActualFileComment" Type="varchar" MaxLength="150" />
+          <Property Name="ActualFileAuthor" Type="varchar" MaxLength="100" />
+          <Property Name="ActualFileTime" Type="datetime" />
         </EntityType>
         <EntityType Name="NDBLoginDetails">
           <Key>
@@ -167,6 +172,11 @@
           <Property Name="ProofComment" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
           <Property Name="ProofAuthor" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="ProofTime" Type="DateTime" Precision="3" />
+          <Property Name="EvidenceFilePath" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="ActualFilePath" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="ActualFileComment" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="ActualFileAuthor" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ActualFileTime" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="NDBShareOfferCode">
           <Key>
@@ -263,6 +273,11 @@
           <EntitySetMapping Name="NDBCompanyFiles">
             <EntityTypeMapping TypeName="NDBPOCDBModel.NDBCompanyFile">
               <MappingFragment StoreEntitySet="NDBCompanyFile">
+                <ScalarProperty Name="ActualFileTime" ColumnName="ActualFileTime" />
+                <ScalarProperty Name="ActualFileAuthor" ColumnName="ActualFileAuthor" />
+                <ScalarProperty Name="ActualFileComment" ColumnName="ActualFileComment" />
+                <ScalarProperty Name="ActualFilePath" ColumnName="ActualFilePath" />
+                <ScalarProperty Name="EvidenceFilePath" ColumnName="EvidenceFilePath" />
                 <ScalarProperty Name="ProofTime" ColumnName="ProofTime" />
                 <ScalarProperty Name="ProofAuthor" ColumnName="ProofAuthor" />
                 <ScalarProperty Name="ProofComment" ColumnName="ProofComment" />
