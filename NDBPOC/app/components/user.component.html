@@ -45,7 +45,7 @@
                 </table>
             </div>
 
-            <div style="padding-bottom:10px"><button class="btn btn-primary" (click)="addCompany()">Add User</button></div>
+            <div style="padding-bottom:10px"><button class="btn btn-primary" (click)="addCompany()" *ngIf="!isAdmin">Create User</button></div>
 
         </div>
         <div *ngIf="msg" role="alert" class="alert alert-info alert-dismissible">

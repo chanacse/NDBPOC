@@ -1,6 +1,6 @@
 ﻿<div class='panel panel-primary'>
     <div class='panel-heading'>
-        CHEQUE MANAGEMENT MODULE...
+        CAPITAL MARKET SYSTEM
         <span class="pull-right">
             <b>Hello, {{userNameGlobal}}</b>
         </span>
@@ -53,7 +53,7 @@
                         <th>File ID</th>
                         <th>Company Name</th>
                         <th>Share Type</th>
-                        <th>Share Offer Code</th>
+                        <!--<th>Share Offer Code</th>-->
                         <th>File Name</th>
                         <th>Status</th>
                         <th></th>
@@ -64,7 +64,7 @@
                         <td>{{myfile.FID}}</td>
                         <td>{{myfile.Cname}}</td>
                         <td>{{myfile.ShareType}}</td>
-                        <td>{{myfile.OfferCode}}</td>
+                        <!--<td>{{myfile.OfferCode}}</td>-->
                         <td>{{myfile.Fname}}</td>
                         <td><span class="label label-primary">{{myfile.ApprovalStatus}}</span></td>
                         <td><a target="_blank" (click)="GetFileFullDataToDisplayViaGrid(myfile.FID)">View Sample</a> </td>
@@ -72,10 +72,10 @@
                             <button title="Edit" class="btn btn-primary" (click)="editFile(myfile.FID)" *ngIf="!isAdmin" [disabled]="HideEditDeleteButtonByStatus(myfile.ApprovalStatus)">Edit</button>
                             <button title="Delete" class="btn btn-danger" (click)="deleteFile(myfile.FID)" *ngIf="!isAdmin" [disabled]="HideEditDeleteButtonByStatus(myfile.ApprovalStatus)">Delete</button>
                             <button title="View" class="btn btn-info" (click)="ViewFilePOPUP(myfile.FID)" *ngIf="isAdmin" [disabled]="HideApproveSampleButtonByStatus(myfile.ApprovalStatus)">Approve Sample</button>
-                            <button title="Generate Proof" class="btn btn-danger" (click)="generateProofPOPUP(myfile.FID)" *ngIf="!isAdmin" [disabled]="HideGenerateProofButtonByStatus(myfile.ApprovalStatus)">Generate Proof</button>
+                            <button title="Generate Proof" class="btn btn-danger" (click)="generateProofPOPUP(myfile.FID)" *ngIf="!isAdmin" [disabled]="HideGenerateProofButtonByStatus(myfile.ApprovalStatus)">Proof</button>
                             <button title="View Proof" class="btn btn-danger" (click)="ViewProofPOPUP(myfile.FID)" *ngIf="isAdmin" [disabled]="HideApproveProofButtonByStatus(myfile.ApprovalStatus)">Approve Proof</button>
-                            <button title="Upload Actual File" class="btn btn-danger" (click)="ActualFilePopup(myfile.FID)" *ngIf="!isAdmin" [disabled]="HideApproveProofButtonByStatus(myfile.ApprovalStatus)">Upload Actual File</button>
-                            <button title="View Proof" class="btn btn-danger" (click)="ViewActualPOPUP(myfile.FID)" *ngIf="isAdmin" [disabled]="HideApproveActualFileButtonByStatus(myfile.ApprovalStatus)">Approve Actual File</button>
+                            <button title="Upload Actual File" class="btn btn-danger" (click)="ActualFilePopup(myfile.FID)" *ngIf="!isAdmin" [disabled]="HideActualFileUploadButtonByStatus(myfile.ApprovalStatus)">Actual</button>
+                            <button title="View Proof" class="btn btn-danger" (click)="ViewActualPOPUP(myfile.FID)" *ngIf="isAdmin" [disabled]="HideApproveActualFileButtonByStatus(myfile.ApprovalStatus)">Approve Actual</button>
                             <button title="Final Print" class="btn btn-danger" (click)="FinalPrintPOPUP(myfile.FID)" *ngIf="!isAdmin" [disabled]="HideFinalPrintButtonByStatus(myfile.ApprovalStatus)">Final Print</button>
                         </td>
                     </tr>
@@ -132,15 +132,16 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                <div>
+            <div class="row">
+                <div class="col-md-6">
                     <span>File name*</span>
                     <input type="text" class="form-control" placeholder="File Name" formControlName="Fname">
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <div>
-                        <a target="_blank" (click)="GetFileFullDataToDisplayViaPopUp(fileFrm)" *ngIf="!isFileUploadVisible">Sample Data File</a>
+                        <span>Attachment</span>
+                        <a target="_blank" class="form-control col-md-12" (click)="GetFileFullDataToDisplayViaPopUp(fileFrm)" *ngIf="!isFileUploadVisible">Sample Data File</a>
                         <!--<span>Upload File</span>-->
                         <input type="file" class="form-control" (change)="getFileDetails($event)" *ngIf="isFileUploadVisible" placeholder="Upload file" formControlName="FILEADD" accept=".csv">
                     </div>
@@ -187,7 +188,7 @@
                     </div>
                     <div class="col-md-12 row">
                         <div class="col-md-6">
-                            <a href="#">Click Me</a>
+                            <a target="_blank" (click)="GetFileFullDataToDisplayViaGrid(file?.FID)">View Sample</a> 
                         </div>
                     </div>
                     <div class="col-md-12 row">
@@ -235,11 +236,11 @@
                 </div>
 
                 <!--this is added as a new requirment-->
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <div>
                         <span>Evidence File</span>
-                        <a target="_blank" (click)="viewApprovedPDF()" *ngIf="!isEvidenceFileUploadVisible">View Evidence File</a>
-                        <input type="file" class="form-control" (change)="getFileDetailsEvidence($event)" *ngIf="isEvidenceFileUploadVisible" placeholder="Upload file" formControlName="FILEADD" accept=".pdf">
+                        <a target="_blank" (click)="viewApprovedPDF()" *ngIf="isEvidenceFileUploaded">View Evidence File</a>
+                        <input type="file" class="form-control" (change)="getFileDetailsEvidence($event)" *ngIf="!isEvidenceFileUploaded" placeholder="Upload file" formControlName="FILEADD" accept=".pdf">
                     </div>
                 </div>
             </div>
@@ -248,9 +249,9 @@
         <modal-footer>
             <div>
                 <button type="submit" class="btn btn-success" (click)="viewPDF(fileFrm)" *ngIf="isProofGenerated">View Proof</button>
-                <button type="submit" class="btn btn-success" (click)="GenerateProof(fileFrm)" *ngIf="!isSentForApproval">Generate Proof</button>
-                <button type="submit" class="btn btn-success" (click)="GenerateProofWithEvidence(fileFrm)" *ngIf="isEvidenceFileUploadVisible">Attach Evidence</button>
-                <button type="submit" class="btn btn-success" (click)="SendForApproval(fileFrm)" *ngIf="isProofGenerated&&!isSentForApproval">Send For Approval</button>
+                <button type="submit" class="btn btn-success" (click)="GenerateProof(fileFrm)" *ngIf="!isSentForApproval&&!isEvidenceFileUploaded">Generate Proof</button>
+                <button type="submit" class="btn btn-success" (click)="GenerateProofWithEvidence(fileFrm)" *ngIf="!isSentForApproval&&isProofGenerated&&!isEvidenceFileUploaded">Attach Evidence</button>
+                <button type="submit" class="btn btn-success" (click)="SendForApproval(fileFrm)" *ngIf="isProofGenerated&&!isSentForApproval&&isEvidenceFileUploaded">Send For Approval</button>
                 <a class="btn btn-default" (click)="mygenerateProof.dismiss()">Cancel</a>
             </div>
         </modal-footer>
@@ -276,10 +277,10 @@
         </modal-body>
         <modal-footer>
             <div>
-                <button type="submit" class="btn btn-success" (click)="ViewEvidenceFile(fileFrm)" [disabled]="!isCommentDone">View Evidence</button>
+                <button type="submit" class="btn btn-info" (click)="viewPDF(fileFrm)">View Proof</button>
+                <button type="submit" class="btn btn-success" (click)="ViewEvidenceFile(fileFrm)">View Evidence</button>
                 <button type="submit" class="btn btn-success" (click)="ApproveProof(fileFrm)" [disabled]="!isCommentDone">Approve Proof</button>
                 <button type="submit" class="btn btn-danger" (click)="RejectProof(fileFrm)" [disabled]="!isCommentDone">Reject Proof</button>
-                <button type="submit" class="btn btn-info" (click)="viewPDF(fileFrm)">View Proof</button>
                 <a class="btn btn-default" (click)="myViewProof.dismiss()">Cancel</a>
             </div>
         </modal-footer>
@@ -294,15 +295,15 @@
         <modal-body>
             <div class="row">
                 <div class="checkbox">
-                    <label><input type="checkbox" value="" [(ngModel)]="enableButton" formControlName="isPrintFirstOK" *ngIf="!hideCheckBox">FIRST PRINT OK</label>
+                    <label><input type="checkbox" value="" [(ngModel)]="enableButton" formControlName="isPrintFirstOK" *ngIf="!enablePrintFirstRecordButton">FIRST PRINT OK</label>
                 </div>
             </div>
         </modal-body>
         <modal-footer>
             <div>
                 <button type="submit" class="btn btn-success" (click)="viewPDF(fileFrm)">View PDF</button>
-                <button type="submit" class="btn btn-danger" (click)="PrintFirstRecord(fileFrm)" [disabled]="!enableButton" *ngIf="enablePrintFirstRecordButton">Print First Record</button>
-                <button type="submit" class="btn btn-info" (click)="PrintAll(fileFrm)" [disabled]="!enablePrintAllButton">Print All</button>
+                <button type="submit" class="btn btn-danger" (click)="PrintFirstRecord(fileFrm)" *ngIf="enablePrintFirstRecordButton">Print First Record</button>
+                <button type="submit" class="btn btn-info" (click)="PrintAll(fileFrm)" [disabled]="!enableButton">Print All</button>
                 <a class="btn btn-default" (click)="myFinalPrint.dismiss()">Cancel</a>
             </div>
         </modal-footer>
@@ -363,8 +364,8 @@
                 <div class="form-group">
                     <div class="col-md-12 row">
                         <div>
-                            <a target="_blank" (click)="GetFileFullDataToDisplayViaPopUp(fileFrm)" *ngIf="!isFileUploadVisible">Actual Data File</a>
-                            <input type="file" class="form-control" (change)="getFileDetailsActualFile($event)" placeholder="Upload file" formControlName="FILEADD" accept=".csv">
+                            <a target="_blank" (click)="GetFileFullDataToDisplayViaPopUp(fileFrm)" *ngIf="isActualFileUploaded">Actual Data File</a>
+                            <input type="file" class="form-control" (change)="getFileDetailsActualFile($event)" *ngIf="!isActualFileUploaded" placeholder="Upload file" formControlName="FILEADD" accept=".csv">
                         </div>
                     </div>
                 </div>

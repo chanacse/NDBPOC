@@ -8,12 +8,15 @@
                 </div>
           <div class="form-group">
             <div class="col-lg-12">
-              <input class="input-lg" placeholder="Company Name / File Name / Status" (paste)="getPasteData($event)" (keyup)="getEachChar($event.target.value)" type="text" [(ngModel)]="listFilter" /><img src="../../images/cross.png" class="cross-btn" (click)="clearFilter()" *ngIf="listFilter"/>
+              <input class="input-lg" placeholder="Search*" (paste)="getPasteData($event)" (keyup)="getEachChar($event.target.value)" type="text" [(ngModel)]="listFilter" />
+
            </div>
          </div>
          <div class="form-group">
              <div *ngIf='listFilter'>
-           <div class="h3 text-muted">Filter by: {{listFilter}}</div>
+           <div class="h3 text-muted col-md-12">Filter by: {{listFilter}}
+<img src="../../images/cross.png" width="20px" class="cross-btn" (click)="clearFilter()" *ngIf="listFilter"/>
+</div>
         </div>
       </div>
      </div> `

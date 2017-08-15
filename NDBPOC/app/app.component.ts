@@ -5,13 +5,13 @@ import { UtilityService } from './service/utility.service';
     selector: "user-app",
     template: `
                 
-<nav class="navbar navbar-inverse navbar-fixed-left" *ngIf="this._util.status">
+<nav class="navbar navbar-inverse navbar-fixed-left" style="margin-left: -59px;" *ngIf="this._util.status">
 
   <a class="navbar-brand" style="color:red">CMS Operations</a>
   <ul class="nav navbar-nav">
     <li><a [routerLink]="['home']">Home</a></li>
-    <li><a [routerLink]="['samplefile']">File (Sample / Actual)</a></li>
-
+    <li><a [routerLink]="['samplefile']">Sample File</a></li>
+    <li><a [routerLink]="['samplefile']">Actual File</a></li>
   </ul>
   
   <a style="color:red" class="navbar-brand">Manage CMS</a>
@@ -39,7 +39,7 @@ import { UtilityService } from './service/utility.service';
 `,
     styles: [`
     .navbar-fixed-left {
-  width: 140px;
+  width: 180px;
   position: fixed;
   border-radius: 0;
   height: 100%;
